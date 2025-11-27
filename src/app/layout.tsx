@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,8 +15,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fit HR",
-  description: "Fit HR은 피트니스 목표를 관리하는 플랫폼입니다.",
+  title: {
+    default: "Fit HR",
+    template: "%s | Fit HR",
+  },
+  description: "Fit HR은 피트니스 업계를 위한 HR 플랫폼입니다. 트레이너와 센터를 연결합니다.",
+  keywords: ["피트니스", "트레이너", "헬스장", "구인구직", "HR"],
 };
 
 export default function RootLayout({
@@ -24,9 +29,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
+        <Toaster />
         <SpeedInsights />
       </body>
     </html>
