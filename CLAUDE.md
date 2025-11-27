@@ -25,23 +25,90 @@
 - **상수 테이블 조회**: `createAdminClient()` 사용 (secret key)
 - **유저 데이터 조회**: `createClient()` 사용 (publishable key + RLS)
 - **Server Component 우선**, 상호작용 필요시만 `"use client"`
+- **UI 스타일링**: shadcn/ui 사용 및 mobile first 디자인
 
 ---
 
 ## 📋 앞으로의 Task (MVP)
 
-### Phase 1: 기초 세팅
+### Phase 1: 기초 세팅 ✅
 
-- [ ] TypeScript 타입 생성
+#### 1.1 TypeScript 타입 생성 ✅
+
+- [x] `src/types` 폴더 생성
+- [x] Supabase 프로젝트 ID 확인 (cbkmxdaduozbfmcystbp)
+- [x] 타입 생성 명령어 실행
   ```bash
-  npx supabase gen types typescript --project-id [ID] > src/types/database.types.ts
+  npx supabase gen types typescript --project-id cbkmxdaduozbfmcystbp > src/types/database.types.ts
   ```
-- [ ] shadcn/ui 초기화
+- [x] `src/types/index.ts` 생성 - 공통 타입 export 및 유틸 타입 정의 ✅
+  - ✅ Profile, Center, JobPosting, Resume, Application, Like 타입 (Row, Insert, Update)
+  - ✅ 상수 테이블 타입 (Region, JobCategory, EmploymentType, ExperienceLevel)
+  - ✅ Enum 타입 (UserRole, Gender, SalaryType, ApplicationStatus)
+  - ✅ Code 타입 (RegionCode, JobCategoryCode, EmploymentTypeCode, ExperienceLevelCode)
+  - ✅ JSONB 인터페이스 (CareerHistory, Education)
+  - ✅ 필터 타입 (JobFilter)
+
+#### 1.2 shadcn/ui 초기화 ✅
+
+- [x] shadcn/ui 초기화 완료
   ```bash
   npx shadcn@latest init
+  ```
+  - 설정 옵션:
+    - Style: Default
+    - Base color: Neutral
+    - CSS variables: Yes
+    - Components: `src/components/ui`
+
+- [x] 필수 의존성 설치 완료
+  - `zod` (v4.1.13)
+  - `@radix-ui/*` (shadcn/ui가 자동 설치)
+  - `class-variance-authority` (v0.7.1)
+  - `lucide-react` (v0.555.0)
+  - `react-hook-form` (v7.66.1)
+  - `@hookform/resolvers` (v5.2.2)
+  - `sonner` (v2.0.7)
+
+#### 1.3 shadcn/ui 컴포넌트 추가 ✅
+
+- [x] 필수 컴포넌트 일괄 설치 완료
+  ```bash
   npx shadcn@latest add button input card form label select textarea table dialog toast sonner
   ```
-- [ ] 글로벌 레이아웃 구성 (`src/app/layout.tsx`)
+- [x] 설치 확인
+  - `src/components/ui` 폴더에 11개 컴포넌트 파일 생성 완료
+  - `components.json` 설정 완료
+
+#### 1.4 글로벌 레이아웃 구성 ✅
+
+- [x] `src/app/layout.tsx` 개선 완료
+  - [x] 메타데이터 업데이트 (title template, description, keywords)
+  - [x] 언어 설정 (`lang="ko"`)
+  - [x] Toaster 컴포넌트 추가
+  - [x] suppressHydrationWarning 추가 (다크모드 대응)
+- [x] `src/app/globals.css` 개선 완료
+  - [x] shadcn/ui CSS 변수 추가 (HSL 형식)
+  - [x] 다크모드 스타일 지원 (.dark 클래스)
+  - [x] Tailwind CSS 4 @theme inline 구문 유지
+
+#### 1.5 상수 파일 생성 ⚠️ 부분 완료
+
+- [x] `src/constants/index.ts` 생성 (기본 상수만 포함)
+- [ ] **TODO**: 세부 상수 파일 추가 필요
+  - [ ] `src/constants/regions.ts` - 지역 상수
+  - [ ] `src/constants/job-categories.ts` - 업종 상수
+  - [ ] `src/constants/employment-types.ts` - 고용형태 상수
+  - [ ] `src/constants/experience-levels.ts` - 경력 상수
+  - [ ] `src/constants/index.ts` 업데이트 - 모든 상수 재export
+
+#### 작업 순서
+
+1. ✅ TypeScript 타입 생성 (1.1)
+2. ✅ shadcn/ui 초기화 (1.2)
+3. ✅ shadcn/ui 컴포넌트 추가 (1.3)
+4. ✅ 글로벌 레이아웃 구성 (1.4)
+5. ⚠️ 상수 파일 생성 (1.5) - 세부 파일 추가 필요
 
 ### Phase 2: 인증 (Auth)
 
@@ -183,15 +250,15 @@ src/
 
 ## 프로젝트 개요
 
-| 항목       | 값                              |
-| ---------- | ------------------------------- |
-| 프로젝트   | AssistFit Admin Next (백오피스) |
-| 프레임워크 | Next.js 16 (App Router, SSR)    |
-| 언어       | TypeScript (strict)             |
-| DB / Auth  | Supabase                        |
-| UI         | shadcn/ui + Tailwind CSS        |
-| 폼 검증    | Zod                             |
-| 코드 품질  | ESLint (Flat Config) + Prettier |
+| 항목       | 값                               |
+| ---------- | -------------------------------- |
+| 프로젝트   | Fit HR (피트니스 업계 HR 플랫폼) |
+| 프레임워크 | Next.js 16 (App Router, SSR)     |
+| 언어       | TypeScript (strict)              |
+| DB / Auth  | Supabase                         |
+| UI         | shadcn/ui + Tailwind CSS         |
+| 폼 검증    | Zod                              |
+| 코드 품질  | ESLint (Flat Config) + Prettier  |
 
 ### 사용하지 않는 것
 
