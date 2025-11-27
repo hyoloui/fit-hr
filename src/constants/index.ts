@@ -1,56 +1,53 @@
-// 공통 상수 정의
+/**
+ * 전역 상수
+ *
+ * @description 프로젝트 전역에서 사용하는 상수 정의
+ * @note 초안 - 추후 업데이트 예정
+ */
 
-// 역할 타입
-export const ROLES = ["trainer", "center"] as const;
+// 상수 파일 재export
+export * from "./regions";
+export * from "./job-categories";
+export * from "./employment-types";
+export * from "./experience-levels";
+
+// 앱 전역 상수
+export const APP_NAME = "Fit HR";
+export const APP_DESCRIPTION = "피트니스 업계 전문 채용 플랫폼";
+
+// 역할 상수
+export const ROLE_TRAINER = "trainer";
+export const ROLE_CENTER = "center";
+export const ROLES = [ROLE_TRAINER, ROLE_CENTER] as const;
 
 export type Role = (typeof ROLES)[number];
 
-// 지역 타입 (예시 - 실제 DB 스키마에 맞게 수정 필요)
-export const REGIONS = [
-  "서울",
-  "경기",
-  "인천",
-  "부산",
-  "대구",
-  "광주",
-  "대전",
-  "울산",
-  "세종",
-  "강원",
-  "충북",
-  "충남",
-  "전북",
-  "전남",
-  "경북",
-  "경남",
-  "제주",
-] as const;
+// Gender 라벨
+export const GENDER_LABELS = {
+  male: "남성",
+  female: "여성",
+  any: "무관",
+} as const;
 
-export type Region = (typeof REGIONS)[number];
+// Salary Type 라벨
+export const SALARY_TYPE_LABELS = {
+  monthly: "월급",
+  hourly: "시급",
+  negotiable: "협의",
+} as const;
 
-// 업종 타입 (예시)
-export const BUSINESS_TYPES = [
-  "헬스장",
-  "요가",
-  "필라테스",
-  "크로스핏",
-  "복합운동시설",
-  "기타",
-] as const;
+// Application Status 라벨
+export const APPLICATION_STATUS_LABELS = {
+  pending: "대기중",
+  reviewed: "검토완료",
+  accepted: "합격",
+  rejected: "불합격",
+} as const;
 
-export type BusinessType = (typeof BUSINESS_TYPES)[number];
-
-// 성별 타입
-export const GENDERS = ["남성", "여성", "무관"] as const;
-
-export type Gender = (typeof GENDERS)[number];
-
-// 고용형태 타입
-export const EMPLOYMENT_TYPES = ["정규직", "계약직", "파트타임", "프리랜서"] as const;
-
-export type EmploymentType = (typeof EMPLOYMENT_TYPES)[number];
-
-// 경력 타입
-export const EXPERIENCE_LEVELS = ["신입", "1년 이상", "3년 이상", "5년 이상", "10년 이상"] as const;
-
-export type ExperienceLevel = (typeof EXPERIENCE_LEVELS)[number];
+// Application Status 색상 (Tailwind CSS)
+export const APPLICATION_STATUS_COLORS = {
+  pending: "bg-yellow-100 text-yellow-800",
+  reviewed: "bg-blue-100 text-blue-800",
+  accepted: "bg-green-100 text-green-800",
+  rejected: "bg-red-100 text-red-800",
+} as const;

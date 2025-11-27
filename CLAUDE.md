@@ -92,15 +92,14 @@
   - [x] 다크모드 스타일 지원 (.dark 클래스)
   - [x] Tailwind CSS 4 @theme inline 구문 유지
 
-#### 1.5 상수 파일 생성 ⚠️ 부분 완료
+#### 1.5 상수 파일 생성 ✅
 
-- [x] `src/constants/index.ts` 생성 (기본 상수만 포함)
-- [ ] **TODO**: 세부 상수 파일 추가 필요
-  - [ ] `src/constants/regions.ts` - 지역 상수
-  - [ ] `src/constants/job-categories.ts` - 업종 상수
-  - [ ] `src/constants/employment-types.ts` - 고용형태 상수
-  - [ ] `src/constants/experience-levels.ts` - 경력 상수
-  - [ ] `src/constants/index.ts` 업데이트 - 모든 상수 재export
+- [x] `src/constants/index.ts` - 전역 상수 및 재export (초안)
+- [x] `src/constants/regions.ts` - 지역 상수 (초안)
+- [x] `src/constants/job-categories.ts` - 업종 상수 (초안)
+- [x] `src/constants/employment-types.ts` - 고용형태 상수 (초안)
+- [x] `src/constants/experience-levels.ts` - 경력 상수 (초안)
+- [x] 모든 상수 파일에 JSDoc 주석 추가 ("초안 - 추후 업데이트 예정")
 
 #### 작업 순서
 
@@ -108,7 +107,9 @@
 2. ✅ shadcn/ui 초기화 (1.2)
 3. ✅ shadcn/ui 컴포넌트 추가 (1.3)
 4. ✅ 글로벌 레이아웃 구성 (1.4)
-5. ⚠️ 상수 파일 생성 (1.5) - 세부 파일 추가 필요
+5. ✅ 상수 파일 생성 (1.5) - 초안 완료
+
+**Phase 1 완료!** 🎉 다음은 Phase 2 (인증 시스템)으로 진행
 
 ### Phase 2: 인증 (Auth)
 
