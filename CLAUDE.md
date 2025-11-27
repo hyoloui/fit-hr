@@ -46,30 +46,37 @@
 ## 폴더 구조
 
 ```
+public/                         # 정적 파일(이미지, favicon 등)
+
 src/
 ├── app/
-│   ├── (auth)/              # 인증 관련 (login, signup)
-│   ├── (dashboard)/         # 인증 필요한 페이지들
-│   │   ├── layout.tsx       # 인증 체크 + 사이드바
+│   ├── (auth)/                # 인증 관련 (login, signup)
+│   ├── (dashboard)/           # 인증 필요한 페이지들
+│   │   ├── layout.tsx         # 인증 체크 + 사이드바
 │   │   └── [feature]/
-│   ├── auth/callback/       # Supabase OAuth callback
+│   ├── auth/callback/         # Supabase OAuth callback
 │   ├── layout.tsx
 │   └── page.tsx
 ├── components/
-│   ├── ui/                  # shadcn/ui 컴포넌트
-│   └── [domain]/            # 도메인별 컴포넌트
+│   ├── ui/                    # shadcn/ui 컴포넌트
+│   ├── user/                  # 유저 도메인 컴포넌트 (예: UserCard, UserList)
+│   ├── auth/                  # 인증 도메인 컴포넌트 (예: LoginForm, SignupForm)
+│   ├── dashboard/             # 대시보드 도메인 컴포넌트
+│   └── feature/             # feature 도메인 컴포넌트 (폴더/기능별 추가)
 ├── lib/
 │   ├── supabase/
-│   │   ├── client.ts        # 브라우저용 클라이언트
-│   │   ├── server.ts        # 서버용 클라이언트
-│   │   └── middleware.ts    # 미들웨어용 클라이언트
-│   └── utils.ts             # cn() 등 유틸
-├── actions/                 # Server Actions
+│   │   ├── client.ts          # 브라우저용 클라이언트
+│   │   ├── server.ts          # 서버용 클라이언트
+│   │   └── middleware.ts      # 미들웨어용 클라이언트
+│   └── utils.ts               # cn() 등 유틸
+├── actions/                   # Server Actions
 ├── types/
-│   ├── database.types.ts    # Supabase 생성 타입
+│   ├── database.types.ts      # Supabase 생성 타입
 │   └── index.ts
-└── constants/
+└── constants/                 # 상수
 ```
+
+> ✅ 도메인별 컴포넌트는 `components/` 하위에 도메인 이름의 폴더(`user/`, `auth/`, `dashboard/` 등)로 분리하여 구성합니다.
 
 ---
 
@@ -132,9 +139,7 @@ export const updateSession = async (request: NextRequest) => {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           response = NextResponse.next({ request });
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
@@ -199,13 +204,9 @@ export const UserList = () => {
     // 실시간 구독
     const channel = supabase
       .channel("users")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "users" },
-        (payload) => {
-          // 실시간 업데이트 처리
-        }
-      )
+      .on("postgres_changes", { event: "*", schema: "public", table: "users" }, (payload) => {
+        // 실시간 업데이트 처리
+      })
       .subscribe();
 
     return () => {
@@ -276,14 +277,10 @@ export const CreateUserForm = () => {
   return (
     <form action={action} className="space-y-4">
       <Input name="name" placeholder="이름" />
-      {state?.error?.name && (
-        <p className="text-sm text-destructive">{state.error.name}</p>
-      )}
+      {state?.error?.name && <p className="text-sm text-destructive">{state.error.name}</p>}
 
       <Input name="email" type="email" placeholder="이메일" />
-      {state?.error?.email && (
-        <p className="text-sm text-destructive">{state.error.email}</p>
-      )}
+      {state?.error?.email && <p className="text-sm text-destructive">{state.error.email}</p>}
 
       <Button type="submit" disabled={pending}>
         {pending ? "처리 중..." : "생성"}
@@ -371,9 +368,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };
 ```
 
@@ -539,7 +534,7 @@ npm run dev
 # 빌드 & 타입체크
 npm run build
 npm run lint
-npm run lint:fix
+npm run format
 
 # shadcn 컴포넌트 추가
 npx shadcn@latest add [component]
