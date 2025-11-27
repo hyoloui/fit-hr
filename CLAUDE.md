@@ -2,11 +2,190 @@
 
 > 모든 응답은 **한글**로 작성한다.
 
+---
+
+## 📍 현재 진행 상황
+
+### 완료된 작업
+
+- [x] Next.js 16 + Turbopack 프로젝트 초기화
+- [x] Supabase 프로젝트 생성 및 연동
+- [x] 환경변수 설정 (Publishable + Secret Key)
+- [x] Supabase 클라이언트 설정
+  - `src/lib/supabase/client.ts` - 브라우저용
+  - `src/lib/supabase/server.ts` - 서버용 (createClient, createAdminClient)
+  - `src/lib/supabase/middleware.ts` - 세션 관리
+- [x] `proxy.ts` - Next.js 16 미들웨어 (라우트 보호)
+- [x] `src/lib/utils.ts` - cn() 유틸
+- [x] DB 스키마 설계 및 적용
+- [x] RLS 정책 설정 (상수 테이블은 서버 전용)
+
+### 핵심 패턴
+
+- **상수 테이블 조회**: `createAdminClient()` 사용 (secret key)
+- **유저 데이터 조회**: `createClient()` 사용 (publishable key + RLS)
+- **Server Component 우선**, 상호작용 필요시만 `"use client"`
+
+---
+
+## 📋 앞으로의 Task (MVP)
+
+### Phase 1: 기초 세팅
+
+- [ ] TypeScript 타입 생성
+  ```bash
+  npx supabase gen types typescript --project-id [ID] > src/types/database.types.ts
+  ```
+- [ ] shadcn/ui 초기화
+  ```bash
+  npx shadcn@latest init
+  npx shadcn@latest add button input card form label select textarea table dialog toast sonner
+  ```
+- [ ] 글로벌 레이아웃 구성 (`src/app/layout.tsx`)
+
+### Phase 2: 인증 (Auth)
+
+- [ ] 회원가입 페이지 (`src/app/(auth)/signup/page.tsx`)
+  - 역할 선택 (trainer / center)
+  - 이메일, 비밀번호, 이름 입력
+- [ ] 로그인 페이지 (`src/app/(auth)/login/page.tsx`)
+- [ ] Auth Server Actions (`src/actions/auth.ts`)
+  - `signup()` - 회원가입
+  - `login()` - 로그인
+  - `logout()` - 로그아웃
+- [ ] OAuth Callback (`src/app/auth/callback/route.ts`)
+
+### Phase 3: 공통 레이아웃
+
+- [ ] 대시보드 레이아웃 (`src/app/(dashboard)/layout.tsx`)
+  - 인증 체크
+  - 역할별 사이드바/네비게이션
+- [ ] 헤더 컴포넌트 (`src/components/layout/Header.tsx`)
+- [ ] 사이드바 컴포넌트 (`src/components/layout/Sidebar.tsx`)
+
+### Phase 4: 센터 (Center) 기능
+
+- [ ] 센터 정보 등록/수정 (`src/app/(dashboard)/center/profile/page.tsx`)
+- [ ] 구인공고 목록 (`src/app/(dashboard)/center/jobs/page.tsx`)
+- [ ] 구인공고 등록 (`src/app/(dashboard)/center/jobs/new/page.tsx`)
+- [ ] 구인공고 상세/수정 (`src/app/(dashboard)/center/jobs/[id]/page.tsx`)
+- [ ] 지원자 목록 조회 (`src/app/(dashboard)/center/jobs/[id]/applications/page.tsx`)
+- [ ] Server Actions (`src/actions/center.ts`, `src/actions/job-posting.ts`)
+
+### Phase 5: 트레이너 (Trainer) 기능
+
+- [ ] 구인공고 목록 (메인) (`src/app/(dashboard)/jobs/page.tsx`)
+  - 필터: 지역, 업종, 성별, 고용형태, 경력
+  - 좋아요 기능
+- [ ] 구인공고 상세 (`src/app/(dashboard)/jobs/[id]/page.tsx`)
+  - 지원하기 버튼
+- [ ] 이력서 목록 (`src/app/(dashboard)/resumes/page.tsx`)
+- [ ] 이력서 등록 (`src/app/(dashboard)/resumes/new/page.tsx`)
+- [ ] 이력서 상세/수정 (`src/app/(dashboard)/resumes/[id]/page.tsx`)
+- [ ] 지원 내역 (`src/app/(dashboard)/applications/page.tsx`)
+- [ ] Server Actions (`src/actions/resume.ts`, `src/actions/application.ts`, `src/actions/like.ts`)
+
+### Phase 6: 공통 컴포넌트
+
+- [ ] 필터 컴포넌트 (`src/components/jobs/JobFilter.tsx`)
+- [ ] 공고 카드 (`src/components/jobs/JobCard.tsx`)
+- [ ] 이력서 카드 (`src/components/resumes/ResumeCard.tsx`)
+- [ ] 좋아요 버튼 (`src/components/common/LikeButton.tsx`)
+- [ ] 빈 상태 (`src/components/common/EmptyState.tsx`)
+
+### Phase 7: 마무리
+
+- [ ] 에러 핸들링 (`src/app/error.tsx`, `src/app/not-found.tsx`)
+- [ ] 로딩 상태 (`loading.tsx` 파일들)
+- [ ] 메타데이터 설정
+- [ ] 반응형 UI 점검
+
+### 작업 완료 시 확인 사항
+
+- Task 목록 최신화
+- 프로젝트 버전 업데이트
+  - `npm version patch`
+  - `npm version minor`
+  - `npm version major`
+- 프로젝트 문서 업데이트
+  - README.md 업데이트
+  - CLAUDE.md 업데이트
+  - `npm run format`
+  - `npm run lint`
+  - `npm run lint:fix`
+  - `npm run type:check`
+
+---
+
+## 🗂️ 최종 폴더 구조 (목표)
+
+```
+src/
+├── app/
+│   ├── (auth)/
+│   │   ├── login/page.tsx
+│   │   └── signup/page.tsx
+│   ├── (dashboard)/
+│   │   ├── layout.tsx
+│   │   ├── center/
+│   │   │   ├── profile/page.tsx
+│   │   │   └── jobs/
+│   │   │       ├── page.tsx
+│   │   │       ├── new/page.tsx
+│   │   │       └── [id]/
+│   │   │           ├── page.tsx
+│   │   │           └── applications/page.tsx
+│   │   ├── jobs/
+│   │   │   ├── page.tsx
+│   │   │   └── [id]/page.tsx
+│   │   ├── resumes/
+│   │   │   ├── page.tsx
+│   │   │   ├── new/page.tsx
+│   │   │   └── [id]/page.tsx
+│   │   └── applications/page.tsx
+│   ├── auth/callback/route.ts
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── ui/                    # shadcn/ui
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   └── Sidebar.tsx
+│   ├── jobs/
+│   │   ├── JobCard.tsx
+│   │   └── JobFilter.tsx
+│   ├── resumes/
+│   │   └── ResumeCard.tsx
+│   └── common/
+│       ├── LikeButton.tsx
+│       └── EmptyState.tsx
+├── actions/
+│   ├── auth.ts
+│   ├── center.ts
+│   ├── job-posting.ts
+│   ├── resume.ts
+│   ├── application.ts
+│   └── like.ts
+├── lib/
+│   ├── supabase/
+│   │   ├── client.ts
+│   │   ├── server.ts
+│   │   └── middleware.ts
+│   └── utils.ts
+├── types/
+│   ├── database.types.ts      # Supabase 생성
+│   └── index.ts
+└── constants/
+    └── index.ts
+```
+
+---
+
 ## 프로젝트 개요
 
 | 항목       | 값                              |
 | ---------- | ------------------------------- |
-| 프로젝트   | Fit HR                          |
+| 프로젝트   | AssistFit Admin Next (백오피스) |
 | 프레임워크 | Next.js 16 (App Router, SSR)    |
 | 언어       | TypeScript (strict)             |
 | DB / Auth  | Supabase                        |
@@ -46,37 +225,30 @@
 ## 폴더 구조
 
 ```
-public/                         # 정적 파일(이미지, favicon 등)
-
 src/
 ├── app/
-│   ├── (auth)/                # 인증 관련 (login, signup)
-│   ├── (dashboard)/           # 인증 필요한 페이지들
-│   │   ├── layout.tsx         # 인증 체크 + 사이드바
+│   ├── (auth)/              # 인증 관련 (login, signup)
+│   ├── (dashboard)/         # 인증 필요한 페이지들
+│   │   ├── layout.tsx       # 인증 체크 + 사이드바
 │   │   └── [feature]/
-│   ├── auth/callback/         # Supabase OAuth callback
+│   ├── auth/callback/       # Supabase OAuth callback
 │   ├── layout.tsx
 │   └── page.tsx
 ├── components/
-│   ├── ui/                    # shadcn/ui 컴포넌트
-│   ├── user/                  # 유저 도메인 컴포넌트 (예: UserCard, UserList)
-│   ├── auth/                  # 인증 도메인 컴포넌트 (예: LoginForm, SignupForm)
-│   ├── dashboard/             # 대시보드 도메인 컴포넌트
-│   └── feature/             # feature 도메인 컴포넌트 (폴더/기능별 추가)
+│   ├── ui/                  # shadcn/ui 컴포넌트
+│   └── [domain]/            # 도메인별 컴포넌트
 ├── lib/
 │   ├── supabase/
-│   │   ├── client.ts          # 브라우저용 클라이언트
-│   │   ├── server.ts          # 서버용 클라이언트
-│   │   └── middleware.ts      # 미들웨어용 클라이언트
-│   └── utils.ts               # cn() 등 유틸
-├── actions/                   # Server Actions
+│   │   ├── client.ts        # 브라우저용 클라이언트
+│   │   ├── server.ts        # 서버용 클라이언트
+│   │   └── middleware.ts    # 미들웨어용 클라이언트
+│   └── utils.ts             # cn() 등 유틸
+├── actions/                 # Server Actions
 ├── types/
-│   ├── database.types.ts      # Supabase 생성 타입
+│   ├── database.types.ts    # Supabase 생성 타입
 │   └── index.ts
-└── constants/                 # 상수
+└── constants/
 ```
-
-> ✅ 도메인별 컴포넌트는 `components/` 하위에 도메인 이름의 폴더(`user/`, `auth/`, `dashboard/` 등)로 분리하여 구성합니다.
 
 ---
 
@@ -332,10 +504,7 @@ export async function logout() {
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-interface Props {
-  children: React.ReactNode;
-}
-export default async function DashboardLayout({ children }: Props) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -356,10 +525,8 @@ export default async function DashboardLayout({ children }: Props) {
 
 ### Middleware
 
-- next.js 16 에서는 middleware.ts 대신 proxy.ts 를 사용한다.
-
 ```ts
-//  proxy.ts in Next.js 16
+// middleware.ts (또는 proxy.ts in Next.js 16)
 import { type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
@@ -434,8 +601,6 @@ export default async function FeaturePage() {
 ```
 
 ### Client Component
-
-- 최적의 react hook 활용하여 코드 작성
 
 ```tsx
 // components/feature/FeatureList.tsx
@@ -520,7 +685,7 @@ import { helper } from "./helper";
 ❌ 인라인 스타일 (style={{}})
 ❌ 클래스 컴포넌트
 ❌ Client Component에서 직접 DB 수정 (Server Action 사용)
-❌ 300줄 초과 컴포넌트
+❌ 200줄 초과 컴포넌트
 ```
 
 ---
@@ -534,7 +699,7 @@ npm run dev
 # 빌드 & 타입체크
 npm run build
 npm run lint
-npm run format
+npm run lint:fix
 
 # shadcn 컴포넌트 추가
 npx shadcn@latest add [component]
