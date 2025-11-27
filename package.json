@@ -14,6 +14,8 @@
     "version:major": "npm version major --no-git-tag-version"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.86.0",
     "next": "16.0.5",
     "react": "19.2.0",
     "react-dom": "19.2.0"
