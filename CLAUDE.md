@@ -242,10 +242,25 @@
 
 ### Phase 6: 마무리
 
-- [ ] 에러 핸들링 (`src/app/error.tsx`, `src/app/not-found.tsx`)
-- [ ] 로딩 상태 (`loading.tsx` 파일들)
-- [ ] 메타데이터 설정
-- [ ] 반응형 UI 점검
+- [x] 에러 핸들링 ✅
+  - [x] 글로벌 에러 페이지 (`src/app/error.tsx`, `src/app/not-found.tsx`)
+  - [x] 대시보드 에러 페이지 (`src/app/(dashboard)/error.tsx`, `src/app/(dashboard)/not-found.tsx`)
+  - [x] 개발 환경 에러 상세 정보 표시
+  - [x] 사용자 친화적 에러 메시지 및 복구 옵션
+- [x] 반응형 UI 개선 ✅
+  - [x] 모바일 햄버거 메뉴 사이드바 (Sheet 컴포넌트)
+  - [x] 모바일 필터 UI (하단 Sheet)
+  - [x] 데스크톱/모바일 분리된 레이아웃
+  - [x] 반응형 그리드 시스템
+- [x] 로딩 상태 구현 ✅
+  - [x] LoadingSpinner 컴포넌트 (sm/md/lg)
+  - [x] CardSkeleton 컴포넌트 (일반/공고/이력서)
+  - [x] 대시보드 로딩 (`src/app/(dashboard)/loading.tsx`)
+  - [x] 구인공고 목록 로딩 (`src/app/(dashboard)/jobs/loading.tsx`)
+  - [x] 이력서 목록 로딩 (`src/app/(dashboard)/resumes/loading.tsx`)
+  - [x] 지원 내역 로딩 (`src/app/(dashboard)/applications/loading.tsx`)
+  - [x] 센터 공고 로딩 (`src/app/(dashboard)/center/jobs/loading.tsx`)
+- [ ] 메타데이터 설정 (선택사항)
 - [ ] 코드 품질 점검 (TypeScript, ESLint, Prettier)
 
 ### 작업 완료 시 확인 사항
