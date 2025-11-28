@@ -7,7 +7,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { CenterProfileForm } from "./center-profile-form";
+import { CenterProfileForm } from "./CenterProfileForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ROLE_CENTER } from "@/constants";
 

@@ -10,8 +10,8 @@ import { redirect, notFound } from "next/navigation";
 import { getMyJobPosting } from "@/actions/job-posting";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ROLE_CENTER } from "@/constants";
-import { JobPostingForm } from "../new/job-posting-form";
-import { JobPostingActions } from "./job-posting-actions";
+import { JobPostingForm } from "../new/JobPostingForm";
+import { JobPostingActions } from "./JobPostingActions";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

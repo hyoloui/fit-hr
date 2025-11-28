@@ -7,7 +7,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { JobPostingForm } from "./job-posting-form";
+import { JobPostingForm } from "./JobPostingForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ROLE_CENTER } from "@/constants";

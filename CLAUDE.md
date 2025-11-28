@@ -158,14 +158,43 @@
 
 **Phase 3 완료!** 🎉 다음은 Phase 4 (센터 기능)로 진행
 
-### Phase 4: 센터 (Center) 기능
+### Phase 4: 센터 (Center) 기능 ✅
 
-- [ ] 센터 정보 등록/수정 (`src/app/(dashboard)/center/profile/page.tsx`)
-- [ ] 구인공고 목록 (`src/app/(dashboard)/center/jobs/page.tsx`)
-- [ ] 구인공고 등록 (`src/app/(dashboard)/center/jobs/new/page.tsx`)
-- [ ] 구인공고 상세/수정 (`src/app/(dashboard)/center/jobs/[id]/page.tsx`)
-- [ ] 지원자 목록 조회 (`src/app/(dashboard)/center/jobs/[id]/applications/page.tsx`)
-- [ ] Server Actions (`src/actions/center.ts`, `src/actions/job-posting.ts`)
+- [x] 센터 정보 등록/수정 (`src/app/(dashboard)/center/profile/page.tsx`) ✅
+  - [x] 센터 프로필 폼 컴포넌트 (`CenterProfileForm.tsx`) ✅
+  - [x] 센터명, 지역, 주소, 설명, 연락처 입력
+  - [x] Promise.all() 병렬 조회로 성능 최적화
+  - [x] ROLE_CENTER 상수 사용
+- [x] 구인공고 목록 (`src/app/(dashboard)/center/jobs/page.tsx`) ✅
+  - [x] 구인공고 카드 형태 표시
+  - [x] 활성/비활성 상태 뱃지
+  - [x] "지원자 보기", "수정하기" 버튼
+  - [x] 빈 상태 처리
+- [x] 구인공고 등록 (`src/app/(dashboard)/center/jobs/new/page.tsx`) ✅
+  - [x] 구인공고 폼 컴포넌트 (`JobPostingForm.tsx`) ✅
+  - [x] 업종 복수 선택 (Checkbox)
+  - [x] 지역, 고용형태, 경력, 성별, 급여 입력
+  - [x] "← 목록으로" 네비게이션
+  - [x] 취소 버튼 → 목록으로 이동
+- [x] 구인공고 상세/수정 (`src/app/(dashboard)/center/jobs/[id]/page.tsx`) ✅
+  - [x] 구인공고 액션 컴포넌트 (`JobPostingActions.tsx`) ✅
+  - [x] 활성화/비활성화 토글
+  - [x] 삭제 확인 다이얼로그
+  - [x] "← 목록으로", "지원자 목록" 네비게이션
+  - [x] Next.js 16 params Promise 처리
+- [x] 지원자 목록 조회 (`src/app/(dashboard)/center/jobs/[id]/applications/page.tsx`) ✅
+  - [x] 지원자 테이블 (이름, 이메일, 연락처, 이력서, 상태, 지원일)
+  - [x] 상태 뱃지 (대기중, 검토완료, 합격, 불합격)
+  - [x] "← 목록으로", "공고 수정" 네비게이션
+  - [x] 빈 상태 처리
+- [x] Server Actions ✅
+  - [x] `src/actions/center.ts` - 센터 CRUD
+  - [x] `src/actions/job-posting.ts` - 구인공고 CRUD
+- [x] shadcn/ui 추가 컴포넌트 ✅
+  - [x] `checkbox` - 업종 복수 선택
+  - [x] `badge` - 상태 표시
+
+**Phase 4 완료!** 🎉 다음은 Phase 5 (트레이너 기능)로 진행
 
 ### Phase 5: 트레이너 (Trainer) 기능
 
