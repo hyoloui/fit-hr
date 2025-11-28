@@ -13,8 +13,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search, X } from "lucide-react";
+import { Search, X, Filter } from "lucide-react";
 import { REGION_OPTIONS } from "@/constants/regions";
 import { JOB_CATEGORY_OPTIONS } from "@/constants/job-categories";
 import { EMPLOYMENT_TYPE_OPTIONS } from "@/constants/employment-types";
@@ -104,20 +111,11 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
   const hasActiveFilter =
     search || region || categories.length > 0 || gender || employmentType || experienceLevel;
 
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>필터</CardTitle>
-          {hasActiveFilter && (
-            <Button variant="ghost" size="sm" onClick={handleResetFilter}>
-              <X className="h-4 w-4 mr-2" />
-              초기화
-            </Button>
-          )}
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-4">
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // 필터 폼 컨텐츠 (재사용)
+  const FilterContent = () => (
+    <div className="space-y-4">
         {/* 검색어 */}
         <div className="space-y-2">
           <Label htmlFor="search">검색어</Label>
@@ -224,12 +222,67 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
           </Select>
         </div>
 
-        {/* 적용 버튼 */}
-        <Button className="w-full" onClick={handleApplyFilter}>
-          <Search className="h-4 w-4 mr-2" />
-          검색
-        </Button>
-      </CardContent>
-    </Card>
+      {/* 적용 버튼 */}
+      <Button
+        className="w-full"
+        onClick={() => {
+          handleApplyFilter();
+          setMobileOpen(false);
+        }}
+      >
+        <Search className="h-4 w-4 mr-2" />
+        검색
+      </Button>
+    </div>
+  );
+
+  return (
+    <>
+      {/* 모바일 필터 버튼 */}
+      <div className="lg:hidden mb-4">
+        <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" className="w-full">
+              <Filter className="h-4 w-4 mr-2" />
+              필터 {hasActiveFilter && `(${[search, region, ...categories, gender, employmentType, experienceLevel].filter(Boolean).length})`}
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
+            <SheetHeader>
+              <div className="flex items-center justify-between">
+                <SheetTitle>필터</SheetTitle>
+                {hasActiveFilter && (
+                  <Button variant="ghost" size="sm" onClick={handleResetFilter}>
+                    <X className="h-4 w-4 mr-2" />
+                    초기화
+                  </Button>
+                )}
+              </div>
+            </SheetHeader>
+            <div className="mt-6">
+              <FilterContent />
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* 데스크톱 필터 */}
+      <Card className="hidden lg:block">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>필터</CardTitle>
+            {hasActiveFilter && (
+              <Button variant="ghost" size="sm" onClick={handleResetFilter}>
+                <X className="h-4 w-4 mr-2" />
+                초기화
+              </Button>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          <FilterContent />
+        </CardContent>
+      </Card>
+    </>
   );
 }

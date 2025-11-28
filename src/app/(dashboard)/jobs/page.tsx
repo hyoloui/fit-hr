@@ -101,30 +101,34 @@ export default async function JobsPage({ searchParams }: PageProps) {
         </p>
       </div>
 
-      {/* 필터 */}
-      <JobFilter currentFilter={currentFilter} />
-
-      {/* 공고 목록 */}
-      {!jobs || jobs.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Briefcase className="h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">검색 결과가 없습니다</h3>
-            <p className="text-sm text-muted-foreground">
-              다른 조건으로 검색해보세요
-            </p>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-4">
-          <p className="text-sm text-muted-foreground">총 {jobs.length}개의 공고</p>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {jobs.map((job) => (
-              <JobCard key={job.id} job={job} userId={user.id} />
-            ))}
-          </div>
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* 필터 */}
+        <div className="lg:w-80 flex-shrink-0">
+          <JobFilter currentFilter={currentFilter} />
         </div>
-      )}
+
+        {/* 공고 목록 */}
+        <div className="flex-1">
+          {!jobs || jobs.length === 0 ? (
+            <Card>
+              <CardContent className="flex flex-col items-center justify-center py-12">
+                <Briefcase className="h-12 w-12 text-muted-foreground mb-4" />
+                <h3 className="text-lg font-semibold mb-2">검색 결과가 없습니다</h3>
+                <p className="text-sm text-muted-foreground">다른 조건으로 검색해보세요</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              <p className="text-sm text-muted-foreground">총 {jobs.length}개의 공고</p>
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                {jobs.map((job) => (
+                  <JobCard key={job.id} job={job} userId={user.id} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
