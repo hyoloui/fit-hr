@@ -206,7 +206,7 @@ export function JobPostingForm({ jobPosting }: JobPostingFormProps) {
       </div>
 
       {/* 급여 범위 */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="salary_min">최소 급여</Label>
           <Input
@@ -278,17 +278,17 @@ export function JobPostingForm({ jobPosting }: JobPostingFormProps) {
       )}
 
       {/* 제출 버튼 */}
-      <div className="flex gap-4">
+      <div className="flex flex-col-reverse gap-2 md:flex-row md:justify-end">
         <Button
           type="button"
           variant="outline"
-          className="flex-1"
+          className="w-full md:w-auto md:min-w-[120px]"
           onClick={() => router.push("/center/jobs")}
           disabled={pending}
         >
           취소
         </Button>
-        <Button type="submit" className="flex-1" disabled={pending}>
+        <Button type="submit" className="w-full md:w-auto md:min-w-[120px]" disabled={pending}>
           {pending ? "처리 중..." : isEditing ? "수정하기" : "등록하기"}
         </Button>
       </div>

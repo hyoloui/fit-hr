@@ -47,15 +47,15 @@ export default async function NewJobPostingPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <div>
         <Link href="/center/jobs">
           <Button variant="ghost" size="sm" className="mb-2">
             ← 목록으로
           </Button>
         </Link>
-        <h1 className="text-3xl font-bold tracking-tight">구인공고 등록</h1>
-        <p className="text-muted-foreground mt-2">새로운 구인공고를 등록하세요</p>
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">구인공고 등록</h1>
+        <p className="text-sm md:text-base text-muted-foreground mt-2">새로운 구인공고를 등록하세요</p>
       </div>
 
       <Card>

@@ -44,7 +44,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <Header user={user} profile={profile} />
 
         {/* 페이지 콘텐츠 */}
-        <main className="flex-1 overflow-y-auto bg-muted/30 p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto bg-muted/30 p-4 md:p-6">{children}</main>
       </div>
     </div>
   );

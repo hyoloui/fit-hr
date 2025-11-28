@@ -42,10 +42,10 @@ export default async function CenterProfilePage() {
   const isNewCenter = !center;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">센터 정보</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">센터 정보</h1>
+        <p className="text-sm md:text-base text-muted-foreground mt-2">
           {isNewCenter ? "센터 정보를 등록해주세요" : "센터 정보를 수정할 수 있습니다"}
         </p>
       </div>

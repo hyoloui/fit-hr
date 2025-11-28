@@ -73,11 +73,12 @@ export function JobPostingActions({ jobPosting }: JobPostingActionsProps) {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-col gap-2 md:flex-row md:w-auto">
       <Button
         variant={jobPosting.is_active ? "outline" : "default"}
         onClick={handleToggleActive}
         disabled={isToggling || isDeleting}
+        className="w-full md:w-auto"
       >
         {isToggling
           ? "처리 중..."
@@ -88,7 +89,7 @@ export function JobPostingActions({ jobPosting }: JobPostingActionsProps) {
 
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="destructive" disabled={isToggling || isDeleting}>
+          <Button variant="destructive" disabled={isToggling || isDeleting} className="w-full md:w-auto">
             삭제
           </Button>
         </AlertDialogTrigger>

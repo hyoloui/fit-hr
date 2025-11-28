@@ -59,20 +59,20 @@ export default async function JobPostingDetailPage({ params }: JobPostingPagePro
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="flex-1">
           <Link href="/center/jobs">
             <Button variant="ghost" size="sm" className="mb-2">
               ← 목록으로
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold tracking-tight">구인공고 수정</h1>
-          <p className="text-muted-foreground mt-2">구인공고 정보를 수정할 수 있습니다</p>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">구인공고 수정</h1>
+          <p className="text-sm md:text-base text-muted-foreground mt-2">구인공고 정보를 수정할 수 있습니다</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2 md:flex-row md:self-start md:mt-8">
           <Link href={`/center/jobs/${id}/applications`}>
-            <Button variant="outline">지원자 목록</Button>
+            <Button variant="outline" className="w-full md:w-auto">지원자 목록</Button>
           </Link>
           <JobPostingActions jobPosting={jobPosting} />
         </div>

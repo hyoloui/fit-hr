@@ -160,8 +160,8 @@ export function CenterProfileForm({ center }: CenterProfileFormProps) {
       )}
 
       {/* 제출 버튼 */}
-      <div className="flex gap-4">
-        <Button type="submit" className="flex-1" disabled={pending}>
+      <div className="flex flex-col gap-2 md:flex-row md:justify-end">
+        <Button type="submit" className="w-full md:w-auto md:min-w-[120px]" disabled={pending}>
           {pending ? "처리 중..." : isEditing ? "수정하기" : "등록하기"}
         </Button>
       </div>

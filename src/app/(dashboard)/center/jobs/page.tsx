@@ -41,14 +41,14 @@ export default async function CenterJobsPage() {
   const jobPostings = await getMyJobPostings();
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 md:space-y-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">구인공고 관리</h1>
-          <p className="text-muted-foreground mt-2">등록한 구인공고를 관리할 수 있습니다</p>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">구인공고 관리</h1>
+          <p className="text-sm md:text-base text-muted-foreground mt-2">등록한 구인공고를 관리할 수 있습니다</p>
         </div>
-        <Link href="/center/jobs/new">
-          <Button>새 공고 등록</Button>
+        <Link href="/center/jobs/new" className="md:self-start">
+          <Button className="w-full md:w-auto">새 공고 등록</Button>
         </Link>
       </div>
 
@@ -66,10 +66,10 @@ export default async function CenterJobsPage() {
           {jobPostings.map((job) => (
             <Card key={job.id}>
               <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <CardTitle className="text-xl">{job.title}</CardTitle>
-                    <CardDescription>
+                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="space-y-1 flex-1">
+                    <CardTitle className="text-lg md:text-xl">{job.title}</CardTitle>
+                    <CardDescription className="text-sm">
                       {job.region} · {job.employment_type} · {job.experience_level}
                     </CardDescription>
                   </div>
@@ -101,18 +101,18 @@ export default async function CenterJobsPage() {
                       </span>
                     ))}
                   </div>
-                  <div className="flex items-center justify-between pt-4">
+                  <div className="flex flex-col gap-3 pt-4 md:flex-row md:items-center md:justify-between">
                     <div className="text-sm text-muted-foreground">
                       등록일: {new Date(job.created_at).toLocaleDateString("ko-KR")}
                     </div>
-                    <div className="flex gap-2">
-                      <Link href={`/center/jobs/${job.id}/applications`}>
-                        <Button variant="ghost" size="sm">
+                    <div className="flex flex-col gap-2 md:flex-row">
+                      <Link href={`/center/jobs/${job.id}/applications`} className="flex-1 md:flex-initial">
+                        <Button variant="ghost" size="sm" className="w-full md:w-auto">
                           지원자 보기
                         </Button>
                       </Link>
-                      <Link href={`/center/jobs/${job.id}`}>
-                        <Button variant="outline" size="sm">
+                      <Link href={`/center/jobs/${job.id}`} className="flex-1 md:flex-initial">
+                        <Button variant="outline" size="sm" className="w-full md:w-auto">
                           수정하기
                         </Button>
                       </Link>
