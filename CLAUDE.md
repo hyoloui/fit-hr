@@ -111,25 +111,52 @@
 
 **Phase 1 완료!** 🎉 다음은 Phase 2 (인증 시스템)으로 진행
 
-### Phase 2: 인증 (Auth)
+### Phase 2: 인증 (Auth) ✅
 
-- [ ] 회원가입 페이지 (`src/app/(auth)/signup/page.tsx`)
-  - 역할 선택 (trainer / center)
-  - 이메일, 비밀번호, 이름 입력
-- [ ] 로그인 페이지 (`src/app/(auth)/login/page.tsx`)
-- [ ] Auth Server Actions (`src/actions/auth.ts`)
-  - `signup()` - 회원가입
-  - `login()` - 로그인
-  - `logout()` - 로그아웃
-- [ ] OAuth Callback (`src/app/auth/callback/route.ts`)
+- [x] Auth Server Actions (`src/actions/auth.ts`) ✅
+  - [x] `signup()` - 회원가입 (Zod 검증 포함)
+  - [x] `login()` - 로그인
+  - [x] `logout()` - 로그아웃
+  - [x] `getSession()` - 세션 조회
+  - [x] `getUserProfile()` - 사용자 프로필 조회
+- [x] 인증 페이지 레이아웃 (`src/app/(auth)/layout.tsx`) ✅
+- [x] 회원가입 페이지 (`src/app/(auth)/signup/page.tsx`) ✅
+  - [x] 역할 선택 (trainer / center) - Select 컴포넌트
+  - [x] 이메일, 비밀번호, 이름 입력
+  - [x] useActionState 활용한 폼 상태 관리
+  - [x] 에러 핸들링 및 성공 시 리다이렉트
+- [x] 로그인 페이지 (`src/app/(auth)/login/page.tsx`) ✅
+  - [x] 이메일, 비밀번호 입력
+  - [x] useActionState 활용한 폼 상태 관리
+  - [x] 에러 핸들링 및 성공 시 리다이렉트
+- [x] OAuth Callback (`src/app/auth/callback/route.ts`) ✅
+  - [x] Code exchange 처리
 
-### Phase 3: 공통 레이아웃
+**Phase 2 완료!** 🎉 다음은 Phase 3 (공통 레이아웃)으로 진행
 
-- [ ] 대시보드 레이아웃 (`src/app/(dashboard)/layout.tsx`)
-  - 인증 체크
-  - 역할별 사이드바/네비게이션
-- [ ] 헤더 컴포넌트 (`src/components/layout/Header.tsx`)
-- [ ] 사이드바 컴포넌트 (`src/components/layout/Sidebar.tsx`)
+### Phase 3: 공통 레이아웃 ✅
+
+- [x] 대시보드 레이아웃 (`src/app/(dashboard)/layout.tsx`) ✅
+  - [x] 인증 체크 (Supabase Auth)
+  - [x] 프로필 정보 조회 (역할 확인)
+  - [x] 사이드바 + 헤더 구성
+  - [x] 메인 콘텐츠 영역
+- [x] 헤더 컴포넌트 (`src/components/layout/Header.tsx`) ✅
+  - [x] 사용자 드롭다운 메뉴
+  - [x] 아바타 (이름 첫 글자)
+  - [x] 로그아웃 기능
+  - [x] 프로필 링크
+- [x] 사이드바 컴포넌트 (`src/components/layout/Sidebar.tsx`) ✅
+  - [x] 역할별 메뉴 아이템
+    - 트레이너: 홈, 구인공고, 내 이력서, 지원 내역, 좋아요
+    - 센터: 홈, 센터 정보, 구인공고 관리, 공고 등록
+  - [x] 활성 메뉴 표시 (usePathname)
+  - [x] Lucide React 아이콘
+- [x] shadcn/ui 추가 컴포넌트 설치 ✅
+  - [x] `dropdown-menu` - 사용자 메뉴
+  - [x] `avatar` - 프로필 아바타
+
+**Phase 3 완료!** 🎉 다음은 Phase 4 (센터 기능)로 진행
 
 ### Phase 4: 센터 (Center) 기능
 
