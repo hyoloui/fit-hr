@@ -9,7 +9,9 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { JobPostingForm } from "./job-posting-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { ROLE_CENTER } from "@/constants";
+import Link from "next/link";
 
 export const metadata = {
   title: "구인공고 등록",
@@ -47,6 +49,11 @@ export default async function NewJobPostingPage() {
   return (
     <div className="space-y-6">
       <div>
+        <Link href="/center/jobs">
+          <Button variant="ghost" size="sm" className="mb-2">
+            ← 목록으로
+          </Button>
+        </Link>
         <h1 className="text-3xl font-bold tracking-tight">구인공고 등록</h1>
         <p className="text-muted-foreground mt-2">새로운 구인공고를 등록하세요</p>
       </div>

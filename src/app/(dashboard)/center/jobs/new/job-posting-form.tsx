@@ -283,7 +283,7 @@ export function JobPostingForm({ jobPosting }: JobPostingFormProps) {
           type="button"
           variant="outline"
           className="flex-1"
-          onClick={() => router.back()}
+          onClick={() => router.push("/center/jobs")}
           disabled={pending}
         >
           취소

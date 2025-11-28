@@ -106,9 +106,14 @@ export default async function CenterJobsPage() {
                       등록일: {new Date(job.created_at).toLocaleDateString("ko-KR")}
                     </div>
                     <div className="flex gap-2">
+                      <Link href={`/center/jobs/${job.id}/applications`}>
+                        <Button variant="ghost" size="sm">
+                          지원자 보기
+                        </Button>
+                      </Link>
                       <Link href={`/center/jobs/${job.id}`}>
                         <Button variant="outline" size="sm">
-                          상세보기
+                          수정하기
                         </Button>
                       </Link>
                     </div>
