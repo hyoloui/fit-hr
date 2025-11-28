@@ -196,33 +196,57 @@
 
 **Phase 4 완료!** 🎉 다음은 Phase 5 (트레이너 기능)로 진행
 
-### Phase 5: 트레이너 (Trainer) 기능
+### Phase 5: 트레이너 (Trainer) 기능 ✅
 
-- [ ] 구인공고 목록 (메인) (`src/app/(dashboard)/jobs/page.tsx`)
-  - 필터: 지역, 업종, 성별, 고용형태, 경력
-  - 좋아요 기능
-- [ ] 구인공고 상세 (`src/app/(dashboard)/jobs/[id]/page.tsx`)
-  - 지원하기 버튼
-- [ ] 이력서 목록 (`src/app/(dashboard)/resumes/page.tsx`)
-- [ ] 이력서 등록 (`src/app/(dashboard)/resumes/new/page.tsx`)
-- [ ] 이력서 상세/수정 (`src/app/(dashboard)/resumes/[id]/page.tsx`)
-- [ ] 지원 내역 (`src/app/(dashboard)/applications/page.tsx`)
-- [ ] Server Actions (`src/actions/resume.ts`, `src/actions/application.ts`, `src/actions/like.ts`)
+- [x] 이력서 목록 (`src/app/(dashboard)/resumes/page.tsx`) ✅
+  - [x] 이력서 카드 형태 표시
+  - [x] 등록 버튼
+  - [x] 빈 상태 처리
+- [x] 이력서 등록 (`src/app/(dashboard)/resumes/new/page.tsx`) ✅
+  - [x] 이력서 폼 컴포넌트 (`ResumeForm.tsx`) ✅
+  - [x] 제목, 희망 직무, 희망 지역, 희망 급여 입력
+  - [x] 자기소개, 자격증 입력
+  - [x] 경력 및 학력 동적 추가/삭제
+  - [x] JSONB 필드 처리 (career_history, education)
+- [x] 이력서 상세/수정 (`src/app/(dashboard)/resumes/[id]/page.tsx`) ✅
+  - [x] 이력서 액션 컴포넌트 (`ResumeActions.tsx`) ✅
+  - [x] 수정/삭제 버튼
+  - [x] 삭제 확인 다이얼로그
+  - [x] 상세 정보 표시
+- [x] 구인공고 목록 (메인) (`src/app/(dashboard)/jobs/page.tsx`) ✅
+  - [x] 필터 컴포넌트 (`JobFilter.tsx`) ✅
+  - [x] 지역, 업종, 성별, 고용형태, 경력 필터
+  - [x] 검색어 필터
+  - [x] 구인공고 카드 (`JobCard.tsx`) ✅
+  - [x] 좋아요 버튼
+- [x] 구인공고 상세 (`src/app/(dashboard)/jobs/[id]/page.tsx`) ✅
+  - [x] 지원하기 버튼 (`ApplyButton.tsx`) ✅
+  - [x] 이력서 선택 다이얼로그
+  - [x] 좋아요 버튼
+  - [x] 지원 상태 표시
+  - [x] 센터 정보 표시
+- [x] 지원 내역 (`src/app/(dashboard)/applications/page.tsx`) ✅
+  - [x] 지원 목록 표시
+  - [x] 상태 뱃지 (대기중, 검토완료, 합격, 불합격)
+  - [x] 지원 취소 버튼 (`CancelApplicationButton.tsx`) ✅
+  - [x] 공고 보기 링크
+  - [x] 빈 상태 처리
+- [x] Server Actions ✅
+  - [x] `src/actions/resume.ts` - 이력서 CRUD
+  - [x] `src/actions/application.ts` - 지원/취소
+  - [x] `src/actions/like.ts` - 좋아요 토글 및 조회
+- [x] 공통 컴포넌트 ✅
+  - [x] `LikeButton.tsx` - 좋아요 버튼
 
-### Phase 6: 공통 컴포넌트
+**Phase 5 완료!** 🎉 다음은 Phase 6 (공통 컴포넌트 및 마무리)으로 진행
 
-- [ ] 필터 컴포넌트 (`src/components/jobs/JobFilter.tsx`)
-- [ ] 공고 카드 (`src/components/jobs/JobCard.tsx`)
-- [ ] 이력서 카드 (`src/components/resumes/ResumeCard.tsx`)
-- [ ] 좋아요 버튼 (`src/components/common/LikeButton.tsx`)
-- [ ] 빈 상태 (`src/components/common/EmptyState.tsx`)
-
-### Phase 7: 마무리
+### Phase 6: 마무리
 
 - [ ] 에러 핸들링 (`src/app/error.tsx`, `src/app/not-found.tsx`)
 - [ ] 로딩 상태 (`loading.tsx` 파일들)
 - [ ] 메타데이터 설정
 - [ ] 반응형 UI 점검
+- [ ] 코드 품질 점검 (TypeScript, ESLint, Prettier)
 
 ### 작업 완료 시 확인 사항
 
