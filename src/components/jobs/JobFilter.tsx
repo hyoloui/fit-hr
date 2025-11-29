@@ -133,12 +133,11 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         {/* 지역 */}
         <div className="space-y-2">
           <Label>지역</Label>
-          <Select value={region} onValueChange={setRegion}>
+          <Select value={region || undefined} onValueChange={(value) => setRegion(value)}>
             <SelectTrigger>
               <SelectValue placeholder="전체" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">전체</SelectItem>
               {REGION_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -173,12 +172,11 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         {/* 성별 */}
         <div className="space-y-2">
           <Label>성별</Label>
-          <Select value={gender} onValueChange={setGender}>
+          <Select value={gender || undefined} onValueChange={(value) => setGender(value)}>
             <SelectTrigger>
               <SelectValue placeholder="전체" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">전체</SelectItem>
               <SelectItem value="male">남성</SelectItem>
               <SelectItem value="female">여성</SelectItem>
               <SelectItem value="any">무관</SelectItem>
@@ -189,12 +187,11 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         {/* 고용형태 */}
         <div className="space-y-2">
           <Label>고용형태</Label>
-          <Select value={employmentType} onValueChange={setEmploymentType}>
+          <Select value={employmentType || undefined} onValueChange={(value) => setEmploymentType(value)}>
             <SelectTrigger>
               <SelectValue placeholder="전체" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">전체</SelectItem>
               {EMPLOYMENT_TYPE_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
@@ -207,12 +204,11 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         {/* 경력 */}
         <div className="space-y-2">
           <Label>경력</Label>
-          <Select value={experienceLevel} onValueChange={setExperienceLevel}>
+          <Select value={experienceLevel || undefined} onValueChange={(value) => setExperienceLevel(value)}>
             <SelectTrigger>
               <SelectValue placeholder="전체" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">전체</SelectItem>
               {EXPERIENCE_LEVEL_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
