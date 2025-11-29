@@ -1,36 +1,222 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fit HR
 
-## Getting Started
+> 피트니스 업계 전문 HR 플랫폼
 
-First, run the development server:
+피트니스 센터와 트레이너를 연결하는 구인구직 플랫폼입니다.
+
+## 📋 주요 기능
+
+### 🏋️ 트레이너
+
+- **이력서 관리**: 경력, 학력, 자격증 등록 및 관리
+- **구인공고 검색**: 지역, 업종, 경력 등 다양한 필터로 공고 검색
+- **지원 관리**: 원클릭 지원 및 지원 내역 추적
+- **좋아요**: 관심 공고 저장 및 관리
+
+### 🏢 센터
+
+- **센터 정보 관리**: 센터 프로필 및 상세 정보 등록
+- **구인공고 등록**: 다양한 조건의 구인공고 작성
+- **지원자 관리**: 지원자 이력서 확인 및 상태 관리
+- **공고 관리**: 활성화/비활성화, 수정, 삭제
+
+## 🛠️ 기술 스택
+
+### Frontend
+
+- **Framework**: Next.js 16 (App Router, React 19)
+- **Language**: TypeScript 5 (Strict Mode)
+- **Styling**: Tailwind CSS 4
+- **UI Components**: shadcn/ui
+- **Icons**: Lucide React
+- **Forms**: React Hook Form + Zod
+- **Notifications**: Sonner
+
+### Backend & Database
+
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
+- **Real-time**: Supabase Realtime (선택적)
+
+### Developer Tools
+
+- **Code Quality**: ESLint (Flat Config) + Prettier
+- **Build**: Turbopack (Next.js 16)
+- **Package Manager**: npm
+
+## 🚀 시작하기
+
+### 필수 요구사항
+
+- Node.js 20.x 이상
+- npm 10.x 이상
+- Supabase 계정
+
+### 환경 변수 설정
+
+`.env.local` 파일을 생성하고 다음 환경 변수를 설정하세요:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=your-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 설치 및 실행
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 의존성 설치
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 개발 서버 실행 (Turbopack)
+npm run dev
 
-## Learn More
+# 프로덕션 빌드
+npm run build
 
-To learn more about Next.js, take a look at the following resources:
+# 프로덕션 서버 실행
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+개발 서버는 [http://localhost:3000](http://localhost:3000)에서 실행됩니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 프로젝트 구조
 
-## Deploy on Vercel
+```
+src/
+├── app/                      # Next.js App Router
+│   ├── (auth)/              # 인증 관련 페이지
+│   │   ├── login/
+│   │   └── signup/
+│   ├── (dashboard)/         # 대시보드 페이지
+│   │   ├── jobs/           # 구인공고 (트레이너)
+│   │   ├── resumes/        # 이력서 관리
+│   │   ├── applications/   # 지원 내역
+│   │   └── center/         # 센터 관리
+│   ├── auth/callback/      # OAuth 콜백
+│   ├── error.tsx           # 글로벌 에러 페이지
+│   └── not-found.tsx       # 404 페이지
+├── components/
+│   ├── ui/                 # shadcn/ui 컴포넌트
+│   ├── layout/             # 레이아웃 컴포넌트
+│   ├── jobs/               # 구인공고 컴포넌트
+│   ├── resumes/            # 이력서 컴포넌트
+│   ├── applications/       # 지원 컴포넌트
+│   └── common/             # 공통 컴포넌트
+├── actions/                # Server Actions
+│   ├── auth.ts
+│   ├── center.ts
+│   ├── job-posting.ts
+│   ├── resume.ts
+│   ├── application.ts
+│   └── like.ts
+├── lib/
+│   ├── supabase/          # Supabase 클라이언트
+│   └── utils.ts           # 유틸리티 함수
+├── types/
+│   ├── database.types.ts  # Supabase 생성 타입
+│   └── index.ts          # 공통 타입
+└── constants/            # 상수 정의
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🗄️ 데이터베이스 스키마
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 주요 테이블
+
+- `profiles`: 사용자 프로필 (트레이너/센터 구분)
+- `centers`: 센터 정보
+- `job_postings`: 구인공고
+- `resumes`: 이력서
+- `applications`: 지원 내역
+- `likes`: 좋아요
+
+### 상수 테이블
+
+- `regions`: 지역 코드
+- `job_categories`: 업종 분류
+- `employment_types`: 고용 형태
+- `experience_levels`: 경력 수준
+
+## 🎨 UI/UX 특징
+
+### 반응형 디자인
+
+- **모바일**: 햄버거 메뉴, 하단 Sheet 필터
+- **태블릿/데스크톱**: 사이드바 네비게이션, 좌측 필터
+
+### 사용자 경험
+
+- **로딩 상태**: 모든 페이지에 스켈레톤 UI
+- **에러 처리**: 사용자 친화적인 에러 메시지
+- **실시간 피드백**: Toast 알림
+
+## 🔒 보안
+
+- Row Level Security (RLS) 정책 적용
+- 서버 컴포넌트 우선 사용
+- 환경 변수 보호
+- XSS, CSRF 방어
+
+## 📜 스크립트
+
+```bash
+# 개발
+npm run dev              # Turbopack 개발 서버
+npm run dev:webpack      # Webpack 개발 서버
+
+# 빌드
+npm run build            # Turbopack 프로덕션 빌드
+npm run build:webpack    # Webpack 프로덕션 빌드
+
+# 코드 품질
+npm run lint             # ESLint 실행
+npm run lint:fix         # ESLint 자동 수정
+npm run format           # Prettier 포맷팅
+npm run type:check       # TypeScript 타입 체크
+```
+
+## 📝 개발 가이드
+
+자세한 개발 가이드는 [CLAUDE.md](./CLAUDE.md)를 참조하세요.
+
+- 코딩 규칙
+- 컴포넌트 패턴
+- Server Actions 사용법
+- Supabase 클라이언트 사용법
+
+## 🚧 로드맵
+
+### Phase 1-5 ✅
+
+- [x] 기초 세팅
+- [x] 인증 시스템
+- [x] 공통 레이아웃
+- [x] 센터 기능
+- [x] 트레이너 기능
+
+### Phase 6 ✅
+
+- [x] 에러 핸들링
+- [x] 로딩 상태
+- [x] 반응형 UI
+
+### 향후 계획
+
+- [ ] 알림 기능
+- [ ] 채팅 기능
+- [ ] 리뷰 시스템
+- [ ] 관리자 대시보드
+
+## 📄 라이선스
+
+이 프로젝트는 개인 프로젝트입니다.
+
+## 🤝 기여
+
+이 프로젝트는 현재 개인 프로젝트로 운영되고 있습니다.
+
+---
+
+**Made with** ❤️ **by** [Claude Code](https://claude.com/claude-code)
