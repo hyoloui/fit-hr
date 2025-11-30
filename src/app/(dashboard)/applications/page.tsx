@@ -70,9 +70,7 @@ export default async function ApplicationsPage() {
           <CardContent className="flex flex-col items-center justify-center py-12">
             <FileText className="h-12 w-12 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">지원 내역이 없습니다</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              구인공고를 찾아 지원해보세요
-            </p>
+            <p className="text-sm text-muted-foreground mb-4">구인공고를 찾아 지원해보세요</p>
             <Button asChild>
               <Link href="/jobs">구인공고 보기</Link>
             </Button>
@@ -80,7 +78,7 @@ export default async function ApplicationsPage() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {applications.map((application: any) => {
+          {applications.map((application) => {
             const job = application.job_posting;
             const center = job?.center;
             const resume = application.resume;
@@ -133,7 +131,10 @@ export default async function ApplicationsPage() {
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Calendar className="h-4 w-4" />
                     <span>
-                      지원일: {new Date(application.created_at).toLocaleDateString("ko-KR")}
+                      지원일:{" "}
+                      {application.created_at
+                        ? new Date(application.created_at).toLocaleDateString("ko-KR")
+                        : "-"}
                     </span>
                   </div>
 

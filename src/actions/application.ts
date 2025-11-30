@@ -281,7 +281,7 @@ export async function updateApplicationStatus(
     .eq("id", applicationId)
     .single();
 
-  if (!app || app.job_posting.center_id !== center.id) {
+  if (!app || !app.job_posting || app.job_posting.center_id !== center.id) {
     return { error: "권한이 없습니다." };
   }
 

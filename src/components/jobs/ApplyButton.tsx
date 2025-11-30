@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { applyToJob } from "@/actions/application";
 import { Button } from "@/components/ui/button";
 import {
@@ -104,7 +105,7 @@ export function ApplyButton({ jobId, application }: ApplyButtonProps) {
           <div className="py-8 text-center">
             <p className="text-sm text-muted-foreground mb-4">등록된 이력서가 없습니다</p>
             <Button variant="outline" asChild>
-              <a href="/resumes/new">이력서 등록하기</a>
+              <Link href="/resumes/new">이력서 등록하기</Link>
             </Button>
           </div>
         ) : (

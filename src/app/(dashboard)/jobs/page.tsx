@@ -4,7 +4,7 @@ import { JobFilter } from "@/components/jobs/JobFilter";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Briefcase } from "lucide-react";
-import type { JobFilter as JobFilterType } from "@/types";
+import type { JobFilter as JobFilterType, RegionCode, JobCategoryCode, Gender, EmploymentTypeCode, ExperienceLevelCode } from "@/types";
 
 interface PageProps {
   searchParams: Promise<{
@@ -84,11 +84,11 @@ export default async function JobsPage({ searchParams }: PageProps) {
 
   // 현재 필터 상태
   const currentFilter: JobFilterType = {
-    region: params.region as any,
-    categories: params.categories?.split(",") as any,
-    gender: params.gender as any,
-    employmentType: params.employmentType as any,
-    experienceLevel: params.experienceLevel as any,
+    region: params.region as RegionCode | undefined,
+    categories: params.categories?.split(",") as JobCategoryCode[] | undefined,
+    gender: params.gender as Gender | undefined,
+    employmentType: params.employmentType as EmploymentTypeCode | undefined,
+    experienceLevel: params.experienceLevel as ExperienceLevelCode | undefined,
     search: params.search,
   };
 
