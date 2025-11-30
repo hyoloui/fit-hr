@@ -1,118 +1,30 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
-import { ResumeForm } from "@/components/resumes/ResumeForm";
-import { ResumeActions } from "@/components/resumes/ResumeActions";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { REGION_LABELS } from "@/constants/regions";
-import type { CareerHistory, Education } from "@/types";
+import type { Resume, CareerHistory, Education } from "@/types";
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ mode?: string }>;
+interface ResumeDetailViewProps {
+  resume: Resume;
 }
 
-export default async function ResumeDetailPage({ params, searchParams }: PageProps) {
-  const { id } = await params;
-  const { mode } = await searchParams;
-  const supabase = await createClient();
-
-  // 인증 체크
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  // 트레이너만 접근 가능
-  if (profile?.role !== "trainer") {
-    redirect("/");
-  }
-
-  // 이력서 조회
-  const { data: resume, error } = await supabase
-    .from("resumes")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error || !resume) {
-    notFound();
-  }
-
-  // 소유권 확인
-  if (resume.user_id !== user.id) {
-    redirect("/resumes");
-  }
-
-  // 수정 모드
-  if (mode === "edit") {
-    return (
-      <div className="space-y-6 max-w-4xl">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href={`/resumes/${id}`}>
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold">이력서 수정</h1>
-            <p className="text-sm text-muted-foreground mt-1">이력서 정보를 수정하세요</p>
-          </div>
-        </div>
-
-        <ResumeForm mode="edit" resume={resume} />
-      </div>
-    );
-  }
-
-  // 상세 보기 모드
-  const careerHistory = resume.career_history as CareerHistory[];
-  const education = resume.education as Education[];
+export function ResumeDetailView({ resume }: ResumeDetailViewProps) {
+  const careerHistory = resume.career_history as unknown as CareerHistory[];
+  const education = resume.education as unknown as Education[];
 
   return (
-    <div className="space-y-6 max-w-4xl">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/resumes">
-              <ArrowLeft className="h-4 w-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold">{resume.title}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              등록일: {new Date(resume.created_at || "").toLocaleDateString("ko-KR")}
-            </p>
-          </div>
-        </div>
-        <ResumeActions resumeId={id} />
-      </div>
-
+    <div className="space-y-4">
       {/* 기본 정보 */}
       <Card>
         <CardHeader>
           <CardTitle>기본 정보</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <h4 className="text-sm font-medium text-muted-foreground mb-1">희망 업종</h4>
             <p>{resume.categories?.join(", ")}</p>
           </div>
           <div>
             <h4 className="text-sm font-medium text-muted-foreground mb-1">희망 지역</h4>
-            <p>{REGION_LABELS[resume.region as keyof typeof REGION_LABELS]}</p>
+            <p>{resume.region ? REGION_LABELS[resume.region as keyof typeof REGION_LABELS] : "-"}</p>
           </div>
           {resume.experience_level && (
             <div>
@@ -123,7 +35,9 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
           {resume.gender && (
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-1">성별</h4>
-              <p>{resume.gender === "male" ? "남성" : resume.gender === "female" ? "여성" : resume.gender}</p>
+              <p>
+                {resume.gender === "male" ? "남성" : resume.gender === "female" ? "여성" : resume.gender}
+              </p>
             </div>
           )}
           {resume.birth_year && (
@@ -202,7 +116,9 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
           </CardHeader>
           <CardContent>
             <p className="whitespace-pre-wrap">
-              {Array.isArray(resume.certifications) ? resume.certifications.join(", ") : resume.certifications}
+              {Array.isArray(resume.certifications)
+                ? resume.certifications.join(", ")
+                : resume.certifications}
             </p>
           </CardContent>
         </Card>

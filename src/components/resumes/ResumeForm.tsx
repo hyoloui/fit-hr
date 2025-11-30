@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -17,6 +18,8 @@ import {
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Plus, Trash2 } from "lucide-react";
 import { REGION_OPTIONS } from "@/constants/regions";
+import { JOB_CATEGORY_OPTIONS } from "@/constants/job-categories";
+import { EXPERIENCE_LEVEL_OPTIONS } from "@/constants/experience-levels";
 import type { Resume } from "@/types";
 
 interface ResumeFormProps {
@@ -43,17 +46,20 @@ export function ResumeForm({ mode, resume }: ResumeFormProps) {
   // 초기값 설정
   const initialCareerHistory: CareerItem[] =
     mode === "edit" && resume
-      ? (resume.career_history as CareerItem[])
+      ? (resume.career_history as unknown as CareerItem[])
       : [{ company: "", position: "", period: "", description: "" }];
 
   const initialEducation: EducationItem[] =
     mode === "edit" && resume
-      ? (resume.education as EducationItem[])
+      ? (resume.education as unknown as EducationItem[])
       : [{ school: "", major: "", period: "" }];
 
   const [careerHistory, setCareerHistory] = useState<CareerItem[]>(initialCareerHistory);
   const [education, setEducation] = useState<EducationItem[]>(initialEducation);
-  const [desiredRegion, setDesiredRegion] = useState(resume?.desired_region || "");
+  const [region, setRegion] = useState(resume?.region || "");
+  const [experienceLevel, setExperienceLevel] = useState(resume?.experience_level || "");
+  const [gender, setGender] = useState(resume?.gender || "");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(resume?.categories || []);
 
   // Server Action 바인딩
   const action = mode === "create" ? createResume : updateResume.bind(null, resume!.id);
@@ -96,6 +102,15 @@ export function ResumeForm({ mode, resume }: ResumeFormProps) {
     setEducation(updated);
   };
 
+  // 업종 토글
+  const toggleCategory = (categoryCode: string) => {
+    setSelectedCategories((prev) =>
+      prev.includes(categoryCode)
+        ? prev.filter((c) => c !== categoryCode)
+        : [...prev, categoryCode]
+    );
+  };
+
   return (
     <form action={formAction} className="space-y-6">
       {/* 기본 정보 */}
@@ -116,45 +131,99 @@ export function ResumeForm({ mode, resume }: ResumeFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="desired_position">희망 직무 *</Label>
-            <Input
-              id="desired_position"
-              name="desired_position"
-              placeholder="예: 퍼스널 트레이너, 필라테스 강사"
-              defaultValue={resume?.desired_position}
-              required
-            />
+            <Label>희망 업종 *</Label>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              {JOB_CATEGORY_OPTIONS.map((category) => (
+                <div key={category.value} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={`category-${category.value}`}
+                    checked={selectedCategories.includes(category.value)}
+                    onCheckedChange={() => toggleCategory(category.value)}
+                  />
+                  <Label
+                    htmlFor={`category-${category.value}`}
+                    className="text-sm font-normal cursor-pointer"
+                  >
+                    {category.label}
+                  </Label>
+                  <input
+                    type="hidden"
+                    name="categories"
+                    value={category.value}
+                    disabled={!selectedCategories.includes(category.value)}
+                  />
+                </div>
+              ))}
+            </div>
+            {selectedCategories.length === 0 && (
+              <p className="text-sm text-muted-foreground">최소 1개 이상 선택해주세요</p>
+            )}
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="desired_region">희망 지역 *</Label>
-            <Select
-              name="desired_region"
-              value={desiredRegion}
-              onValueChange={setDesiredRegion}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="지역 선택" />
-              </SelectTrigger>
-              <SelectContent>
-                {REGION_OPTIONS.map((region) => (
-                  <SelectItem key={region.value} value={region.value}>
-                    {region.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="region">희망 지역 *</Label>
+              <Select name="region" value={region} onValueChange={setRegion} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="지역 선택" />
+                </SelectTrigger>
+                <SelectContent>
+                  {REGION_OPTIONS.map((r) => (
+                    <SelectItem key={r.value} value={r.value}>
+                      {r.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="experience_level">경력</Label>
+              <Select
+                name="experience_level"
+                value={experienceLevel || undefined}
+                onValueChange={setExperienceLevel}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="경력 선택 (선택사항)" />
+                </SelectTrigger>
+                <SelectContent>
+                  {EXPERIENCE_LEVEL_OPTIONS.map((exp) => (
+                    <SelectItem key={exp.value} value={exp.value}>
+                      {exp.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="desired_salary">희망 급여</Label>
-            <Input
-              id="desired_salary"
-              name="desired_salary"
-              placeholder="예: 월 300만원, 협의 가능"
-              defaultValue={resume?.desired_salary || ""}
-            />
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="gender">성별</Label>
+              <Select name="gender" value={gender || undefined} onValueChange={setGender}>
+                <SelectTrigger>
+                  <SelectValue placeholder="성별 선택 (선택사항)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">남성</SelectItem>
+                  <SelectItem value="female">여성</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="birth_year">출생년도</Label>
+              <Input
+                id="birth_year"
+                name="birth_year"
+                type="number"
+                placeholder="예: 1990"
+                defaultValue={resume?.birth_year || ""}
+                min="1950"
+                max={new Date().getFullYear()}
+              />
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -202,7 +271,11 @@ export function ResumeForm({ mode, resume }: ResumeFormProps) {
                 )}
               </div>
 
-              <input type="hidden" name={`career_history_${index}_company`} value={career.company} />
+              <input
+                type="hidden"
+                name={`career_history_${index}_company`}
+                value={career.company}
+              />
               <input
                 type="hidden"
                 name={`career_history_${index}_position`}
@@ -337,7 +410,9 @@ export function ResumeForm({ mode, resume }: ResumeFormProps) {
             name="certifications"
             placeholder="보유하신 자격증을 입력하세요 (예: 생활체육지도사 2급, 운동처방사)"
             rows={4}
-            defaultValue={resume?.certifications || ""}
+            defaultValue={
+              resume?.certifications ? (Array.isArray(resume.certifications) ? resume.certifications.join(", ") : resume.certifications) : ""
+            }
           />
         </CardContent>
       </Card>

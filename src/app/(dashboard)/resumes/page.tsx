@@ -97,18 +97,20 @@ function ResumeCard({ resume }: { resume: Resume }) {
       <Card className="hover:border-primary transition-colors cursor-pointer h-full">
         <CardHeader>
           <CardTitle className="line-clamp-1">{resume.title}</CardTitle>
-          <CardDescription className="line-clamp-1">{resume.desired_position}</CardDescription>
+          <CardDescription className="line-clamp-2">
+            {resume.categories?.join(", ")}
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <MapPin className="h-4 w-4" />
-            <span>{resume.desired_region}</span>
+            <span>{resume.region}</span>
           </div>
 
-          {resume.desired_salary && (
+          {resume.experience_level && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Briefcase className="h-4 w-4" />
-              <span>{resume.desired_salary}</span>
+              <span>{resume.experience_level}</span>
             </div>
           )}
 
@@ -119,7 +121,7 @@ function ResumeCard({ resume }: { resume: Resume }) {
           )}
 
           <p className="text-xs text-muted-foreground">
-            {new Date(resume.created_at).toLocaleDateString("ko-KR")}
+            {new Date(resume.created_at || "").toLocaleDateString("ko-KR")}
           </p>
         </CardContent>
       </Card>

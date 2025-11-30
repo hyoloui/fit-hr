@@ -9,11 +9,13 @@ import type { CareerHistory, Education } from "@/types";
 // 이력서 작성/수정 스키마
 const resumeSchema = z.object({
   title: z.string().min(1, "제목을 입력해주세요"),
-  desired_position: z.string().min(1, "희망 직무를 입력해주세요"),
-  desired_region: z.string().min(1, "희망 지역을 선택해주세요"),
-  desired_salary: z.string().optional(),
-  introduction: z.string().optional(),
-  certifications: z.string().optional(),
+  categories: z.array(z.string()).min(1, "희망 업종을 하나 이상 선택해주세요"),
+  region: z.string().min(1, "희망 지역을 선택해주세요"),
+  experience_level: z.string().optional().nullable(),
+  gender: z.string().optional().nullable(),
+  birth_year: z.number().optional().nullable(),
+  introduction: z.string().optional().nullable(),
+  certifications: z.string().optional().nullable(),
   career_history: z.array(
     z.object({
       company: z.string().min(1, "회사명을 입력해주세요"),
@@ -51,6 +53,7 @@ export async function createResume(prevState: unknown, formData: FormData) {
   // FormData 파싱
   const careerHistory: CareerHistory[] = [];
   const education: Education[] = [];
+  const categories: string[] = formData.getAll("categories") as string[];
 
   // 경력 파싱 (career_history_0_company, career_history_0_position 형식)
   let careerIndex = 0;
@@ -75,21 +78,27 @@ export async function createResume(prevState: unknown, formData: FormData) {
     eduIndex++;
   }
 
+  // birth_year 파싱
+  const birthYearStr = formData.get("birth_year") as string;
+  const birthYear = birthYearStr ? parseInt(birthYearStr, 10) : null;
+
   // 검증
   const validated = resumeSchema.safeParse({
     title: formData.get("title"),
-    desired_position: formData.get("desired_position"),
-    desired_region: formData.get("desired_region"),
-    desired_salary: formData.get("desired_salary"),
-    introduction: formData.get("introduction"),
-    certifications: formData.get("certifications"),
+    categories: categories,
+    region: formData.get("region"),
+    experience_level: formData.get("experience_level") || null,
+    gender: formData.get("gender") || null,
+    birth_year: birthYear,
+    introduction: formData.get("introduction") || null,
+    certifications: formData.get("certifications") || null,
     career_history: careerHistory,
     education: education,
   });
 
   if (!validated.success) {
     return {
-      error: validated.error.errors[0]?.message || "입력 정보를 확인해주세요.",
+      error: validated.error.issues[0]?.message || "입력 정보를 확인해주세요.",
     };
   }
 
@@ -97,11 +106,13 @@ export async function createResume(prevState: unknown, formData: FormData) {
   const { error } = await supabase.from("resumes").insert({
     user_id: user.id,
     title: validated.data.title,
-    desired_position: validated.data.desired_position,
-    desired_region: validated.data.desired_region,
-    desired_salary: validated.data.desired_salary || null,
+    categories: validated.data.categories,
+    region: validated.data.region,
+    experience_level: validated.data.experience_level || null,
+    gender: validated.data.gender || null,
+    birth_year: validated.data.birth_year || null,
     introduction: validated.data.introduction || null,
-    certifications: validated.data.certifications || null,
+    certifications: validated.data.certifications ? [validated.data.certifications] : null,
     career_history: validated.data.career_history,
     education: validated.data.education,
   });
@@ -144,6 +155,7 @@ export async function updateResume(id: string, prevState: unknown, formData: For
   // FormData 파싱
   const careerHistory: CareerHistory[] = [];
   const education: Education[] = [];
+  const categories: string[] = formData.getAll("categories") as string[];
 
   let careerIndex = 0;
   while (formData.has(`career_history_${careerIndex}_company`)) {
@@ -166,21 +178,27 @@ export async function updateResume(id: string, prevState: unknown, formData: For
     eduIndex++;
   }
 
+  // birth_year 파싱
+  const birthYearStr = formData.get("birth_year") as string;
+  const birthYear = birthYearStr ? parseInt(birthYearStr, 10) : null;
+
   // 검증
   const validated = resumeSchema.safeParse({
     title: formData.get("title"),
-    desired_position: formData.get("desired_position"),
-    desired_region: formData.get("desired_region"),
-    desired_salary: formData.get("desired_salary"),
-    introduction: formData.get("introduction"),
-    certifications: formData.get("certifications"),
+    categories: categories,
+    region: formData.get("region"),
+    experience_level: formData.get("experience_level") || null,
+    gender: formData.get("gender") || null,
+    birth_year: birthYear,
+    introduction: formData.get("introduction") || null,
+    certifications: formData.get("certifications") || null,
     career_history: careerHistory,
     education: education,
   });
 
   if (!validated.success) {
     return {
-      error: validated.error.errors[0]?.message || "입력 정보를 확인해주세요.",
+      error: validated.error.issues[0]?.message || "입력 정보를 확인해주세요.",
     };
   }
 
@@ -189,11 +207,13 @@ export async function updateResume(id: string, prevState: unknown, formData: For
     .from("resumes")
     .update({
       title: validated.data.title,
-      desired_position: validated.data.desired_position,
-      desired_region: validated.data.desired_region,
-      desired_salary: validated.data.desired_salary || null,
+      categories: validated.data.categories,
+      region: validated.data.region,
+      experience_level: validated.data.experience_level || null,
+      gender: validated.data.gender || null,
+      birth_year: validated.data.birth_year || null,
       introduction: validated.data.introduction || null,
-      certifications: validated.data.certifications || null,
+      certifications: validated.data.certifications ? [validated.data.certifications] : null,
       career_history: validated.data.career_history,
       education: validated.data.education,
     })

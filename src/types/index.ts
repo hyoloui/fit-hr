@@ -103,3 +103,24 @@ export interface JobFilter {
   experienceLevel?: ExperienceLevelCode;
   search?: string;
 }
+
+// 지원자 상세 정보 타입
+export interface ApplicationDetail {
+  id: string;
+  status: ApplicationStatus;
+  message: string | null;
+  created_at: string;
+  updated_at: string;
+  job_posting: {
+    id: string;
+    title: string;
+    center_id: string;
+  };
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string | null;
+  };
+  resume: Resume;
+}
