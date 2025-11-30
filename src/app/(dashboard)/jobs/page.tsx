@@ -4,7 +4,14 @@ import { JobFilter } from "@/components/jobs/JobFilter";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Briefcase } from "lucide-react";
-import type { JobFilter as JobFilterType, RegionCode, JobCategoryCode, Gender, EmploymentTypeCode, ExperienceLevelCode } from "@/types";
+import type {
+  JobFilter as JobFilterType,
+  RegionCode,
+  JobCategoryCode,
+  Gender,
+  EmploymentTypeCode,
+  ExperienceLevelCode,
+} from "@/types";
 
 interface PageProps {
   searchParams: Promise<{
@@ -48,6 +55,7 @@ export default async function JobsPage({ searchParams }: PageProps) {
     .select("*")
     .eq("is_active", true)
     .order("created_at", { ascending: false });
+  console.log(await query);
 
   // 지역 필터
   if (params.region) {
@@ -62,7 +70,7 @@ export default async function JobsPage({ searchParams }: PageProps) {
 
   // 성별 필터
   if (params.gender && params.gender !== "any") {
-    query = query.in("preferred_gender", [params.gender, "any"]);
+    query = query.in("gender", [params.gender, "any"]);
   }
 
   // 고용형태 필터
@@ -80,7 +88,11 @@ export default async function JobsPage({ searchParams }: PageProps) {
     query = query.or(`title.ilike.%${params.search}%,description.ilike.%${params.search}%`);
   }
 
-  const { data: jobs } = await query;
+  const { data: jobs, error } = await query;
+
+  if (error) {
+    console.error("구인공고 조회 오류:", error);
+  }
 
   // 현재 필터 상태
   const currentFilter: JobFilterType = {
@@ -96,9 +108,7 @@ export default async function JobsPage({ searchParams }: PageProps) {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">구인공고</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          원하는 조건의 구인공고를 찾아보세요
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">원하는 조건의 구인공고를 찾아보세요</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">

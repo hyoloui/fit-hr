@@ -62,7 +62,7 @@ export default async function JobDetailPage({ params }: PageProps) {
 
   const categories = job.categories as string[];
   const genderLabel =
-    job.preferred_gender === "male" ? "남성" : job.preferred_gender === "female" ? "여성" : "무관";
+    job.gender === "male" ? "남성" : job.gender === "female" ? "여성" : "무관";
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -143,12 +143,20 @@ export default async function JobDetailPage({ params }: PageProps) {
             </div>
           </div>
 
-          {job.salary && (
+          {(job.salary_min || job.salary_max) && (
             <div className="flex items-center gap-2">
               <DollarSign className="h-5 w-5 text-muted-foreground" />
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground">급여</h4>
-                <p>{job.salary}</p>
+                <p>
+                  {job.salary_type === "monthly" && job.salary_min && job.salary_max
+                    ? `월 ${job.salary_min.toLocaleString()}~${job.salary_max.toLocaleString()}만원`
+                    : job.salary_type === "hourly" && job.salary_min
+                      ? `시급 ${job.salary_min.toLocaleString()}원`
+                      : job.salary_type === "negotiable"
+                        ? "협의"
+                        : ""}
+                </p>
               </div>
             </div>
           )}
@@ -175,30 +183,6 @@ export default async function JobDetailPage({ params }: PageProps) {
         </Card>
       )}
 
-      {/* 근무 조건 */}
-      {job.work_conditions && (
-        <Card>
-          <CardHeader>
-            <CardTitle>근무 조건</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="whitespace-pre-wrap">{job.work_conditions}</p>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* 우대 사항 */}
-      {job.preferred_qualifications && (
-        <Card>
-          <CardHeader>
-            <CardTitle>우대 사항</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="whitespace-pre-wrap">{job.preferred_qualifications}</p>
-          </CardContent>
-        </Card>
-      )}
-
       {/* 센터 정보 */}
       <Card>
         <CardHeader>
@@ -209,18 +193,6 @@ export default async function JobDetailPage({ params }: PageProps) {
             <h4 className="text-sm font-medium text-muted-foreground mb-1">센터명</h4>
             <p>{job.center_name}</p>
           </div>
-          {job.center_address && (
-            <div>
-              <h4 className="text-sm font-medium text-muted-foreground mb-1">주소</h4>
-              <p>{job.center_address}</p>
-            </div>
-          )}
-          {job.center_contact && (
-            <div>
-              <h4 className="text-sm font-medium text-muted-foreground mb-1">연락처</h4>
-              <p>{job.center_contact}</p>
-            </div>
-          )}
         </CardContent>
       </Card>
 

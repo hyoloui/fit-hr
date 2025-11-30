@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,8 +113,8 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // 필터 폼 컨텐츠 (재사용)
-  const FilterContent = () => (
+  // 필터 폼 컨텐츠 (재사용) - useMemo로 최적화
+  const filterContent = useMemo(() => (
     <div className="space-y-4">
         {/* 검색어 */}
         <div className="space-y-2">
@@ -230,7 +230,8 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         검색
       </Button>
     </div>
-  );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [search, region, categories, gender, employmentType, experienceLevel]);
 
   return (
     <>
@@ -256,7 +257,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
               </div>
             </SheetHeader>
             <div className="mt-6">
-              <FilterContent />
+              {filterContent}
             </div>
           </SheetContent>
         </Sheet>
@@ -276,7 +277,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
           </div>
         </CardHeader>
         <CardContent>
-          <FilterContent />
+          {filterContent}
         </CardContent>
       </Card>
     </>

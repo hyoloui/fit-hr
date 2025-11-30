@@ -124,3 +124,23 @@ export interface ApplicationDetail {
   };
   resume: Resume;
 }
+
+// 지원 내역 조회용 타입 (조인 쿼리 결과)
+export interface ApplicationWithJobPosting {
+  id: string;
+  status: ApplicationStatus | null;
+  created_at: string | null;
+  job_posting: {
+    id: string;
+    title: string;
+    region: string;
+    is_active: boolean | null;
+    center: {
+      name: string;
+    };
+  } | null;
+  resume: {
+    id: string;
+    title: string;
+  } | null;
+}

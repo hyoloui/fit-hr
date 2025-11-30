@@ -37,6 +37,7 @@ export async function toggleLike(jobId: string) {
 
     revalidatePath("/jobs");
     revalidatePath(`/jobs/${jobId}`);
+    revalidatePath("/likes");
     return { success: true, liked: false };
   } else {
     // 좋아요 추가
@@ -52,6 +53,7 @@ export async function toggleLike(jobId: string) {
 
     revalidatePath("/jobs");
     revalidatePath(`/jobs/${jobId}`);
+    revalidatePath("/likes");
     return { success: true, liked: true };
   }
 }
@@ -86,8 +88,10 @@ export async function getLikedJobs() {
         categories,
         employment_type,
         experience_level,
-        preferred_gender,
-        salary,
+        gender,
+        salary_type,
+        salary_min,
+        salary_max,
         created_at,
         center:centers (
           name

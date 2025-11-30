@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect, useState, useOptimistic, startTransition } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -22,7 +17,10 @@ interface ApplicationDetailDialogProps {
 }
 
 // 상태별 Badge variant 매핑
-const STATUS_VARIANTS: Record<ApplicationStatus, "default" | "secondary" | "destructive" | "outline"> = {
+const STATUS_VARIANTS: Record<
+  ApplicationStatus,
+  "default" | "secondary" | "destructive" | "outline"
+> = {
   pending: "secondary",
   reviewed: "outline",
   accepted: "default",
@@ -74,6 +72,7 @@ export function ApplicationDetailDialog({
     if (open) {
       fetchData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, applicationId]);
 
   // 상태 변경 핸들러
