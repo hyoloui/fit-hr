@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { FileQuestion, Home, ArrowLeft } from "lucide-react";
+import { FileQuestion, Home } from "lucide-react";
 import Link from "next/link";
+import { BackButton } from "@/components/common/BackButton";
 
 export default function NotFound() {
   return (
@@ -30,10 +31,7 @@ export default function NotFound() {
                 홈으로 이동
               </Link>
             </Button>
-            <Button variant="outline" onClick={() => window.history.back()} className="w-full">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              이전 페이지
-            </Button>
+            <BackButton className="w-full" />
           </div>
 
           <p className="text-xs text-center text-muted-foreground">
