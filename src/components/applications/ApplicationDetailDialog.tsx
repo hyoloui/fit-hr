@@ -172,7 +172,6 @@ export function ApplicationDetailDialog({
             <section>
               <h3 className="text-lg font-semibold mb-4">상태 관리</h3>
               <ApplicationStatusActions
-                applicationId={applicationId}
                 currentStatus={optimisticStatus || data.status}
                 currentMessage={data.message}
                 onUpdate={handleStatusUpdate}

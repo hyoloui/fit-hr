@@ -33,8 +33,6 @@ const resumeSchema = z.object({
   ),
 });
 
-type ResumeFormData = z.infer<typeof resumeSchema>;
-
 /**
  * 이력서 생성
  */
@@ -142,11 +140,7 @@ export async function updateResume(id: string, prevState: unknown, formData: For
   }
 
   // 소유권 확인
-  const { data: resume } = await supabase
-    .from("resumes")
-    .select("user_id")
-    .eq("id", id)
-    .single();
+  const { data: resume } = await supabase.from("resumes").select("user_id").eq("id", id).single();
 
   if (!resume || resume.user_id !== user.id) {
     return { error: "권한이 없습니다." };
@@ -245,11 +239,7 @@ export async function deleteResume(id: string) {
   }
 
   // 소유권 확인
-  const { data: resume } = await supabase
-    .from("resumes")
-    .select("user_id")
-    .eq("id", id)
-    .single();
+  const { data: resume } = await supabase.from("resumes").select("user_id").eq("id", id).single();
 
   if (!resume || resume.user_id !== user.id) {
     return { error: "권한이 없습니다." };

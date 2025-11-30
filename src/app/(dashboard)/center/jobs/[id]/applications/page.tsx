@@ -62,7 +62,7 @@ export default async function ApplicationsPage({ params }: ApplicationsPageProps
   }
 
   // 4. 지원자 목록 조회
-  const { data: applications } = await supabase
+  const { data: applicationsData } = await supabase
     .from("applications")
     .select(
       `
@@ -73,6 +73,28 @@ export default async function ApplicationsPage({ params }: ApplicationsPageProps
     )
     .eq("job_posting_id", id)
     .order("created_at", { ascending: false });
+
+  // ApplicationsTableClient가 기대하는 타입으로 변환
+  const applications =
+    applicationsData?.map((app) => ({
+      id: app.id,
+      status: app.status || "pending",
+      created_at: app.created_at || new Date().toISOString(),
+      user: app.user
+        ? {
+            id: app.user.id,
+            name: app.user.name,
+            email: app.user.email,
+            phone: app.user.phone,
+          }
+        : null,
+      resume: app.resume
+        ? {
+            id: app.resume.id,
+            title: app.resume.title,
+          }
+        : null,
+    })) || [];
 
   return (
     <div className="space-y-4 md:space-y-6">
@@ -87,17 +109,19 @@ export default async function ApplicationsPage({ params }: ApplicationsPageProps
           <p className="text-sm md:text-base text-muted-foreground mt-2">{jobPosting.title}</p>
         </div>
         <Link href={`/center/jobs/${id}`} className="md:self-start md:mt-8">
-          <Button variant="outline" className="w-full md:w-auto">공고 수정</Button>
+          <Button variant="outline" className="w-full md:w-auto">
+            공고 수정
+          </Button>
         </Link>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>전체 지원자 ({applications?.length || 0}명)</CardTitle>
+          <CardTitle>전체 지원자 ({applications.length}명)</CardTitle>
           <CardDescription>지원자 정보와 상태를 확인할 수 있습니다</CardDescription>
         </CardHeader>
         <CardContent>
-          {!applications || applications.length === 0 ? (
+          {applications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12">
               <p className="text-muted-foreground">아직 지원자가 없습니다</p>
             </div>

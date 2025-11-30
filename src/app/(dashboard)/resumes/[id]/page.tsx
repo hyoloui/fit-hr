@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { ResumeForm } from "@/components/resumes/ResumeForm";
 import { ResumeActions } from "@/components/resumes/ResumeActions";
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { REGION_LABELS } from "@/constants/regions";
 import type { CareerHistory, Education } from "@/types";
 
@@ -41,11 +41,7 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
   }
 
   // 이력서 조회
-  const { data: resume, error } = await supabase
-    .from("resumes")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const { data: resume, error } = await supabase.from("resumes").select("*").eq("id", id).single();
 
   if (error || !resume) {
     notFound();
@@ -78,8 +74,8 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
   }
 
   // 상세 보기 모드
-  const careerHistory = resume.career_history as CareerHistory[];
-  const education = resume.education as Education[];
+  const careerHistory = (resume.career_history as unknown as CareerHistory[]) || [];
+  const education = (resume.education as unknown as Education[]) || [];
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -123,7 +119,13 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
           {resume.gender && (
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-1">성별</h4>
-              <p>{resume.gender === "male" ? "남성" : resume.gender === "female" ? "여성" : resume.gender}</p>
+              <p>
+                {resume.gender === "male"
+                  ? "남성"
+                  : resume.gender === "female"
+                    ? "여성"
+                    : resume.gender}
+              </p>
             </div>
           )}
           {resume.birth_year && (
@@ -202,7 +204,9 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
           </CardHeader>
           <CardContent>
             <p className="whitespace-pre-wrap">
-              {Array.isArray(resume.certifications) ? resume.certifications.join(", ") : resume.certifications}
+              {Array.isArray(resume.certifications)
+                ? resume.certifications.join(", ")
+                : resume.certifications}
             </p>
           </CardContent>
         </Card>

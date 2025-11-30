@@ -36,7 +36,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   return (
     <div className="flex min-h-screen">
       {/* 사이드바 */}
-      <Sidebar user={user} profile={profile} />
+      <Sidebar profile={profile} />
 
       {/* 메인 콘텐츠 영역 */}
       <div className="flex flex-1 flex-col">

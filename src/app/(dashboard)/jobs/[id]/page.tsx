@@ -80,7 +80,17 @@ export default async function JobDetailPage({ params }: PageProps) {
         </div>
         <div className="flex gap-2">
           <LikeButton jobId={id} userId={user.id} />
-          <ApplyButton jobId={id} application={application} />
+          <ApplyButton
+            jobId={id}
+            application={
+              application
+                ? {
+                    id: application.id,
+                    status: application.status || "pending",
+                  }
+                : null
+            }
+          />
         </div>
       </div>
 
@@ -165,7 +175,7 @@ export default async function JobDetailPage({ params }: PageProps) {
             <Calendar className="h-5 w-5 text-muted-foreground" />
             <div>
               <h4 className="text-sm font-medium text-muted-foreground">등록일</h4>
-              <p>{new Date(job.created_at).toLocaleDateString("ko-KR")}</p>
+              <p>{job.created_at ? new Date(job.created_at).toLocaleDateString("ko-KR") : "-"}</p>
             </div>
           </div>
         </CardContent>

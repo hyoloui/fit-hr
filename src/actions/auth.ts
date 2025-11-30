@@ -188,7 +188,10 @@ export async function login(
 
     // 3. 로그인 성공 시 대시보드로 리다이렉트
     return { success: true };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    // TODO: 나중에 에러 로깅에 사용
+    // console.error("Login error:", error);
     return {
       errors: {
         _form: ["로그인 중 오류가 발생했습니다. 다시 시도해주세요."],

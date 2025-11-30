@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils";
 
 interface LikeButtonProps {
   jobId: string;
-  userId: string;
+  userId?: string; // 현재 사용하지 않음 - 서버 액션에서 사용자 ID를 가져옴
   initialLiked?: boolean;
 }
 
-export function LikeButton({ jobId, userId, initialLiked = false }: LikeButtonProps) {
+export function LikeButton({ jobId, initialLiked = false }: LikeButtonProps) {
   const [liked, setLiked] = useState(initialLiked);
   const [isPending, startTransition] = useTransition();
 

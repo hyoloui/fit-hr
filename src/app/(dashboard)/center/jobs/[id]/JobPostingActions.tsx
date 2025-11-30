@@ -47,7 +47,10 @@ export function JobPostingActions({ jobPosting }: JobPostingActionsProps) {
         );
         router.refresh();
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
+      // TODO: 나중에 에러 로깅에 사용
+      // console.error("Toggle job posting error:", error);
       toast.error("상태 변경 중 오류가 발생했습니다");
     } finally {
       setIsToggling(false);
@@ -66,7 +69,10 @@ export function JobPostingActions({ jobPosting }: JobPostingActionsProps) {
         toast.success("구인공고가 삭제되었습니다");
         router.push("/center/jobs");
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
+      // TODO: 나중에 에러 로깅에 사용
+      // console.error("Delete job posting error:", error);
       toast.error("삭제 중 오류가 발생했습니다");
       setIsDeleting(false);
     }
@@ -80,16 +86,16 @@ export function JobPostingActions({ jobPosting }: JobPostingActionsProps) {
         disabled={isToggling || isDeleting}
         className="w-full md:w-auto"
       >
-        {isToggling
-          ? "처리 중..."
-          : jobPosting.is_active
-            ? "비활성화"
-            : "활성화"}
+        {isToggling ? "처리 중..." : jobPosting.is_active ? "비활성화" : "활성화"}
       </Button>
 
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="destructive" disabled={isToggling || isDeleting} className="w-full md:w-auto">
+          <Button
+            variant="destructive"
+            disabled={isToggling || isDeleting}
+            className="w-full md:w-auto"
+          >
             삭제
           </Button>
         </AlertDialogTrigger>

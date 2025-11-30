@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 import { APP_NAME } from "@/constants";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import type { User } from "@supabase/supabase-js";
 import type { Profile } from "@/types";
 import {
   Building2,
@@ -29,7 +28,6 @@ import {
 } from "lucide-react";
 
 interface SidebarProps {
-  user: User;
   profile: Pick<Profile, "id" | "name" | "role">;
 }
 
@@ -39,7 +37,7 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
-export function Sidebar({ user, profile }: SidebarProps) {
+export function Sidebar({ profile }: SidebarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 

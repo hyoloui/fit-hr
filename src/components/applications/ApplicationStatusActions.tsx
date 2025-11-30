@@ -17,14 +17,12 @@ import {
 import type { ApplicationStatus } from "@/types";
 
 interface ApplicationStatusActionsProps {
-  applicationId: string;
   currentStatus: ApplicationStatus;
   currentMessage: string | null;
   onUpdate: (status: ApplicationStatus, message?: string) => Promise<void>;
 }
 
 export function ApplicationStatusActions({
-  applicationId,
   currentStatus,
   currentMessage,
   onUpdate,

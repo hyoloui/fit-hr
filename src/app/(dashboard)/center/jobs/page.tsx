@@ -103,7 +103,7 @@ export default async function CenterJobsPage() {
                   </div>
                   <div className="flex flex-col gap-3 pt-4 md:flex-row md:items-center md:justify-between">
                     <div className="text-sm text-muted-foreground">
-                      등록일: {new Date(job.created_at).toLocaleDateString("ko-KR")}
+                      등록일: {job.created_at ? new Date(job.created_at).toLocaleDateString("ko-KR") : "-"}
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row">
                       <Link href={`/center/jobs/${job.id}/applications`} className="flex-1 md:flex-initial">

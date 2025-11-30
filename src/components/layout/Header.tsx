@@ -68,7 +68,10 @@ export function Header({ user, profile }: HeaderProps) {
       toast.success("로그아웃되었습니다");
       router.push("/login");
       router.refresh();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
+      // TODO: 나중에 에러 로깅에 사용
+      // console.error("Logout error:", error);
       toast.error("로그아웃 중 오류가 발생했습니다");
     }
   };
