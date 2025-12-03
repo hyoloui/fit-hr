@@ -166,9 +166,7 @@ export async function getCenterStats(centerId: string): Promise<CenterStats | nu
 /**
  * 트레이너 최근 지원 내역 조회 (최대 5개)
  */
-export async function getRecentApplications(
-  userId: string
-): Promise<RecentApplication[] | null> {
+export async function getRecentApplications(userId: string): Promise<RecentApplication[] | null> {
   try {
     const supabase = await createClient();
 
@@ -243,7 +241,7 @@ export async function getRecommendedJobs(userId: string, limit: number = 5) {
     // 사용자의 최신 이력서 조회
     const { data: resume } = await supabase
       .from("resumes")
-      .select("desired_job_categories, desired_region")
+      .select("categories, region")
       .eq("user_id", userId)
       .order("updated_at", { ascending: false })
       .limit(1)
@@ -262,15 +260,23 @@ export async function getRecommendedJobs(userId: string, limit: number = 5) {
     }
 
     // 이력서 기반 매칭 공고 조회
-    const { data } = await supabase
-      .from("job_postings_with_details")
-      .select("*")
-      .eq("is_active", true)
-      .or(
-        `region.eq.${resume.desired_region},job_categories.cs.{${resume.desired_job_categories?.join(",")}}`
-      )
-      .order("created_at", { ascending: false })
-      .limit(limit);
+    const conditions: string[] = [];
+
+    if (resume.region) {
+      conditions.push(`region.eq.${resume.region}`);
+    }
+
+    if (resume.categories && resume.categories.length > 0) {
+      conditions.push(`categories.cs.{${resume.categories.join(",")}}`);
+    }
+
+    let query = supabase.from("job_postings_with_details").select("*").eq("is_active", true);
+
+    if (conditions.length > 0) {
+      query = query.or(conditions.join(","));
+    }
+
+    const { data } = await query.order("created_at", { ascending: false }).limit(limit);
 
     return data ?? [];
   } catch (error) {

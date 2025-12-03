@@ -55,7 +55,6 @@ export default async function JobsPage({ searchParams }: PageProps) {
     .select("*")
     .eq("is_active", true)
     .order("created_at", { ascending: false });
-  console.log(await query);
 
   // 지역 필터
   if (params.region) {
