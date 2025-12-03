@@ -48,10 +48,7 @@ export function LikeButton({ jobId, initialLiked = false }: LikeButtonProps) {
       size="icon"
       onClick={handleToggle}
       disabled={isPending}
-      className={cn(
-        "hover:bg-background/80",
-        liked && "text-red-500 hover:text-red-600"
-      )}
+      className={cn("hover:bg-background/80", liked && "text-red-500 hover:text-red-600")}
     >
       <Heart className={cn("h-5 w-5", liked && "fill-current")} />
     </Button>

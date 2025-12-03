@@ -118,7 +118,11 @@ export function Header({ user, profile }: HeaderProps) {
 
               {/* 로고 */}
               <div className="flex h-16 items-center border-b px-6">
-                <Link href="/" className="flex items-center gap-2 font-bold text-lg" onClick={() => setIsOpen(false)}>
+                <Link
+                  href="/"
+                  className="flex items-center gap-2 font-bold text-lg"
+                  onClick={() => setIsOpen(false)}
+                >
                   <UserCircle className="h-6 w-6" />
                   <span>{APP_NAME}</span>
                 </Link>

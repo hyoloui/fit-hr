@@ -22,4 +22,3 @@ export function BackButton({ variant = "outline", className }: BackButtonProps) 
     </Button>
   );
 }
-

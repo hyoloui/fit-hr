@@ -61,8 +61,7 @@ export default async function JobDetailPage({ params }: PageProps) {
     .single();
 
   const categories = job.categories as string[];
-  const genderLabel =
-    job.gender === "male" ? "남성" : job.gender === "female" ? "여성" : "무관";
+  const genderLabel = job.gender === "male" ? "남성" : job.gender === "female" ? "여성" : "무관";
 
   return (
     <div className="space-y-6 max-w-4xl">
@@ -126,11 +125,7 @@ export default async function JobDetailPage({ params }: PageProps) {
             <div>
               <h4 className="text-sm font-medium text-muted-foreground mb-1">고용형태</h4>
               <p>
-                {
-                  EMPLOYMENT_TYPE_LABELS[
-                    job.employment_type as keyof typeof EMPLOYMENT_TYPE_LABELS
-                  ]
-                }
+                {EMPLOYMENT_TYPE_LABELS[job.employment_type as keyof typeof EMPLOYMENT_TYPE_LABELS]}
               </p>
             </div>
             <div>

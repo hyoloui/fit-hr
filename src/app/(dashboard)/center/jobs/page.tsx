@@ -31,7 +31,11 @@ export default async function CenterJobsPage() {
   }
 
   // 2. 프로필 확인 (센터 계정인지)
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
 
   if (profile?.role !== ROLE_CENTER) {
     redirect("/");
@@ -45,7 +49,9 @@ export default async function CenterJobsPage() {
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">구인공고 관리</h1>
-          <p className="text-sm md:text-base text-muted-foreground mt-2">등록한 구인공고를 관리할 수 있습니다</p>
+          <p className="text-sm md:text-base text-muted-foreground mt-2">
+            등록한 구인공고를 관리할 수 있습니다
+          </p>
         </div>
         <Link href="/center/jobs/new" className="md:self-start">
           <Button className="w-full md:w-auto">새 공고 등록</Button>
@@ -103,10 +109,14 @@ export default async function CenterJobsPage() {
                   </div>
                   <div className="flex flex-col gap-3 pt-4 md:flex-row md:items-center md:justify-between">
                     <div className="text-sm text-muted-foreground">
-                      등록일: {job.created_at ? new Date(job.created_at).toLocaleDateString("ko-KR") : "-"}
+                      등록일:{" "}
+                      {job.created_at ? new Date(job.created_at).toLocaleDateString("ko-KR") : "-"}
                     </div>
                     <div className="flex flex-col gap-2 md:flex-row">
-                      <Link href={`/center/jobs/${job.id}/applications`} className="flex-1 md:flex-initial">
+                      <Link
+                        href={`/center/jobs/${job.id}/applications`}
+                        className="flex-1 md:flex-initial"
+                      >
                         <Button variant="ghost" size="sm" className="w-full md:w-auto">
                           지원자 보기
                         </Button>
