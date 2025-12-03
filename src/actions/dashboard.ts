@@ -144,10 +144,10 @@ export async function getCenterStats(centerId: string): Promise<CenterStats | nu
 
     // 오늘과 이번 주 지원자 수 계산
     const todayApplicants = allApplications.filter(
-      (app) => new Date(app.created_at) >= today
+      (app) => app.created_at && new Date(app.created_at) >= today
     ).length;
     const weekApplicants = allApplications.filter(
-      (app) => new Date(app.created_at) >= weekStart
+      (app) => app.created_at && new Date(app.created_at) >= weekStart
     ).length;
 
     return {
