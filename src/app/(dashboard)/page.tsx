@@ -101,9 +101,7 @@ export default async function DashboardPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold">내 이력서</h3>
-                  <p className="text-sm text-muted-foreground">
-                    이력서를 관리하고 업데이트하세요
-                  </p>
+                  <p className="text-sm text-muted-foreground">이력서를 관리하고 업데이트하세요</p>
                 </div>
               </Link>
 
@@ -116,9 +114,7 @@ export default async function DashboardPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold">지원 내역</h3>
-                  <p className="text-sm text-muted-foreground">
-                    지원한 공고의 상태를 확인하세요
-                  </p>
+                  <p className="text-sm text-muted-foreground">지원한 공고의 상태를 확인하세요</p>
                 </div>
               </Link>
             </div>
@@ -132,7 +128,7 @@ export default async function DashboardPage() {
   const { data: center } = await supabase
     .from("centers")
     .select("id")
-    .eq("user_id", user.id)
+    .eq("owner_id", user.id)
     .single();
 
   if (!center) {
@@ -184,8 +180,7 @@ export default async function DashboardPage() {
         <div className="flex gap-2">
           <Button asChild variant="outline">
             <Link href="/center/jobs">
-              <Briefcase className="mr-2 h-4 w-4" />
-              내 공고 관리
+              <Briefcase className="mr-2 h-4 w-4" />내 공고 관리
             </Link>
           </Button>
           <Button asChild>

@@ -70,7 +70,11 @@ export async function getMyJobPostings() {
     return null;
   }
 
-  const { data: center } = await supabase.from("centers").select("id").eq("owner_id", user.id).single();
+  const { data: center } = await supabase
+    .from("centers")
+    .select("id")
+    .eq("owner_id", user.id)
+    .single();
 
   if (!center) {
     return null;
@@ -158,7 +162,11 @@ export async function createJobPosting(
       };
     }
 
-    const { data: center } = await supabase.from("centers").select("id").eq("owner_id", user.id).single();
+    const { data: center } = await supabase
+      .from("centers")
+      .select("id")
+      .eq("owner_id", user.id)
+      .single();
 
     if (!center) {
       return {
@@ -208,7 +216,8 @@ export async function createJobPosting(
     return { success: true };
   } catch (error) {
     console.error("Create job posting catch error:", error);
-    const errorMessage = error instanceof Error ? error.message : "구인공고 등록 중 오류가 발생했습니다.";
+    const errorMessage =
+      error instanceof Error ? error.message : "구인공고 등록 중 오류가 발생했습니다.";
     return {
       errors: {
         _form: [errorMessage],
@@ -262,7 +271,11 @@ export async function updateJobPosting(
       };
     }
 
-    const { data: center } = await supabase.from("centers").select("id").eq("owner_id", user.id).single();
+    const { data: center } = await supabase
+      .from("centers")
+      .select("id")
+      .eq("owner_id", user.id)
+      .single();
 
     if (!center) {
       return {
@@ -316,7 +329,8 @@ export async function updateJobPosting(
     return { success: true };
   } catch (error) {
     console.error("Update job posting catch error:", error);
-    const errorMessage = error instanceof Error ? error.message : "구인공고 수정 중 오류가 발생했습니다.";
+    const errorMessage =
+      error instanceof Error ? error.message : "구인공고 수정 중 오류가 발생했습니다.";
     return {
       errors: {
         _form: [errorMessage],
@@ -340,7 +354,11 @@ export async function toggleJobPostingActive(jobPostingId: string, isActive: boo
       return { error: "로그인이 필요합니다." };
     }
 
-    const { data: center } = await supabase.from("centers").select("id").eq("owner_id", user.id).single();
+    const { data: center } = await supabase
+      .from("centers")
+      .select("id")
+      .eq("owner_id", user.id)
+      .single();
 
     if (!center) {
       return { error: "센터 정보를 찾을 수 없습니다." };
@@ -361,7 +379,8 @@ export async function toggleJobPostingActive(jobPostingId: string, isActive: boo
     return { success: true };
   } catch (error) {
     console.error("Toggle job posting active catch error:", error);
-    const errorMessage = error instanceof Error ? error.message : "상태 변경 중 오류가 발생했습니다.";
+    const errorMessage =
+      error instanceof Error ? error.message : "상태 변경 중 오류가 발생했습니다.";
     return { error: errorMessage };
   }
 }
@@ -381,7 +400,11 @@ export async function deleteJobPosting(jobPostingId: string) {
       return { error: "로그인이 필요합니다." };
     }
 
-    const { data: center } = await supabase.from("centers").select("id").eq("owner_id", user.id).single();
+    const { data: center } = await supabase
+      .from("centers")
+      .select("id")
+      .eq("owner_id", user.id)
+      .single();
 
     if (!center) {
       return { error: "센터 정보를 찾을 수 없습니다." };
@@ -402,7 +425,8 @@ export async function deleteJobPosting(jobPostingId: string) {
     return { success: true };
   } catch (error) {
     console.error("Delete job posting catch error:", error);
-    const errorMessage = error instanceof Error ? error.message : "구인공고 삭제 중 오류가 발생했습니다.";
+    const errorMessage =
+      error instanceof Error ? error.message : "구인공고 삭제 중 오류가 발생했습니다.";
     return { error: errorMessage };
   }
 }
