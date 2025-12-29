@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import { JobFilter } from "@/components/jobs/JobFilter";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Card, CardContent } from "@/components/ui/card";
@@ -28,25 +27,19 @@ export default async function JobsPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const supabase = await createClient();
 
-  // 인증 체크
+  // 인증 상태 및 역할 확인 (선택적)
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
-
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  // 트레이너만 접근 가능
-  if (profile?.role !== "trainer") {
-    redirect("/");
+  let profile = null;
+  if (user) {
+    const { data } = await supabase
+      .from("profiles")
+      .select("id, name, role")
+      .eq("id", user.id)
+      .single();
+    profile = data;
   }
 
   // 필터 적용하여 구인공고 조회
@@ -104,7 +97,7 @@ export default async function JobsPage({ searchParams }: PageProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="container py-8 space-y-6">
       <div>
         <h1 className="text-2xl font-bold">구인공고</h1>
         <p className="text-sm text-muted-foreground mt-1">원하는 조건의 구인공고를 찾아보세요</p>
@@ -131,7 +124,13 @@ export default async function JobsPage({ searchParams }: PageProps) {
               <p className="text-sm text-muted-foreground">총 {jobs.length}개의 공고</p>
               <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {jobs.map((job) => (
-                  <JobCard key={job.id} job={job} userId={user.id} />
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    isAuthenticated={!!user}
+                    userRole={profile?.role as "trainer" | "center" | undefined}
+                    userId={user?.id}
+                  />
                 ))}
               </div>
             </div>

@@ -43,7 +43,7 @@ export function Sidebar({ profile }: SidebarProps) {
 
   // 역할별 메뉴 아이템
   const trainerMenuItems: NavItem[] = [
-    { href: "/", label: "홈", icon: Home },
+    { href: "/my-page", label: "마이페이지", icon: Home },
     { href: "/jobs", label: "구인공고", icon: Briefcase },
     { href: "/resumes", label: "내 이력서", icon: FileText },
     { href: "/applications", label: "지원 내역", icon: Send },
@@ -51,7 +51,7 @@ export function Sidebar({ profile }: SidebarProps) {
   ];
 
   const centerMenuItems: NavItem[] = [
-    { href: "/", label: "홈", icon: Home },
+    { href: "/center/dashboard", label: "대시보드", icon: Home },
     { href: "/center/profile", label: "센터 정보", icon: Building2 },
     { href: "/center/jobs", label: "구인공고 관리", icon: Briefcase },
     { href: "/center/jobs/new", label: "공고 등록", icon: PlusCircle },

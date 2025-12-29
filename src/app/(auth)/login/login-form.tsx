@@ -12,21 +12,33 @@ import { login } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get("returnUrl");
+
   const [state, formAction, pending] = useActionState(login, null);
 
   // 로그인 성공 시 리다이렉트
   useEffect(() => {
     if (state?.success) {
       toast.success("로그인 성공!");
-      router.push("/");
+
+      let redirectPath = "/jobs"; // 기본값
+
+      if (returnUrl) {
+        redirectPath = returnUrl;
+      } else if (state.role === "center") {
+        redirectPath = "/center/jobs";
+      }
+
+      router.push(redirectPath);
       router.refresh();
     }
-  }, [state?.success, router]);
+  }, [state?.success, state?.role, router, returnUrl]);
 
   return (
     <form action={formAction} className="space-y-4">

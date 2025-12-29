@@ -1,16 +1,16 @@
 /**
- * 대시보드 레이아웃
+ * 트레이너 전용 레이아웃
  *
- * @description 인증이 필요한 페이지들의 공통 레이아웃
- * @note 초안 - 추후 업데이트 예정
+ * @description 트레이너만 접근 가능한 페이지들의 공통 레이아웃
  */
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { ROLE_TRAINER } from "@/constants";
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function TrainerLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
 
   // 인증 체크
@@ -31,6 +31,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   if (!profile) {
     redirect("/login");
+  }
+
+  // 트레이너만 접근 가능
+  if (profile.role !== ROLE_TRAINER) {
+    redirect("/center/jobs");
   }
 
   return (

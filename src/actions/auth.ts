@@ -52,6 +52,7 @@ type LoginFormState = {
     _form?: string[];
   };
   success?: boolean;
+  role?: string;
 };
 
 // ============================================
@@ -164,7 +165,7 @@ export async function login(
     const supabase = await createClient();
 
     // 2. Supabase Auth를 통한 로그인
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -186,8 +187,15 @@ export async function login(
       };
     }
 
-    // 3. 로그인 성공 시 대시보드로 리다이렉트
-    return { success: true };
+    // 3. 프로필 조회 (역할 확인)
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", data.user.id)
+      .single();
+
+    // 4. 로그인 성공 시 역할 반환
+    return { success: true, role: profile?.role };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // TODO: 나중에 에러 로깅에 사용
