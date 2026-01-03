@@ -13,13 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search, X, Filter } from "lucide-react";
 import { REGION_OPTIONS } from "@/constants/regions";
@@ -114,8 +108,9 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // 필터 폼 컨텐츠 (재사용) - useMemo로 최적화
-  const filterContent = useMemo(() => (
-    <div className="space-y-4">
+  const filterContent = useMemo(
+    () => (
+      <div className="space-y-4">
         {/* 검색어 */}
         <div className="space-y-2">
           <Label htmlFor="search">검색어</Label>
@@ -187,7 +182,10 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         {/* 고용형태 */}
         <div className="space-y-2">
           <Label>고용형태</Label>
-          <Select value={employmentType || undefined} onValueChange={(value) => setEmploymentType(value)}>
+          <Select
+            value={employmentType || undefined}
+            onValueChange={(value) => setEmploymentType(value)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="전체" />
             </SelectTrigger>
@@ -204,7 +202,10 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         {/* 경력 */}
         <div className="space-y-2">
           <Label>경력</Label>
-          <Select value={experienceLevel || undefined} onValueChange={(value) => setExperienceLevel(value)}>
+          <Select
+            value={experienceLevel || undefined}
+            onValueChange={(value) => setExperienceLevel(value)}
+          >
             <SelectTrigger>
               <SelectValue placeholder="전체" />
             </SelectTrigger>
@@ -218,20 +219,22 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
           </Select>
         </div>
 
-      {/* 적용 버튼 */}
-      <Button
-        className="w-full"
-        onClick={() => {
-          handleApplyFilter();
-          setMobileOpen(false);
-        }}
-      >
-        <Search className="h-4 w-4 mr-2" />
-        검색
-      </Button>
-    </div>
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  ), [search, region, categories, gender, employmentType, experienceLevel]);
+        {/* 적용 버튼 */}
+        <Button
+          className="w-full"
+          onClick={() => {
+            handleApplyFilter();
+            setMobileOpen(false);
+          }}
+        >
+          <Search className="h-4 w-4 mr-2" />
+          검색
+        </Button>
+      </div>
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    ),
+    [search, region, categories, gender, employmentType, experienceLevel]
+  );
 
   return (
     <>
@@ -241,7 +244,9 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
           <SheetTrigger asChild>
             <Button variant="outline" className="w-full">
               <Filter className="h-4 w-4 mr-2" />
-              필터 {hasActiveFilter && `(${[search, region, ...categories, gender, employmentType, experienceLevel].filter(Boolean).length})`}
+              필터{" "}
+              {hasActiveFilter &&
+                `(${[search, region, ...categories, gender, employmentType, experienceLevel].filter(Boolean).length})`}
             </Button>
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
@@ -256,9 +261,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
                 )}
               </div>
             </SheetHeader>
-            <div className="mt-6">
-              {filterContent}
-            </div>
+            <div className="mt-6">{filterContent}</div>
           </SheetContent>
         </Sheet>
       </div>
@@ -276,9 +279,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
             )}
           </div>
         </CardHeader>
-        <CardContent>
-          {filterContent}
-        </CardContent>
+        <CardContent>{filterContent}</CardContent>
       </Card>
     </>
   );

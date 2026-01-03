@@ -98,7 +98,7 @@ export function Header({ user, profile }: HeaderProps) {
   const menuItems = profile.role === "trainer" ? trainerMenuItems : centerMenuItems;
 
   return (
-    <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         {/* 왼쪽: 모바일 메뉴 + 로고 */}
         <div className="flex items-center gap-3">

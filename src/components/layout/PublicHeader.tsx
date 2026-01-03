@@ -19,7 +19,7 @@ import type { User } from "@supabase/supabase-js";
 import type { Profile } from "@/types";
 import { UserCircle, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 interface PublicHeaderProps {
   user: User | null;
@@ -120,6 +120,9 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-64">
+              <SheetHeader>
+                <SheetTitle>모바일 메뉴</SheetTitle>
+              </SheetHeader>
               <div className="flex flex-col gap-4 mt-8">
                 <Link
                   href="/jobs"
