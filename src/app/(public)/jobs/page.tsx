@@ -97,7 +97,7 @@ export default async function JobsPage({ searchParams }: PageProps) {
   };
 
   return (
-    <div className="container py-8 space-y-6">
+    <div className="container px-4 mx-auto py-8 space-y-6">
       <div>
         <h1 className="text-2xl font-bold">구인공고</h1>
         <p className="text-sm text-muted-foreground mt-1">원하는 조건의 구인공고를 찾아보세요</p>
@@ -105,7 +105,7 @@ export default async function JobsPage({ searchParams }: PageProps) {
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* 필터 */}
-        <div className="lg:w-80 flex-shrink-0">
+        <div className="lg:w-80 shrink-0">
           <JobFilter currentFilter={currentFilter} />
         </div>
 

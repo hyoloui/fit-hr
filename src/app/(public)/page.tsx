@@ -8,8 +8,8 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-muted/50 to-background py-20 md:py-32">
-        <div className="container">
+      <section className="bg-linear-to-b from-muted/50 to-background py-20 md:py-32">
+        <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
               피트니스 업계
@@ -36,7 +36,7 @@ export default function LandingPage() {
 
       {/* Features Section */}
       <section className="py-20 md:py-32">
-        <div className="container">
+        <div className="container px-4 mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">왜 {APP_NAME}인가요?</h2>
             <p className="text-muted-foreground text-lg">
@@ -95,7 +95,7 @@ export default function LandingPage() {
 
       {/* How It Works Section */}
       <section className="bg-muted/50 py-20 md:py-32">
-        <div className="container">
+        <div className="container px-4 mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">이용 방법</h2>
           </div>
@@ -106,7 +106,7 @@ export default function LandingPage() {
               <h3 className="text-2xl font-bold text-center">트레이너</h3>
               <div className="space-y-4">
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold shrink-0">
                     1
                   </div>
                   <div>
@@ -117,7 +117,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold shrink-0">
                     2
                   </div>
                   <div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold shrink-0">
                     3
                   </div>
                   <div>
@@ -146,7 +146,7 @@ export default function LandingPage() {
               <h3 className="text-2xl font-bold text-center">센터</h3>
               <div className="space-y-4">
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold shrink-0">
                     1
                   </div>
                   <div>
@@ -157,7 +157,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold shrink-0">
                     2
                   </div>
                   <div>
@@ -168,7 +168,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold flex-shrink-0">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold shrink-0">
                     3
                   </div>
                   <div>
@@ -186,7 +186,7 @@ export default function LandingPage() {
 
       {/* CTA Section */}
       <section className="py-20 md:py-32">
-        <div className="container">
+        <div className="container px-4 mx-auto">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold">지금 바로 시작하세요</h2>
             <p className="text-xl text-muted-foreground">
