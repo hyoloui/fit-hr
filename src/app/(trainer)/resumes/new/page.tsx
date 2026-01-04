@@ -30,7 +30,7 @@ export default async function NewResumePage() {
   }
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="mx-auto space-y-6 max-w-4xl">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/resumes">
@@ -39,9 +39,7 @@ export default async function NewResumePage() {
         </Button>
         <div>
           <h1 className="text-2xl font-bold">이력서 등록</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            이력서 정보를 입력하여 등록하세요
-          </p>
+          <p className="text-sm text-muted-foreground mt-1">이력서 정보를 입력하여 등록하세요</p>
         </div>
       </div>
 

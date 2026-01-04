@@ -48,7 +48,7 @@ export default async function JobDetailPage({ params }: PageProps) {
   const genderLabel = job.gender === "male" ? "남성" : job.gender === "female" ? "여성" : "무관";
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="mx-auto space-y-6 max-w-4xl">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
