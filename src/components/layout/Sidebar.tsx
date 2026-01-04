@@ -135,7 +135,7 @@ export function Sidebar({ profile }: SidebarProps) {
       </div>
 
       {/* 데스크톱 사이드바 */}
-      <aside className="hidden md:flex w-64 flex-col border-r bg-card">
+      <aside className="hidden md:flex w-64 flex-col border-r bg-card shrink-0">
         {/* 로고 */}
         <div className="flex h-16 items-center border-b px-6">
           <Link href="/" className="flex items-center gap-2 font-bold text-lg">

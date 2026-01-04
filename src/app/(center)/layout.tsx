@@ -39,12 +39,12 @@ export default async function CenterLayout({ children }: { children: React.React
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-svh overflow-hidden">
       {/* 사이드바 */}
       <Sidebar profile={profile} />
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         {/* 헤더 */}
         <Header user={user} profile={profile} />
 
