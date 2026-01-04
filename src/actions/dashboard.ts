@@ -109,11 +109,9 @@ export async function getCenterStats(centerId: string): Promise<CenterStats | nu
     // 오늘과 이번 주 시작 날짜 계산
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    const todayStr = today.toISOString();
 
     const weekStart = new Date(today);
     weekStart.setDate(today.getDate() - today.getDay()); // 이번 주 일요일
-    const weekStartStr = weekStart.toISOString();
 
     // 병렬로 모든 통계 조회
     const [jobPostingResult, activeJobResult, allApplicationsResult] = await Promise.all([

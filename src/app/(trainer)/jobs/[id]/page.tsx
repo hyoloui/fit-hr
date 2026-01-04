@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -20,26 +20,10 @@ export default async function JobDetailPage({ params }: PageProps) {
   const { id } = await params;
   const supabase = await createClient();
 
-  // 인증 체크
+  // 레이아웃에서 이미 인증 및 역할 체크 완료
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  if (!user) {
-    redirect("/login");
-  }
-
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  // 트레이너만 접근 가능
-  if (profile?.role !== "trainer") {
-    redirect("/");
-  }
 
   // 구인공고 상세 조회
   const { data: job, error } = await supabase
@@ -57,14 +41,14 @@ export default async function JobDetailPage({ params }: PageProps) {
     .from("applications")
     .select("id, status")
     .eq("job_posting_id", id)
-    .eq("user_id", user.id)
+    .eq("user_id", user!.id)
     .single();
 
   const categories = job.categories as string[];
   const genderLabel = job.gender === "male" ? "남성" : job.gender === "female" ? "여성" : "무관";
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="mx-auto space-y-6 max-w-4xl">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
@@ -78,7 +62,7 @@ export default async function JobDetailPage({ params }: PageProps) {
           </div>
         </div>
         <div className="flex gap-2">
-          <LikeButton jobId={id} userId={user.id} />
+          <LikeButton jobId={id} userId={user!.id} />
           <ApplyButton
             jobId={id}
             application={

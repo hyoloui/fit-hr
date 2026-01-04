@@ -64,14 +64,16 @@ export function Header({ user, profile }: HeaderProps) {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      toast.success("로그아웃되었습니다");
-      router.push("/login");
-      router.refresh();
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const result = await logout();
+      if (result.success) {
+        toast.success("로그아웃되었습니다");
+        router.push("/login");
+        router.refresh();
+      } else {
+        toast.error(result.error || "로그아웃 중 오류가 발생했습니다");
+      }
     } catch (error) {
-      // TODO: 나중에 에러 로깅에 사용
-      // console.error("Logout error:", error);
+      console.error("Header handleLogout error:", error);
       toast.error("로그아웃 중 오류가 발생했습니다");
     }
   };
@@ -81,7 +83,7 @@ export function Header({ user, profile }: HeaderProps) {
 
   // 역할별 메뉴 아이템
   const trainerMenuItems: NavItem[] = [
-    { href: "/", label: "홈", icon: Home },
+    { href: "/my-page", label: "마이페이지", icon: Home },
     { href: "/jobs", label: "구인공고", icon: Briefcase },
     { href: "/resumes", label: "내 이력서", icon: FileText },
     { href: "/applications", label: "지원 내역", icon: Send },
@@ -89,7 +91,7 @@ export function Header({ user, profile }: HeaderProps) {
   ];
 
   const centerMenuItems: NavItem[] = [
-    { href: "/", label: "홈", icon: Home },
+    { href: "/center/dashboard", label: "대시보드", icon: Home },
     { href: "/center/profile", label: "센터 정보", icon: Building2 },
     { href: "/center/jobs", label: "구인공고 관리", icon: Briefcase },
     { href: "/center/jobs/new", label: "공고 등록", icon: PlusCircle },
@@ -98,7 +100,7 @@ export function Header({ user, profile }: HeaderProps) {
   const menuItems = profile.role === "trainer" ? trainerMenuItems : centerMenuItems;
 
   return (
-    <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-10 border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         {/* 왼쪽: 모바일 메뉴 + 로고 */}
         <div className="flex items-center gap-3">

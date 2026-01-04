@@ -55,7 +55,7 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
   // 수정 모드
   if (mode === "edit") {
     return (
-      <div className="space-y-6 max-w-4xl">
+      <div className="mx-auto space-y-6 max-w-4xl">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
             <Link href={`/resumes/${id}`}>
@@ -78,7 +78,7 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
   const education = (resume.education as unknown as Education[]) || [];
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="mx-auto space-y-6 max-w-4xl">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>

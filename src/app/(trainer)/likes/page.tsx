@@ -114,7 +114,7 @@ export default async function LikesPage() {
           <p className="text-sm text-muted-foreground">총 {jobs.length}개의 공고</p>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {jobs.map((job) => (
-              <JobCard key={job.id} job={job} userId={user.id} />
+              <JobCard key={job.id} job={job} isAuthenticated={true} userRole="trainer" userId={user.id} />
             ))}
           </div>
         </div>

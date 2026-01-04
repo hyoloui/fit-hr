@@ -28,19 +28,41 @@ export const updateSession = async (request: NextRequest) => {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // 인증이 필요한 경로 보호
-  const isAuthRoute = request.nextUrl.pathname.startsWith("/dashboard");
-  const isLoginPage = request.nextUrl.pathname === "/login";
+  const pathname = request.nextUrl.pathname;
 
-  if (isAuthRoute && !user) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
+  // 루트 경로: 센터 사용자는 /center/jobs로 리다이렉트
+  if (pathname === "/" && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.role === "center") {
+      const url = request.nextUrl.clone();
+      url.pathname = "/center/jobs";
+      return NextResponse.redirect(url);
+    }
   }
 
-  if (isLoginPage && user) {
+  // 로그인 페이지: 이미 로그인된 사용자 처리
+  if ((pathname === "/login" || pathname === "/signup") && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
+    const returnUrl = request.nextUrl.searchParams.get("returnUrl");
+
+    if (returnUrl) {
+      url.pathname = returnUrl;
+      url.search = "";
+    } else {
+      url.pathname = profile?.role === "center" ? "/center/jobs" : "/jobs";
+    }
+
     return NextResponse.redirect(url);
   }
 

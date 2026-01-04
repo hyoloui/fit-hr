@@ -1,16 +1,16 @@
 /**
- * 대시보드 레이아웃
+ * 센터 전용 레이아웃
  *
- * @description 인증이 필요한 페이지들의 공통 레이아웃
- * @note 초안 - 추후 업데이트 예정
+ * @description 센터만 접근 가능한 페이지들의 공통 레이아웃
  */
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
+import { ROLE_CENTER } from "@/constants";
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function CenterLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
 
   // 인증 체크
@@ -33,13 +33,18 @@ export default async function DashboardLayout({ children }: { children: React.Re
     redirect("/login");
   }
 
+  // 센터만 접근 가능
+  if (profile.role !== ROLE_CENTER) {
+    redirect("/jobs");
+  }
+
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-svh overflow-hidden">
       {/* 사이드바 */}
       <Sidebar profile={profile} />
 
       {/* 메인 콘텐츠 영역 */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         {/* 헤더 */}
         <Header user={user} profile={profile} />
 
