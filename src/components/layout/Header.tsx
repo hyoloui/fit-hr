@@ -73,6 +73,7 @@ export function Header({ user, profile }: HeaderProps) {
         toast.error(result.error || "로그아웃 중 오류가 발생했습니다");
       }
     } catch (error) {
+      console.error("Header handleLogout error:", error);
       toast.error("로그아웃 중 오류가 발생했습니다");
     }
   };

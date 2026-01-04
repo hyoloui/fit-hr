@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +44,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
     );
   };
 
-  const handleApplyFilter = () => {
+  const handleApplyFilter = useCallback(() => {
     const params = new URLSearchParams(searchParams);
 
     // 검색어
@@ -90,9 +90,19 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
     }
 
     router.push(`${pathname}?${params.toString()}`);
-  };
+  }, [
+    search,
+    region,
+    categories,
+    gender,
+    employmentType,
+    experienceLevel,
+    router,
+    pathname,
+    searchParams,
+  ]);
 
-  const handleResetFilter = () => {
+  const handleResetFilter = useCallback(() => {
     setSearch("");
     setRegion("");
     setCategories([]);
@@ -100,7 +110,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
     setEmploymentType("");
     setExperienceLevel("");
     router.push(pathname);
-  };
+  }, [router, pathname]);
 
   const hasActiveFilter =
     search || region || categories.length > 0 || gender || employmentType || experienceLevel;
@@ -231,9 +241,8 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
           검색
         </Button>
       </div>
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     ),
-    [search, region, categories, gender, employmentType, experienceLevel]
+    [search, region, categories, gender, employmentType, experienceLevel, handleApplyFilter]
   );
 
   return (
