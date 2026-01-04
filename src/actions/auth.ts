@@ -8,7 +8,6 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 import { z } from "zod";
 
 // ============================================
@@ -210,11 +209,22 @@ export async function login(
 
 /**
  * 로그아웃
+ * @returns 성공 여부
  */
-export async function logout() {
-  const supabase = await createClient();
-  await supabase.auth.signOut();
-  redirect("/login");
+export async function logout(): Promise<{ success: boolean; error?: string }> {
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      return { success: false, error: error.message };
+    }
+    
+    return { success: true };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "로그아웃 중 오류가 발생했습니다.";
+    return { success: false, error: errorMessage };
+  }
 }
 
 /**

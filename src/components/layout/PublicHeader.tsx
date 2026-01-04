@@ -32,10 +32,14 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      toast.success("로그아웃되었습니다");
-      router.push("/");
-      router.refresh();
+      const result = await logout();
+      if (result.success) {
+        toast.success("로그아웃되었습니다");
+        router.push("/");
+        router.refresh();
+      } else {
+        toast.error(result.error || "로그아웃 중 오류가 발생했습니다");
+      }
     } catch (error) {
       toast.error("로그아웃 중 오류가 발생했습니다");
     }

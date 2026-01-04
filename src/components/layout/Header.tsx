@@ -64,14 +64,15 @@ export function Header({ user, profile }: HeaderProps) {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      toast.success("로그아웃되었습니다");
-      router.push("/login");
-      router.refresh();
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const result = await logout();
+      if (result.success) {
+        toast.success("로그아웃되었습니다");
+        router.push("/login");
+        router.refresh();
+      } else {
+        toast.error(result.error || "로그아웃 중 오류가 발생했습니다");
+      }
     } catch (error) {
-      // TODO: 나중에 에러 로깅에 사용
-      // console.error("Logout error:", error);
       toast.error("로그아웃 중 오류가 발생했습니다");
     }
   };
