@@ -42,3 +42,9 @@ next-env.d.ts
 
 # auto-claude
 .auto-claude/**
+
+# serena
+.serena/
+
+# git worktrees
+.worktrees/
