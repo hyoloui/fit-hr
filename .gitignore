@@ -42,6 +42,7 @@ next-env.d.ts
 
 # auto-claude
 .auto-claude/**
+.auto-claude-status
 
 # serena
 .serena/
