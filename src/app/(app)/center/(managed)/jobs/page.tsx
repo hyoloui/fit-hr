@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 import { getMyJobPostings } from "@/actions/job-posting";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ROLE_CENTER } from "@/constants";
 import Link from "next/link";
 
 export const metadata = {
@@ -30,18 +29,7 @@ export default async function CenterJobsPage() {
     redirect("/login");
   }
 
-  // 2. 프로필 확인 (센터 계정인지)
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (profile?.role !== ROLE_CENTER) {
-    redirect("/");
-  }
-
-  // 3. 구인공고 목록 조회
+  // 2. 구인공고 목록 조회
   const jobPostings = await getMyJobPostings();
 
   return (

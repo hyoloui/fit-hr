@@ -30,39 +30,19 @@ export const updateSession = async (request: NextRequest) => {
 
   const pathname = request.nextUrl.pathname;
 
-  // 루트 경로: 센터 사용자는 /center/jobs로 리다이렉트
+  // 루트 경로: 로그인된 사용자는 대시보드로 리다이렉트
   if (pathname === "/" && user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (profile?.role === "center") {
-      const url = request.nextUrl.clone();
-      url.pathname = "/center/jobs";
-      return NextResponse.redirect(url);
-    }
+    const url = request.nextUrl.clone();
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
   }
 
-  // 로그인 페이지: 이미 로그인된 사용자 처리
+  // 로그인/회원가입 페이지: 이미 로그인된 사용자는 대시보드로 리다이렉트
   if ((pathname === "/login" || pathname === "/signup") && user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
     const url = request.nextUrl.clone();
     const returnUrl = request.nextUrl.searchParams.get("returnUrl");
-
-    if (returnUrl) {
-      url.pathname = returnUrl;
-      url.search = "";
-    } else {
-      url.pathname = profile?.role === "center" ? "/center/jobs" : "/jobs";
-    }
-
+    url.pathname = returnUrl || "/dashboard";
+    url.search = "";
     return NextResponse.redirect(url);
   }
 

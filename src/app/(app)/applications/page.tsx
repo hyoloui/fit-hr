@@ -20,18 +20,6 @@ export default async function ApplicationsPage() {
     redirect("/login");
   }
 
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  // 트레이너만 접근 가능
-  if (profile?.role !== "trainer") {
-    redirect("/");
-  }
-
   // 지원 내역 조회
   const { data: applications } = await supabase
     .from("applications")

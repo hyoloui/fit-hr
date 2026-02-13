@@ -9,16 +9,15 @@ import { REGION_LABELS } from "@/constants/regions";
 import { JOB_CATEGORY_LABELS } from "@/constants/job-categories";
 import { EMPLOYMENT_TYPE_LABELS } from "@/constants/employment-types";
 import { EXPERIENCE_LEVEL_LABELS } from "@/constants/experience-levels";
-import type { JobPostingWithDetails, UserRole } from "@/types";
+import type { JobPostingWithDetails } from "@/types";
 
 interface JobCardProps {
   job: JobPostingWithDetails;
   isAuthenticated: boolean;
-  userRole?: UserRole;
   userId?: string;
 }
 
-export function JobCard({ job, isAuthenticated, userRole, userId }: JobCardProps) {
+export function JobCard({ job, isAuthenticated, userId }: JobCardProps) {
   const router = useRouter();
   const categories = job.categories as string[];
   const genderLabel = job.gender === "male" ? "남성" : job.gender === "female" ? "여성" : "무관";
@@ -42,12 +41,7 @@ export function JobCard({ job, isAuthenticated, userRole, userId }: JobCardProps
       return;
     }
 
-    // 센터 사용자: 접근 불가
-    if (userRole === "center") {
-      return;
-    }
-
-    // 트레이너: 상세 페이지로 이동
+    // 상세 페이지로 이동
     router.push(`/jobs/${job.id}`);
   };
 
@@ -63,8 +57,8 @@ export function JobCard({ job, isAuthenticated, userRole, userId }: JobCardProps
               <CardTitle className="line-clamp-1">{job.title}</CardTitle>
               <CardDescription className="line-clamp-1 mt-1">{job.center_name}</CardDescription>
             </div>
-            {/* 좋아요 버튼: 로그인한 트레이너만 표시 */}
-            {isAuthenticated && userRole === "trainer" && userId && (
+            {/* 좋아요 버튼: 로그인한 사용자만 표시 */}
+            {isAuthenticated && userId && (
               <div onClick={(e) => e.stopPropagation()}>
                 <LikeButton jobId={job.id ?? ""} userId={userId} initialLiked={false} />
               </div>

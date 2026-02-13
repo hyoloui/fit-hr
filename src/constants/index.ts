@@ -15,13 +15,6 @@ export * from "./experience-levels";
 export const APP_NAME = "Fit HR";
 export const APP_DESCRIPTION = "피트니스 업계 전문 채용 플랫폼";
 
-// 역할 상수
-export const ROLE_TRAINER = "trainer";
-export const ROLE_CENTER = "center";
-export const ROLES = [ROLE_TRAINER, ROLE_CENTER] as const;
-
-export type Role = (typeof ROLES)[number];
-
 // Gender 라벨
 export const GENDER_LABELS = {
   male: "남성",

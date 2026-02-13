@@ -3,7 +3,7 @@
 /**
  * 회원가입 폼 컴포넌트
  *
- * @description 역할 선택, 이메일, 비밀번호, 이름 입력 폼
+ * @description 이메일, 비밀번호, 이름 입력 폼
  * @note 초안 - 추후 업데이트 예정
  */
 
@@ -12,13 +12,6 @@ import { signup } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -111,23 +104,6 @@ export function SignupForm() {
       </AlertDialog>
 
       <form action={formAction} className="space-y-4">
-        {/* 역할 선택 */}
-        <div className="space-y-2">
-          <Label htmlFor="role">역할 *</Label>
-          <Select name="role" required>
-            <SelectTrigger>
-              <SelectValue placeholder="역할을 선택하세요" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="trainer">트레이너 (구직자)</SelectItem>
-              <SelectItem value="center">센터 (구인자)</SelectItem>
-            </SelectContent>
-          </Select>
-          {state?.errors?.role && (
-            <p className="text-sm text-destructive">{state.errors.role[0]}</p>
-          )}
-        </div>
-
         {/* 이름 */}
         <div className="space-y-2">
           <Label htmlFor="name">이름 *</Label>

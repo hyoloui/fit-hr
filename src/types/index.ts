@@ -38,7 +38,6 @@ export type ExperienceLevel = Tables<"experience_levels">;
 export type JobCategory = Tables<"job_categories">;
 
 // Enum 타입
-export type UserRole = "trainer" | "center";
 export type Gender = "male" | "female" | "any";
 export type SalaryType = "monthly" | "hourly" | "negotiable";
 export type ApplicationStatus = "pending" | "reviewed" | "accepted" | "rejected";

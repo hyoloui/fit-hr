@@ -9,7 +9,6 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect, notFound } from "next/navigation";
 import { getMyJobPosting } from "@/actions/job-posting";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ROLE_CENTER } from "@/constants";
 import { JobPostingForm } from "../new/JobPostingForm";
 import { JobPostingActions } from "./JobPostingActions";
 import { Button } from "@/components/ui/button";
@@ -44,14 +43,7 @@ export default async function JobPostingDetailPage({ params }: JobPostingPagePro
     redirect("/login");
   }
 
-  // 2. 프로필 확인 (센터 계정인지)
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-
-  if (profile?.role !== ROLE_CENTER) {
-    redirect("/");
-  }
-
-  // 3. 구인공고 조회 (센터 소유자만)
+  // 2. 구인공고 조회 (센터 소유자만)
   const jobPosting = await getMyJobPosting(id);
 
   if (!jobPosting) {

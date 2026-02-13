@@ -26,19 +26,11 @@ export function LoginForm() {
   useEffect(() => {
     if (state?.success) {
       toast.success("로그인 성공!");
-
-      let redirectPath = "/jobs"; // 기본값
-
-      if (returnUrl) {
-        redirectPath = returnUrl;
-      } else if (state.role === "center") {
-        redirectPath = "/center/jobs";
-      }
-
+      const redirectPath = returnUrl || "/dashboard";
       router.push(redirectPath);
       router.refresh();
     }
-  }, [state?.success, state?.role, router, returnUrl]);
+  }, [state?.success, router, returnUrl]);
 
   return (
     <form action={formAction} className="space-y-4">

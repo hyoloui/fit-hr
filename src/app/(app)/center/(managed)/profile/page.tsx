@@ -9,7 +9,6 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { CenterProfileForm } from "./CenterProfileForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ROLE_CENTER } from "@/constants";
 
 export const metadata = {
   title: "센터 정보",
@@ -28,16 +27,12 @@ export default async function CenterProfilePage() {
     redirect("/login");
   }
 
-  // 2. 프로필과 센터 정보 병렬 조회 (Promise.all로 네트워크 워터폴 최소화)
-  const [{ data: profile }, { data: center }] = await Promise.all([
-    supabase.from("profiles").select("role").eq("id", user.id).single(),
-    supabase.from("centers").select("*").eq("owner_id", user.id).single(),
-  ]);
-
-  // 센터 계정이 아니면 홈으로 리다이렉트
-  if (profile?.role !== ROLE_CENTER) {
-    redirect("/");
-  }
+  // 2. 센터 정보 조회
+  const { data: center } = await supabase
+    .from("centers")
+    .select("*")
+    .eq("owner_id", user.id)
+    .single();
 
   const isNewCenter = !center;
 

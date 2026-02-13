@@ -8,6 +8,7 @@
  */
 
 import { createClient } from "@/lib/supabase/server";
+import { headers } from "next/headers";
 import { z } from "zod";
 
 // ============================================
@@ -18,15 +19,13 @@ const signupSchema = z.object({
   email: z.string().email("올바른 이메일 형식이 아닙니다"),
   password: z.string().min(6, "비밀번호는 최소 6자 이상이어야 합니다"),
   name: z.string().min(1, "이름을 입력해주세요"),
-  role: z.enum(["trainer", "center"], {
-    message: "역할을 선택해주세요",
-  }),
 });
 
 const loginSchema = z.object({
   email: z.string().email("올바른 이메일 형식이 아닙니다"),
   password: z.string().min(1, "비밀번호를 입력해주세요"),
 });
+
 
 // ============================================
 // 타입 정의
@@ -37,7 +36,6 @@ type SignupFormState = {
     email?: string[];
     password?: string[];
     name?: string[];
-    role?: string[];
     _form?: string[];
   };
   success?: boolean;
@@ -51,8 +49,8 @@ type LoginFormState = {
     _form?: string[];
   };
   success?: boolean;
-  role?: string;
 };
+
 
 // ============================================
 // Server Actions
@@ -74,7 +72,6 @@ export async function signup(
     email: formData.get("email"),
     password: formData.get("password"),
     name: formData.get("name"),
-    role: formData.get("role"),
   });
 
   if (!validatedFields.success) {
@@ -83,21 +80,26 @@ export async function signup(
     };
   }
 
-  const { email, password, name, role } = validatedFields.data;
+  const { email, password, name } = validatedFields.data;
 
   try {
     const supabase = await createClient();
 
     // 2. Supabase Auth를 통한 회원가입
-    // metadata에 name과 role을 포함하여 profiles 테이블 트리거 실행
+    // metadata에 name을 포함하여 profiles 테이블 트리거 실행
+    const headersList = await headers();
+    const host = headersList.get("x-forwarded-host") || headersList.get("host") || "";
+    const protocol = headersList.get("x-forwarded-proto") || "https";
+    const baseUrl = `${protocol}://${host}`;
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
           name,
-          role,
         },
+        emailRedirectTo: `${baseUrl}/auth/callback?next=/dashboard`,
       },
     });
 
@@ -164,7 +166,7 @@ export async function login(
     const supabase = await createClient();
 
     // 2. Supabase Auth를 통한 로그인
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -186,15 +188,8 @@ export async function login(
       };
     }
 
-    // 3. 프로필 조회 (역할 확인)
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", data.user.id)
-      .single();
-
-    // 4. 로그인 성공 시 역할 반환
-    return { success: true, role: profile?.role };
+    // 3. 로그인 성공
+    return { success: true };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // TODO: 나중에 에러 로깅에 사용
@@ -256,3 +251,4 @@ export async function getUserProfile() {
 
   return profile;
 }
+

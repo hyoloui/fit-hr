@@ -122,18 +122,7 @@ export async function getApplicationDetail(
     return { error: "로그인이 필요합니다." };
   }
 
-  // 프로필 조회 (센터 확인)
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (profile?.role !== "center") {
-    return { error: "권한이 없습니다." };
-  }
-
-  // 센터 정보 조회
+  // 센터 소유 확인
   const { data: center } = await supabase
     .from("centers")
     .select("id")
@@ -141,7 +130,7 @@ export async function getApplicationDetail(
     .single();
 
   if (!center) {
-    return { error: "센터 정보를 찾을 수 없습니다." };
+    return { error: "권한이 없습니다." };
   }
 
   // JOIN 쿼리로 지원자 상세 정보 조회
@@ -251,18 +240,7 @@ export async function updateApplicationStatus(
     return { error: "로그인이 필요합니다." };
   }
 
-  // 프로필 조회 (센터 확인)
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (profile?.role !== "center") {
-    return { error: "권한이 없습니다." };
-  }
-
-  // 센터 정보 조회
+  // 센터 소유 확인
   const { data: center } = await supabase
     .from("centers")
     .select("id")
@@ -270,7 +248,7 @@ export async function updateApplicationStatus(
     .single();
 
   if (!center) {
-    return { error: "센터 정보를 찾을 수 없습니다." };
+    return { error: "권한이 없습니다." };
   }
 
   // 해당 application의 center_id 확인

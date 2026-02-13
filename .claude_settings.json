@@ -1,0 +1,29 @@
+{
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  },
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read(./**)",
+      "Write(./**)",
+      "Edit(./**)",
+      "Glob(./**)",
+      "Grep(./**)",
+      "Read(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/**)",
+      "Write(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/**)",
+      "Edit(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/**)",
+      "Glob(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/**)",
+      "Grep(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/**)",
+      "Read(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/.auto-claude/specs/001-add-sns-auth/**)",
+      "Write(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/.auto-claude/specs/001-add-sns-auth/**)",
+      "Edit(/Users/hyoloui/Desktop/project/fit-hr/.worktrees/001-add-sns-auth/.auto-claude/specs/001-add-sns-auth/**)",
+      "Bash(*)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "mcp__context7__resolve-library-id(*)",
+      "mcp__context7__get-library-docs(*)"
+    ]
+  }
+}

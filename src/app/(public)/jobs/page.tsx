@@ -27,20 +27,10 @@ export default async function JobsPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const supabase = await createClient();
 
-  // 인증 상태 및 역할 확인 (선택적)
+  // 인증 상태 확인 (선택적)
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  let profile = null;
-  if (user) {
-    const { data } = await supabase
-      .from("profiles")
-      .select("id, name, role")
-      .eq("id", user.id)
-      .single();
-    profile = data;
-  }
 
   // 필터 적용하여 구인공고 조회
   let query = supabase
@@ -128,7 +118,6 @@ export default async function JobsPage({ searchParams }: PageProps) {
                     key={job.id}
                     job={job}
                     isAuthenticated={!!user}
-                    userRole={profile?.role as "trainer" | "center" | undefined}
                     userId={user?.id}
                   />
                 ))}

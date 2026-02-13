@@ -17,18 +17,6 @@ export default async function NewResumePage() {
     redirect("/login");
   }
 
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  // 트레이너만 접근 가능
-  if (profile?.role !== "trainer") {
-    redirect("/");
-  }
-
   return (
     <div className="mx-auto space-y-6 max-w-4xl">
       <div className="flex items-center gap-4">

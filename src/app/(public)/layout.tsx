@@ -11,7 +11,7 @@ export default async function PublicLayout({ children }: { children: React.React
   if (user) {
     const { data } = await supabase
       .from("profiles")
-      .select("id, name, role")
+      .select("id, name")
       .eq("id", user.id)
       .single();
     profile = data;

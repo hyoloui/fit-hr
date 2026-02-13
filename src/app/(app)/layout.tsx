@@ -1,16 +1,15 @@
 /**
- * 센터 전용 레이아웃
+ * 통합 앱 레이아웃
  *
- * @description 센터만 접근 가능한 페이지들의 공통 레이아웃
+ * @description 인증된 사용자의 공통 레이아웃 (인증 체크 + 센터 소유 여부 조회)
  */
 
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { ROLE_CENTER } from "@/constants";
 
-export default async function CenterLayout({ children }: { children: React.ReactNode }) {
+export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
 
   // 인증 체크
@@ -22,10 +21,10 @@ export default async function CenterLayout({ children }: { children: React.React
     redirect("/login");
   }
 
-  // 프로필 정보 조회 (역할 확인)
+  // 프로필 정보 조회
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, name, role")
+    .select("id, name, email")
     .eq("id", user.id)
     .single();
 
@@ -33,15 +32,19 @@ export default async function CenterLayout({ children }: { children: React.React
     redirect("/login");
   }
 
-  // 센터만 접근 가능
-  if (profile.role !== ROLE_CENTER) {
-    redirect("/jobs");
-  }
+  // 센터 소유 여부 확인
+  const { data: center } = await supabase
+    .from("centers")
+    .select("id")
+    .eq("owner_id", user.id)
+    .single();
+
+  const hasCenter = !!center;
 
   return (
     <div className="flex h-svh overflow-hidden">
       {/* 사이드바 */}
-      <Sidebar profile={profile} />
+      <Sidebar profile={profile} hasCenter={hasCenter} />
 
       {/* 메인 콘텐츠 영역 */}
       <div className="flex flex-1 flex-col overflow-hidden">

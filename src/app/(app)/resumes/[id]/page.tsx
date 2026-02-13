@@ -28,18 +28,6 @@ export default async function ResumeDetailPage({ params, searchParams }: PagePro
     redirect("/login");
   }
 
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  // 트레이너만 접근 가능
-  if (profile?.role !== "trainer") {
-    redirect("/");
-  }
-
   // 이력서 조회
   const { data: resume, error } = await supabase.from("resumes").select("*").eq("id", id).single();
 

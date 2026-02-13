@@ -6,29 +6,17 @@ import { JobCard } from "@/components/jobs/JobCard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
-import { ROLE_TRAINER } from "@/constants";
 
 export default async function LikesPage() {
   const supabase = await createClient();
 
-  // 인증 체크
+  // 인증 체크 (레이아웃에서 처리되지만, user.id가 필요)
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
     redirect("/login");
-  }
-
-  // 프로필 조회하여 역할 확인
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  if (!profile || profile.role !== ROLE_TRAINER) {
-    redirect("/");
   }
 
   // 좋아요한 공고 목록 조회
@@ -114,7 +102,7 @@ export default async function LikesPage() {
           <p className="text-sm text-muted-foreground">총 {jobs.length}개의 공고</p>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {jobs.map((job) => (
-              <JobCard key={job.id} job={job} isAuthenticated={true} userRole="trainer" userId={user.id} />
+              <JobCard key={job.id} job={job} isAuthenticated={true} userId={user.id} />
             ))}
           </div>
         </div>

@@ -10,7 +10,6 @@ import { redirect } from "next/navigation";
 import { JobPostingForm } from "./JobPostingForm";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ROLE_CENTER } from "@/constants";
 import Link from "next/link";
 
 export const metadata = {
@@ -30,20 +29,16 @@ export default async function NewJobPostingPage() {
     redirect("/login");
   }
 
-  // 2. 프로필과 센터 정보 병렬 조회
-  const [{ data: profile }, { data: center }] = await Promise.all([
-    supabase.from("profiles").select("role").eq("id", user.id).single(),
-    supabase.from("centers").select("*").eq("owner_id", user.id).single(),
-  ]);
-
-  // 센터 계정이 아니면 홈으로 리다이렉트
-  if (profile?.role !== ROLE_CENTER) {
-    redirect("/");
-  }
+  // 2. 센터 정보 조회 (레이아웃에서 소유 여부 확인됨)
+  const { data: center } = await supabase
+    .from("centers")
+    .select("*")
+    .eq("owner_id", user.id)
+    .single();
 
   // 센터 정보가 없으면 센터 등록 페이지로 리다이렉트
   if (!center) {
-    redirect("/center/profile");
+    redirect("/center/register");
   }
 
   return (

@@ -16,14 +16,13 @@ import { logout } from "@/actions/auth";
 import { toast } from "sonner";
 import { APP_NAME } from "@/constants";
 import type { User } from "@supabase/supabase-js";
-import type { Profile } from "@/types";
-import { UserCircle, Menu, X } from "lucide-react";
+import { UserCircle, Menu } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 interface PublicHeaderProps {
   user: User | null;
-  profile: Pick<Profile, "id" | "name" | "role"> | null;
+  profile: { id: string; name: string } | null;
 }
 
 export function PublicHeader({ user, profile }: PublicHeaderProps) {
@@ -77,16 +76,9 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
             </>
           ) : (
             <>
-              {profile?.role === "trainer" && (
-                <Button variant="ghost" asChild>
-                  <Link href="/my-page">마이페이지</Link>
-                </Button>
-              )}
-              {profile?.role === "center" && (
-                <Button variant="ghost" asChild>
-                  <Link href="/center/jobs">내 공고</Link>
-                </Button>
-              )}
+              <Button variant="ghost" asChild>
+                <Link href="/dashboard">대시보드</Link>
+              </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -101,9 +93,6 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">{profile?.name}</p>
                       <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {profile?.role === "trainer" ? "트레이너" : "센터"}
-                      </p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -121,12 +110,12 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
-                {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-64">
               <SheetHeader>
-                <SheetTitle>모바일 메뉴</SheetTitle>
+                <SheetTitle>메뉴</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-8">
                 <Link
@@ -152,20 +141,11 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2 mt-4">
-                    {profile?.role === "trainer" && (
-                      <Button variant="outline" asChild>
-                        <Link href="/my-page" onClick={() => setMobileMenuOpen(false)}>
-                          마이페이지
-                        </Link>
-                      </Button>
-                    )}
-                    {profile?.role === "center" && (
-                      <Button variant="outline" asChild>
-                        <Link href="/center/jobs" onClick={() => setMobileMenuOpen(false)}>
-                          내 공고
-                        </Link>
-                      </Button>
-                    )}
+                    <Button variant="outline" asChild>
+                      <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                        대시보드
+                      </Link>
+                    </Button>
                     <Button
                       variant="destructive"
                       onClick={() => {

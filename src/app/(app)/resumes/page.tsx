@@ -19,18 +19,6 @@ export default async function ResumesPage() {
     redirect("/login");
   }
 
-  // 프로필 조회
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
-
-  // 트레이너만 접근 가능
-  if (profile?.role !== "trainer") {
-    redirect("/");
-  }
-
   // 이력서 목록 조회
   const { data: resumes } = await supabase
     .from("resumes")
