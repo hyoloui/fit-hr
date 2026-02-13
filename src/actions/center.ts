@@ -24,6 +24,8 @@ const centerSchema = z.object({
   logo_url: z.string().url("올바른 URL 형식이 아닙니다").optional().or(z.literal("")),
   contact_email: z.string().email("올바른 이메일 형식이 아닙니다").optional().or(z.literal("")),
   contact_phone: z.string().optional(),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 });
 
 // ============================================
@@ -39,6 +41,8 @@ type CenterFormState = {
     logo_url?: string[];
     contact_email?: string[];
     contact_phone?: string[];
+    latitude?: string[];
+    longitude?: string[];
     _form?: string[];
   };
   success?: boolean;
@@ -79,6 +83,9 @@ export async function createCenter(
   formData: FormData
 ): Promise<CenterFormState> {
   // 1. 폼 데이터 검증
+  const latRaw = formData.get("latitude");
+  const lngRaw = formData.get("longitude");
+
   const validatedFields = centerSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
@@ -87,6 +94,8 @@ export async function createCenter(
     logo_url: formData.get("logo_url"),
     contact_email: formData.get("contact_email"),
     contact_phone: formData.get("contact_phone"),
+    latitude: latRaw ? parseFloat(latRaw as string) : undefined,
+    longitude: lngRaw ? parseFloat(lngRaw as string) : undefined,
   });
 
   if (!validatedFields.success) {
@@ -165,6 +174,9 @@ export async function updateCenter(
   formData: FormData
 ): Promise<CenterFormState> {
   // 1. 폼 데이터 검증
+  const latRaw = formData.get("latitude");
+  const lngRaw = formData.get("longitude");
+
   const validatedFields = centerSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
@@ -173,6 +185,8 @@ export async function updateCenter(
     logo_url: formData.get("logo_url"),
     contact_email: formData.get("contact_email"),
     contact_phone: formData.get("contact_phone"),
+    latitude: latRaw ? parseFloat(latRaw as string) : undefined,
+    longitude: lngRaw ? parseFloat(lngRaw as string) : undefined,
   });
 
   if (!validatedFields.success) {

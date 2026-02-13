@@ -84,7 +84,9 @@ export type Database = {
           created_at: string | null
           description: string | null
           id: string
+          latitude: number | null
           logo_url: string | null
+          longitude: number | null
           name: string
           owner_id: string
           region: string | null
@@ -97,7 +99,9 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          latitude?: number | null
           logo_url?: string | null
+          longitude?: number | null
           name: string
           owner_id: string
           region?: string | null
@@ -110,7 +114,9 @@ export type Database = {
           created_at?: string | null
           description?: string | null
           id?: string
+          latitude?: number | null
           logo_url?: string | null
+          longitude?: number | null
           name?: string
           owner_id?: string
           region?: string | null

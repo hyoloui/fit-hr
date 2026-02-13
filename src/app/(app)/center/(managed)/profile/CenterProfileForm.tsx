@@ -7,7 +7,7 @@
  * @note 초안 - 추후 업데이트 예정
  */
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { createCenter, updateCenter } from "@/actions/center";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { REGION_OPTIONS } from "@/constants/regions";
+import { CenterLocationInput } from "@/components/center-register/CenterLocationInput";
 import type { Center } from "@/types";
 
 interface CenterProfileFormProps {
@@ -30,6 +31,16 @@ export function CenterProfileForm({ center }: CenterProfileFormProps) {
     : createCenter;
 
   const [state, formAction, pending] = useActionState(action, null);
+
+  const [latitude, setLatitude] = useState<number | undefined>(center?.latitude ?? undefined);
+  const [longitude, setLongitude] = useState<number | undefined>(center?.longitude ?? undefined);
+  const [locationAddress, setLocationAddress] = useState(center?.address || "");
+
+  const handleLocationSelect = (data: { address: string; latitude: number; longitude: number }) => {
+    setLatitude(data.latitude);
+    setLongitude(data.longitude);
+    setLocationAddress(data.address);
+  };
 
   // 성공 시 토스트 표시
   useEffect(() => {
@@ -73,19 +84,20 @@ export function CenterProfileForm({ center }: CenterProfileFormProps) {
         {state?.errors?.region && <p className="text-sm text-destructive">{state.errors.region[0]}</p>}
       </div>
 
-      {/* 주소 */}
-      <div className="space-y-2">
-        <Label htmlFor="address">주소</Label>
-        <Input
-          id="address"
-          name="address"
-          type="text"
-          placeholder="서울시 강남구 ..."
-          disabled={pending}
-          defaultValue={center?.address || ""}
-        />
-        {state?.errors?.address && <p className="text-sm text-destructive">{state.errors.address[0]}</p>}
-      </div>
+      {/* 주소 및 위치 */}
+      <CenterLocationInput
+        onLocationSelect={handleLocationSelect}
+        initialAddress={center?.address || ""}
+        initialLat={center?.latitude ?? undefined}
+        initialLng={center?.longitude ?? undefined}
+        disabled={pending}
+      />
+      <input type="hidden" name="address" value={locationAddress} />
+      <input type="hidden" name="latitude" value={latitude ?? ""} />
+      <input type="hidden" name="longitude" value={longitude ?? ""} />
+      {state?.errors?.address && (
+        <p className="text-sm text-destructive">{state.errors.address[0]}</p>
+      )}
 
       {/* 센터 소개 */}
       <div className="space-y-2">
