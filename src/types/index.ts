@@ -76,7 +76,7 @@ export type JobCategoryCode =
   | "kids"
   | "etc";
 
-export type EmploymentTypeCode = "full_time" | "contract" | "part_time";
+export type EmploymentTypeCode = "full_time" | "contract" | "part_time" | "freelance";
 export type ExperienceLevelCode = "entry" | "junior" | "senior";
 
 // JSONB 타입
@@ -95,7 +95,7 @@ export interface Education {
 
 // 필터 타입
 export interface JobFilter {
-  region?: RegionCode;
+  location?: string;
   categories?: JobCategoryCode[];
   gender?: Gender;
   employmentType?: EmploymentTypeCode;
@@ -132,7 +132,7 @@ export interface ApplicationWithJobPosting {
   job_posting: {
     id: string;
     title: string;
-    region: string;
+    address: string | null;
     is_active: boolean | null;
     center: {
       name: string;

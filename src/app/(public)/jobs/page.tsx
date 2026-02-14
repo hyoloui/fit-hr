@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Briefcase } from "lucide-react";
 import type {
   JobFilter as JobFilterType,
-  RegionCode,
   JobCategoryCode,
   Gender,
   EmploymentTypeCode,
@@ -14,7 +13,7 @@ import type {
 
 interface PageProps {
   searchParams: Promise<{
-    region?: string;
+    location?: string;
     categories?: string;
     gender?: string;
     employmentType?: string;
@@ -39,9 +38,9 @@ export default async function JobsPage({ searchParams }: PageProps) {
     .eq("is_active", true)
     .order("created_at", { ascending: false });
 
-  // 지역 필터
-  if (params.region) {
-    query = query.eq("region", params.region);
+  // 위치(주소) 필터
+  if (params.location) {
+    query = query.ilike("address", `%${params.location}%`);
   }
 
   // 업종 필터 (배열)
@@ -78,7 +77,7 @@ export default async function JobsPage({ searchParams }: PageProps) {
 
   // 현재 필터 상태
   const currentFilter: JobFilterType = {
-    region: params.region as RegionCode | undefined,
+    location: params.location,
     categories: params.categories?.split(",") as JobCategoryCode[] | undefined,
     gender: params.gender as Gender | undefined,
     employmentType: params.employmentType as EmploymentTypeCode | undefined,

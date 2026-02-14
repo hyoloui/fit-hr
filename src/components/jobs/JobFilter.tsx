@@ -16,7 +16,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search, X, Filter } from "lucide-react";
-import { REGION_OPTIONS } from "@/constants/regions";
 import { JOB_CATEGORY_OPTIONS } from "@/constants/job-categories";
 import { EMPLOYMENT_TYPE_OPTIONS } from "@/constants/employment-types";
 import { EXPERIENCE_LEVEL_OPTIONS } from "@/constants/experience-levels";
@@ -32,7 +31,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
   const searchParams = useSearchParams();
 
   const [search, setSearch] = useState(currentFilter.search || "");
-  const [region, setRegion] = useState(currentFilter.region || "");
+  const [location, setLocation] = useState(currentFilter.location || "");
   const [categories, setCategories] = useState<string[]>(currentFilter.categories || []);
   const [gender, setGender] = useState(currentFilter.gender || "");
   const [employmentType, setEmploymentType] = useState(currentFilter.employmentType || "");
@@ -54,11 +53,11 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
       params.delete("search");
     }
 
-    // 지역
-    if (region) {
-      params.set("region", region);
+    // 위치
+    if (location) {
+      params.set("location", location);
     } else {
-      params.delete("region");
+      params.delete("location");
     }
 
     // 업종
@@ -92,7 +91,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
     router.push(`${pathname}?${params.toString()}`);
   }, [
     search,
-    region,
+    location,
     categories,
     gender,
     employmentType,
@@ -104,7 +103,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
 
   const handleResetFilter = useCallback(() => {
     setSearch("");
-    setRegion("");
+    setLocation("");
     setCategories([]);
     setGender("");
     setEmploymentType("");
@@ -113,7 +112,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
   }, [router, pathname]);
 
   const hasActiveFilter =
-    search || region || categories.length > 0 || gender || employmentType || experienceLevel;
+    search || location || categories.length > 0 || gender || employmentType || experienceLevel;
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -124,32 +123,25 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         {/* 검색어 */}
         <div className="space-y-2">
           <Label htmlFor="search">검색어</Label>
-          <div className="flex gap-2">
-            <Input
-              id="search"
-              placeholder="제목 또는 내용 검색"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleApplyFilter()}
-            />
-          </div>
+          <Input
+            id="search"
+            placeholder="제목 또는 내용 검색"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleApplyFilter()}
+          />
         </div>
 
-        {/* 지역 */}
+        {/* 위치 */}
         <div className="space-y-2">
-          <Label>지역</Label>
-          <Select value={region || undefined} onValueChange={(value) => setRegion(value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="전체" />
-            </SelectTrigger>
-            <SelectContent>
-              {REGION_OPTIONS.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label htmlFor="location">위치</Label>
+          <Input
+            id="location"
+            placeholder="강남, 해운대 등 지역명 입력"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleApplyFilter()}
+          />
         </div>
 
         {/* 업종 (복수 선택) */}
@@ -242,7 +234,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
         </Button>
       </div>
     ),
-    [search, region, categories, gender, employmentType, experienceLevel, handleApplyFilter]
+    [search, location, categories, gender, employmentType, experienceLevel, handleApplyFilter]
   );
 
   return (
@@ -255,7 +247,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
               <Filter className="h-4 w-4 mr-2" />
               필터{" "}
               {hasActiveFilter &&
-                `(${[search, region, ...categories, gender, employmentType, experienceLevel].filter(Boolean).length})`}
+                `(${[search, location, ...categories, gender, employmentType, experienceLevel].filter(Boolean).length})`}
             </Button>
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">

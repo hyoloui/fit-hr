@@ -11,10 +11,12 @@ export const EMPLOYMENT_TYPE_LABELS: Record<EmploymentTypeCode, string> = {
   full_time: "정규직",
   contract: "계약직",
   part_time: "파트타임",
+  freelance: "프리랜서",
 } as const;
 
 export const EMPLOYMENT_TYPE_OPTIONS: Array<{ value: EmploymentTypeCode; label: string }> = [
   { value: "full_time", label: "정규직" },
   { value: "contract", label: "계약직" },
   { value: "part_time", label: "파트타임" },
+  { value: "freelance", label: "프리랜서" },
 ];
