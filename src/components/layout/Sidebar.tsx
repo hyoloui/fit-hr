@@ -19,7 +19,6 @@ import {
   FileText,
   Heart,
   Home,
-  PlusCircle,
   Send,
   UserCircle,
   Menu,
@@ -71,7 +70,6 @@ export function Sidebar({ profile, hasCenter }: SidebarProps) {
       ? [
           { href: "/center/profile", label: "센터 정보", icon: Building2 },
           { href: "/center/jobs", label: "공고 관리", icon: Briefcase },
-          { href: "/center/jobs/new", label: "공고 등록", icon: PlusCircle },
         ]
       : [{ href: "/center/register", label: "센터 등록하기", icon: Building2 }],
   };

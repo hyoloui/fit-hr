@@ -3,7 +3,7 @@ import { JobCardSkeleton } from "@/components/common/CardSkeleton";
 
 export default function JobsLoading() {
   return (
-    <div className="space-y-6">
+    <div className="container px-4 mx-auto py-8 space-y-6">
       {/* 헤더 스켈레톤 */}
       <div>
         <div className="h-8 w-32 bg-muted animate-pulse rounded mb-2" />
