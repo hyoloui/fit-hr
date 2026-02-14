@@ -126,7 +126,7 @@ export type Database = {
           {
             foreignKeyName: "centers_owner_id_fkey"
             columns: ["owner_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -279,13 +279,6 @@ export type Database = {
             referencedRelation: "experience_levels"
             referencedColumns: ["code"]
           },
-          {
-            foreignKeyName: "job_postings_region_fkey"
-            columns: ["region"]
-            isOneToOne: false
-            referencedRelation: "regions"
-            referencedColumns: ["code"]
-          },
         ]
       }
       likes: {
@@ -339,7 +332,7 @@ export type Database = {
           id: string
           name: string
           phone: string | null
-          role: string
+          role: string | null
           updated_at: string | null
         }
         Insert: {
@@ -349,7 +342,7 @@ export type Database = {
           id: string
           name: string
           phone?: string | null
-          role: string
+          role?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -359,7 +352,7 @@ export type Database = {
           id?: string
           name?: string
           phone?: string | null
-          role?: string
+          role?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -511,13 +504,6 @@ export type Database = {
             columns: ["experience_level"]
             isOneToOne: false
             referencedRelation: "experience_levels"
-            referencedColumns: ["code"]
-          },
-          {
-            foreignKeyName: "job_postings_region_fkey"
-            columns: ["region"]
-            isOneToOne: false
-            referencedRelation: "regions"
             referencedColumns: ["code"]
           },
         ]
