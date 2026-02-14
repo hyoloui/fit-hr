@@ -4,7 +4,6 @@
  * 구인공고 폼 컴포넌트
  *
  * @description 구인공고 등록/수정 폼
- * @note 초안 - 추후 업데이트 예정
  */
 
 import { useActionState, useEffect, useState } from "react";
@@ -17,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { REGION_OPTIONS } from "@/constants/regions";
+import { CenterLocationInput } from "@/components/center-register/CenterLocationInput";
 import { JOB_CATEGORY_OPTIONS } from "@/constants/job-categories";
 import { EMPLOYMENT_TYPE_OPTIONS } from "@/constants/employment-types";
 import { EXPERIENCE_LEVEL_OPTIONS } from "@/constants/experience-levels";
@@ -38,6 +37,16 @@ export function JobPostingForm({ jobPosting }: JobPostingFormProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(
     jobPosting?.categories || []
   );
+
+  const [latitude, setLatitude] = useState<number | undefined>(jobPosting?.latitude ?? undefined);
+  const [longitude, setLongitude] = useState<number | undefined>(jobPosting?.longitude ?? undefined);
+  const [locationAddress, setLocationAddress] = useState(jobPosting?.address || "");
+
+  const handleLocationSelect = (data: { address: string; latitude: number; longitude: number }) => {
+    setLatitude(data.latitude);
+    setLongitude(data.longitude);
+    setLocationAddress(data.address);
+  };
 
   // 성공 시 토스트 표시 및 리다이렉트
   useEffect(() => {
@@ -71,23 +80,20 @@ export function JobPostingForm({ jobPosting }: JobPostingFormProps) {
         {state?.errors?.title && <p className="text-sm text-destructive">{state.errors.title[0]}</p>}
       </div>
 
-      {/* 지역 */}
-      <div className="space-y-2">
-        <Label htmlFor="region">지역 *</Label>
-        <Select name="region" required defaultValue={jobPosting?.region || ""}>
-          <SelectTrigger>
-            <SelectValue placeholder="지역을 선택하세요" />
-          </SelectTrigger>
-          <SelectContent>
-            {REGION_OPTIONS.map((region) => (
-              <SelectItem key={region.value} value={region.value}>
-                {region.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {state?.errors?.region && <p className="text-sm text-destructive">{state.errors.region[0]}</p>}
-      </div>
+      {/* 위치 */}
+      <CenterLocationInput
+        onLocationSelect={handleLocationSelect}
+        initialAddress={jobPosting?.address || ""}
+        initialLat={jobPosting?.latitude ?? undefined}
+        initialLng={jobPosting?.longitude ?? undefined}
+        disabled={pending}
+      />
+      <input type="hidden" name="address" value={locationAddress} />
+      <input type="hidden" name="latitude" value={latitude ?? ""} />
+      <input type="hidden" name="longitude" value={longitude ?? ""} />
+      {state?.errors?.address && (
+        <p className="text-sm text-destructive">{state.errors.address[0]}</p>
+      )}
 
       {/* 업종 (복수 선택) */}
       <div className="space-y-2">

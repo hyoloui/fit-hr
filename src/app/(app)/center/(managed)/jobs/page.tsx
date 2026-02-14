@@ -64,7 +64,7 @@ export default async function CenterJobsPage() {
                   <div className="space-y-1 flex-1">
                     <CardTitle className="text-lg md:text-xl">{job.title}</CardTitle>
                     <CardDescription className="text-sm">
-                      {job.region} · {job.employment_type} · {job.experience_level}
+                      {job.address ?? "위치 미등록"} · {job.employment_type} · {job.experience_level}
                     </CardDescription>
                   </div>
                   <div className="flex items-center gap-2">

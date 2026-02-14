@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, MapPin, Briefcase, User, DollarSign, Calendar } from "lucide-react";
 import { LikeButton } from "@/components/common/LikeButton";
 import { ApplyButton } from "@/components/jobs/ApplyButton";
-import { REGION_LABELS } from "@/constants/regions";
 import { JOB_CATEGORY_LABELS } from "@/constants/job-categories";
 import { EMPLOYMENT_TYPE_LABELS } from "@/constants/employment-types";
 import { EXPERIENCE_LEVEL_LABELS } from "@/constants/experience-levels";
@@ -83,13 +82,15 @@ export default async function JobDetailPage({ params }: PageProps) {
           <CardTitle>기본 정보</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center gap-2">
-            <MapPin className="h-5 w-5 text-muted-foreground" />
-            <div>
-              <h4 className="text-sm font-medium text-muted-foreground">지역</h4>
-              <p>{REGION_LABELS[job.region as keyof typeof REGION_LABELS]}</p>
+          {job.address && (
+            <div className="flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-muted-foreground" />
+              <div>
+                <h4 className="text-sm font-medium text-muted-foreground">위치</h4>
+                <p>{job.address}</p>
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="flex items-center gap-2">
             <Briefcase className="h-5 w-5 text-muted-foreground" />

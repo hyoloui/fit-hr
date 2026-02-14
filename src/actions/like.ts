@@ -84,7 +84,9 @@ export async function getLikedJobs() {
       job_postings (
         id,
         title,
-        region,
+        address,
+        latitude,
+        longitude,
         categories,
         employment_type,
         experience_level,

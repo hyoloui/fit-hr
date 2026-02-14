@@ -5,7 +5,6 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Briefcase, User, DollarSign } from "lucide-react";
 import { LikeButton } from "@/components/common/LikeButton";
-import { REGION_LABELS } from "@/constants/regions";
 import { JOB_CATEGORY_LABELS } from "@/constants/job-categories";
 import { EMPLOYMENT_TYPE_LABELS } from "@/constants/employment-types";
 import { EXPERIENCE_LEVEL_LABELS } from "@/constants/experience-levels";
@@ -66,13 +65,13 @@ export function JobCard({ job, isAuthenticated, userId }: JobCardProps) {
           </div>
         </CardHeader>
         <CardContent className="space-y-3 flex-1">
-          {/* 지역 */}
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <MapPin className="h-4 w-4 flex-shrink-0" />
-            <span className="line-clamp-1">
-              {REGION_LABELS[job.region as keyof typeof REGION_LABELS]}
-            </span>
-          </div>
+          {/* 위치 */}
+          {job.address && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4 flex-shrink-0" />
+              <span className="line-clamp-1">{job.address}</span>
+            </div>
+          )}
 
           {/* 업종 */}
           {categories && categories.length > 0 && (

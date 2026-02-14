@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, MapPin, Calendar, ExternalLink } from "lucide-react";
 import { CancelApplicationButton } from "@/components/applications/CancelApplicationButton";
-import { REGION_LABELS } from "@/constants/regions";
 
 export default async function ApplicationsPage() {
   const supabase = await createClient();
@@ -31,7 +30,7 @@ export default async function ApplicationsPage() {
       job_posting:job_postings (
         id,
         title,
-        region,
+        address,
         is_active,
         center:centers (
           name
@@ -106,10 +105,12 @@ export default async function ApplicationsPage() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    <span>{REGION_LABELS[job?.region as keyof typeof REGION_LABELS]}</span>
-                  </div>
+                  {job?.address && (
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <MapPin className="h-4 w-4" />
+                      <span>{job.address}</span>
+                    </div>
+                  )}
 
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <FileText className="h-4 w-4" />

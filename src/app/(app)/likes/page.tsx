@@ -50,7 +50,9 @@ export default async function LikesPage() {
       return {
         id: jobPosting.id,
         title: jobPosting.title,
-        region: jobPosting.region,
+        address: jobPosting.address,
+        latitude: jobPosting.latitude,
+        longitude: jobPosting.longitude,
         categories: jobPosting.categories,
         employment_type: jobPosting.employment_type,
         experience_level: jobPosting.experience_level,
@@ -69,7 +71,6 @@ export default async function LikesPage() {
         experience_level_name: null,
         is_active: null,
         like_count: null,
-        region_name: null,
         updated_at: null,
         view_count: null,
         application_count: null,

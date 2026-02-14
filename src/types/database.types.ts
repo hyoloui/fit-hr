@@ -195,6 +195,7 @@ export type Database = {
       }
       job_postings: {
         Row: {
+          address: string | null
           categories: string[]
           center_id: string
           created_at: string | null
@@ -205,7 +206,8 @@ export type Database = {
           gender: string | null
           id: string
           is_active: boolean | null
-          region: string
+          latitude: number | null
+          longitude: number | null
           salary_max: number | null
           salary_min: number | null
           salary_type: string | null
@@ -214,6 +216,7 @@ export type Database = {
           view_count: number | null
         }
         Insert: {
+          address?: string | null
           categories?: string[]
           center_id: string
           created_at?: string | null
@@ -224,7 +227,8 @@ export type Database = {
           gender?: string | null
           id?: string
           is_active?: boolean | null
-          region: string
+          latitude?: number | null
+          longitude?: number | null
           salary_max?: number | null
           salary_min?: number | null
           salary_type?: string | null
@@ -233,6 +237,7 @@ export type Database = {
           view_count?: number | null
         }
         Update: {
+          address?: string | null
           categories?: string[]
           center_id?: string
           created_at?: string | null
@@ -243,7 +248,8 @@ export type Database = {
           gender?: string | null
           id?: string
           is_active?: boolean | null
-          region?: string
+          latitude?: number | null
+          longitude?: number | null
           salary_max?: number | null
           salary_min?: number | null
           salary_type?: string | null
@@ -459,6 +465,7 @@ export type Database = {
     Views: {
       job_postings_with_details: {
         Row: {
+          address: string | null
           application_count: number | null
           categories: string[] | null
           center_id: string | null
@@ -474,9 +481,9 @@ export type Database = {
           gender: string | null
           id: string | null
           is_active: boolean | null
+          latitude: number | null
           like_count: number | null
-          region: string | null
-          region_name: string | null
+          longitude: number | null
           salary_max: number | null
           salary_min: number | null
           salary_type: string | null

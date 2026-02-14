@@ -19,7 +19,9 @@ import type { InsertJobPosting, UpdateJobPosting } from "@/types";
 const jobPostingSchema = z.object({
   title: z.string().min(1, "제목을 입력해주세요"),
   description: z.string().optional(),
-  region: z.string().min(1, "지역을 선택해주세요"),
+  address: z.string().optional(),
+  latitude: z.coerce.number().optional(),
+  longitude: z.coerce.number().optional(),
   categories: z.array(z.string()).min(1, "업종을 최소 1개 이상 선택해주세요"),
   gender: z.enum(["male", "female", "any"]).optional(),
   employment_type: z.string().min(1, "고용형태를 선택해주세요"),
@@ -38,7 +40,9 @@ type JobPostingFormState = {
   errors?: {
     title?: string[];
     description?: string[];
-    region?: string[];
+    address?: string[];
+    latitude?: string[];
+    longitude?: string[];
     categories?: string[];
     gender?: string[];
     employment_type?: string[];
@@ -127,10 +131,15 @@ export async function createJobPosting(
 ): Promise<JobPostingFormState> {
   const categories = formData.getAll("categories");
 
+  const latRaw = formData.get("latitude");
+  const lngRaw = formData.get("longitude");
+
   const validatedFields = jobPostingSchema.safeParse({
     title: formData.get("title"),
     description: formData.get("description"),
-    region: formData.get("region"),
+    address: formData.get("address") || undefined,
+    latitude: latRaw ? parseFloat(latRaw as string) : undefined,
+    longitude: lngRaw ? parseFloat(lngRaw as string) : undefined,
     categories: categories,
     gender: formData.get("gender") || undefined,
     employment_type: formData.get("employment_type"),
@@ -189,7 +198,9 @@ export async function createJobPosting(
       center_id: center.id,
       title: validatedFields.data.title,
       description: validatedFields.data.description,
-      region: validatedFields.data.region,
+      address: validatedFields.data.address,
+      latitude: validatedFields.data.latitude,
+      longitude: validatedFields.data.longitude,
       categories: validatedFields.data.categories,
       gender: validatedFields.data.gender,
       employment_type: validatedFields.data.employment_type,
@@ -236,10 +247,15 @@ export async function updateJobPosting(
 ): Promise<JobPostingFormState> {
   const categories = formData.getAll("categories");
 
+  const latRaw = formData.get("latitude");
+  const lngRaw = formData.get("longitude");
+
   const validatedFields = jobPostingSchema.safeParse({
     title: formData.get("title"),
     description: formData.get("description"),
-    region: formData.get("region"),
+    address: formData.get("address") || undefined,
+    latitude: latRaw ? parseFloat(latRaw as string) : undefined,
+    longitude: lngRaw ? parseFloat(lngRaw as string) : undefined,
     categories: categories,
     gender: formData.get("gender") || undefined,
     employment_type: formData.get("employment_type"),
@@ -297,7 +313,9 @@ export async function updateJobPosting(
     const jobPostingData: UpdateJobPosting = {
       title: validatedFields.data.title,
       description: validatedFields.data.description,
-      region: validatedFields.data.region,
+      address: validatedFields.data.address,
+      latitude: validatedFields.data.latitude,
+      longitude: validatedFields.data.longitude,
       categories: validatedFields.data.categories,
       gender: validatedFields.data.gender,
       employment_type: validatedFields.data.employment_type,
