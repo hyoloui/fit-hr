@@ -268,7 +268,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
       </div>
 
       {/* 데스크톱 필터 */}
-      <Card className="hidden lg:block">
+      <Card className="hidden lg:block sticky top-4">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>필터</CardTitle>

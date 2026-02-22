@@ -38,33 +38,22 @@ export default async function JobsPage({ searchParams }: PageProps) {
     .eq("is_active", true)
     .order("created_at", { ascending: false });
 
-  // 위치(주소) 필터
   if (params.location) {
     query = query.ilike("address", `%${params.location}%`);
   }
-
-  // 업종 필터 (배열)
   if (params.categories) {
     const categoryArray = params.categories.split(",");
     query = query.contains("categories", categoryArray);
   }
-
-  // 성별 필터
   if (params.gender && params.gender !== "any") {
     query = query.in("gender", [params.gender, "any"]);
   }
-
-  // 고용형태 필터
   if (params.employmentType) {
     query = query.eq("employment_type", params.employmentType);
   }
-
-  // 경력 필터
   if (params.experienceLevel) {
     query = query.eq("experience_level", params.experienceLevel);
   }
-
-  // 검색어 필터 (제목 또는 설명)
   if (params.search) {
     query = query.or(`title.ilike.%${params.search}%,description.ilike.%${params.search}%`);
   }
@@ -75,7 +64,6 @@ export default async function JobsPage({ searchParams }: PageProps) {
     console.error("구인공고 조회 오류:", error);
   }
 
-  // 현재 필터 상태
   const currentFilter: JobFilterType = {
     location: params.location,
     categories: params.categories?.split(",") as JobCategoryCode[] | undefined,
@@ -93,12 +81,9 @@ export default async function JobsPage({ searchParams }: PageProps) {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* 필터 */}
         <div className="lg:w-80 shrink-0">
           <JobFilter currentFilter={currentFilter} />
         </div>
-
-        {/* 공고 목록 */}
         <div className="flex-1">
           {!jobs || jobs.length === 0 ? (
             <Card>
