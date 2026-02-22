@@ -60,7 +60,14 @@ export default async function MapPage({ searchParams }: PageProps) {
   ).toString();
 
   return (
-    <div className="-m-4 -mt-4 md:-m-6 h-[calc(100svh-3.5rem)] flex overflow-hidden">
+    <div className="-m-4 -mt-4 md:-m-6 h-[calc(100%+5rem)] md:h-[calc(100%+3rem)] flex overflow-hidden">
+      {/*
+        (app-public)/layout.tsx main의 p-4 pt-16 md:p-6 패딩을 상쇄.
+        로그인: Sidebar+Header 레이아웃에서 h-svh 기준, main flex-1이 나머지 높이를 채움
+        비로그인: min-h-screen flex-col에서 main flex-1이 나머지 높이를 채움
+        두 경우 모두 main이 flex-1이므로 h-full + 음수마진으로 처리
+        5rem = pt-16(4rem) + p-4(1rem), 3rem = p-6 top(1.5rem) + p-6 bottom(1.5rem)
+      */}
       {/* 왼쪽 패널 (데스크톱) */}
       <div className="hidden lg:flex lg:w-[380px] lg:shrink-0 lg:flex-col lg:border-r lg:bg-background lg:overflow-y-auto">
         <div className="p-4 border-b">

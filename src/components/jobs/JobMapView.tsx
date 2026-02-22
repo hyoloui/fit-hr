@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Filter, List, Locate } from "lucide-react";
 import Link from "next/link";
@@ -96,14 +97,15 @@ export function JobMapView({
       groups.get(key)!.push(job);
     });
 
-    groups.forEach((groupJobs, key) => {
-      const [lat, lng] = key.split(",").map(Number);
+    groups.forEach((groupJobs) => {
+      const { latitude: lat, longitude: lng } = groupJobs[0];
       const count = groupJobs.length;
 
       const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(lat, lng),
         map: mapRef.current!,
         icon: {
+          // 네이버 지도 Marker content는 HTML string이므로 Tailwind 클래스 사용 불가 - 인라인 style 불가피
           content: `<div style="background:${count > 1 ? "#2563eb" : "#3b82f6"};color:white;border-radius:50%;width:${count > 1 ? "36px" : "28px"};height:${count > 1 ? "36px" : "28px"};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);cursor:pointer;">${count > 1 ? count : "●"}</div>`,
           anchor: new naver.maps.Point(count > 1 ? 18 : 14, count > 1 ? 18 : 14),
         },
@@ -125,7 +127,9 @@ export function JobMapView({
         mapRef.current!.setCenter(new naver.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
         mapRef.current!.setZoom(14);
       },
-      () => {}
+      () => {
+        toast.error("현재 위치를 가져올 수 없습니다.");
+      }
     );
   };
 
