@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { X, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -61,12 +62,24 @@ function PanelContent({
 }
 
 export function JobMapPanel({ jobs, isOpen, onClose, isAuthenticated, userId }: JobMapPanelProps) {
+  // SheetOverlay는 포털로 document.body에 렌더링되므로 lg:hidden이 적용되지 않음.
+  // 데스크톱에서 Sheet를 열지 않도록 isDesktop 상태로 제어.
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   if (jobs.length === 0) return null;
 
   return (
     <>
-      {/* 모바일: Sheet (하단 슬라이드) */}
-      <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      {/* 모바일: Sheet (하단 슬라이드) — 데스크톱에서는 open=false로 오버레이 방지 */}
+      <Sheet open={isOpen && !isDesktop} onOpenChange={(open) => !open && onClose()}>
         <SheetContent side="bottom" className="h-[70vh] p-0 lg:hidden">
           <SheetHeader className="sr-only">
             <SheetTitle>공고 목록</SheetTitle>
