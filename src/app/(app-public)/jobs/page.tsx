@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { JobFilter } from "@/components/jobs/JobFilter";
 import { JobCard } from "@/components/jobs/JobCard";
 import { Card, CardContent } from "@/components/ui/card";
-import { Briefcase } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Briefcase, Map } from "lucide-react";
 import type {
   JobFilter as JobFilterType,
   JobCategoryCode,
@@ -58,11 +60,8 @@ export default async function JobsPage({ searchParams }: PageProps) {
     query = query.or(`title.ilike.%${params.search}%,description.ilike.%${params.search}%`);
   }
 
-  const { data: jobs, error } = await query;
+  const { data: jobs } = await query;
 
-  if (error) {
-    console.error("구인공고 조회 오류:", error);
-  }
 
   const currentFilter: JobFilterType = {
     location: params.location,
@@ -75,9 +74,25 @@ export default async function JobsPage({ searchParams }: PageProps) {
 
   return (
     <div className="container px-4 mx-auto py-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">구인공고</h1>
-        <p className="text-sm text-muted-foreground mt-1">원하는 조건의 구인공고를 찾아보세요</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">구인공고</h1>
+          <p className="text-sm text-muted-foreground mt-1">원하는 조건의 구인공고를 찾아보세요</p>
+        </div>
+        <Button variant="outline" size="sm" asChild>
+          <Link
+            href={`/map${
+              Object.keys(params).length > 0
+                ? `?${new URLSearchParams(
+                    Object.entries(params).filter(([, v]) => v !== undefined) as [string, string][]
+                  ).toString()}`
+                : ""
+            }`}
+          >
+            <Map className="h-4 w-4 mr-2" />
+            지도로 보기
+          </Link>
+        </Button>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6">

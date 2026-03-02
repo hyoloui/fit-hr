@@ -19,6 +19,7 @@ import {
   FileText,
   Heart,
   Home,
+  Map,
   Send,
   UserCircle,
   Menu,
@@ -50,6 +51,7 @@ export function Sidebar({ profile, hasCenter }: SidebarProps) {
     items: [
       { href: "/dashboard", label: "대시보드", icon: Home },
       { href: "/jobs", label: "구인공고", icon: Briefcase },
+      { href: "/map", label: "지도", icon: Map },
     ],
   };
 

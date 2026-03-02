@@ -16,7 +16,7 @@ import { logout } from "@/actions/auth";
 import { toast } from "sonner";
 import { APP_NAME } from "@/constants";
 import type { User } from "@supabase/supabase-js";
-import { UserCircle, Menu } from "lucide-react";
+import { UserCircle, Menu, Map, Briefcase } from "lucide-react";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
@@ -58,8 +58,19 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
 
         {/* 데스크톱 네비게이션 */}
         <nav className="hidden md:flex items-center gap-6">
-          <Link href="/jobs" className="text-sm font-medium hover:text-primary transition-colors">
+          <Link
+            href="/jobs"
+            className="flex items-center gap-1 text-sm font-medium hover:text-primary transition-colors"
+          >
+            <Briefcase className="h-4 w-4" />
             구인공고
+          </Link>
+          <Link
+            href="/map"
+            className="flex items-center gap-1 text-sm font-medium hover:text-primary transition-colors"
+          >
+            <Map className="h-4 w-4" />
+            지도
           </Link>
         </nav>
 
@@ -120,10 +131,19 @@ export function PublicHeader({ user, profile }: PublicHeaderProps) {
               <div className="flex flex-col gap-4 mt-8">
                 <Link
                   href="/jobs"
-                  className="text-sm font-medium hover:text-primary transition-colors"
+                  className="flex items-center gap-1 text-sm font-medium hover:text-primary transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
+                  <Briefcase className="h-4 w-4" />
                   구인공고
+                </Link>
+                <Link
+                  href="/map"
+                  className="flex items-center gap-1 text-sm font-medium hover:text-primary transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Map className="h-4 w-4" />
+                  지도
                 </Link>
 
                 {!user ? (
