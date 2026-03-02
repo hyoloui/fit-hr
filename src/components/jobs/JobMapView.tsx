@@ -3,11 +3,10 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Filter, List, Locate } from "lucide-react";
+import { List, Locate } from "lucide-react";
 import Link from "next/link";
 import { JobFilter } from "@/components/jobs/JobFilter";
 import { JobMapPanel } from "@/components/jobs/JobMapPanel";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { JobFilter as JobFilterType, JobPostingWithDetails } from "@/types";
 
 const GANGNAM_STATION = { lat: 37.4979, lng: 127.0276 };
@@ -33,7 +32,6 @@ export function JobMapView({
 
   const [selectedJobs, setSelectedJobs] = useState<JobPostingWithDetails[]>([]);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [isMapReady, setIsMapReady] = useState(false);
 
   const initMap = useCallback((lat: number, lng: number) => {
@@ -90,7 +88,10 @@ export function JobMapView({
     );
 
     // 좌표 기준 그룹핑 (소수점 4자리)
-    const groups = new Map<string, (JobPostingWithDetails & { latitude: number; longitude: number })[]>();
+    const groups = new Map<
+      string,
+      (JobPostingWithDetails & { latitude: number; longitude: number })[]
+    >();
     jobsWithCoords.forEach((job) => {
       const key = `${job.latitude.toFixed(4)},${job.longitude.toFixed(4)}`;
       if (!groups.has(key)) groups.set(key, []);
@@ -142,24 +143,9 @@ export function JobMapView({
 
       {/* 모바일 상단 플로팅 바 */}
       <div className="absolute top-3 left-3 right-3 flex gap-2 lg:hidden z-10">
-        <Sheet open={isMobileFilterOpen} onOpenChange={setIsMobileFilterOpen}>
-          <SheetTrigger asChild>
-            <Button variant="secondary" size="sm" className="shadow-md">
-              <Filter className="h-4 w-4 mr-1" />
-              필터
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="h-[85vh] overflow-y-auto">
-            <SheetHeader>
-              <SheetTitle>필터</SheetTitle>
-            </SheetHeader>
-            <div className="mt-4">
-              {currentFilter && <JobFilter currentFilter={currentFilter} />}
-            </div>
-          </SheetContent>
-        </Sheet>
+        {currentFilter && <JobFilter currentFilter={currentFilter} />}
 
-        <Button variant="secondary" size="sm" className="shadow-md" asChild>
+        <Button variant="outline" size="sm" className="shadow-md" asChild>
           <Link href={jobsHref}>
             <List className="h-4 w-4 mr-1" />
             목록

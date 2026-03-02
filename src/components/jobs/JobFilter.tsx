@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search, X, Filter } from "lucide-react";
+import { Search, Filter, RefreshCcw } from "lucide-react";
 import { JOB_CATEGORY_OPTIONS } from "@/constants/job-categories";
 import { EMPLOYMENT_TYPE_OPTIONS } from "@/constants/employment-types";
 import { EXPERIENCE_LEVEL_OPTIONS } from "@/constants/experience-levels";
@@ -116,112 +116,119 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // 필터 폼 컨텐츠 (재사용) - useMemo로 최적화
-  const filterContent = useMemo(
-    () => (
-      <div className="space-y-4">
-        {/* 검색어 */}
-        <div className="space-y-2">
-          <Label htmlFor="search">검색어</Label>
-          <Input
-            id="search"
-            placeholder="제목 또는 내용 검색"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleApplyFilter()}
-          />
-        </div>
+  // 필터 폼 컨텐츠 (재사용)
+  const filterContent = (
+    <div className="space-y-4">
+      {/* 검색어 */}
+      <div className="space-y-2">
+        <Label htmlFor="search">검색어</Label>
+        <Input
+          id="search"
+          placeholder="제목 또는 내용 검색"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleApplyFilter()}
+        />
+      </div>
 
-        {/* 위치 */}
-        <div className="space-y-2">
-          <Label htmlFor="location">위치</Label>
-          <Input
-            id="location"
-            placeholder="강남, 해운대 등 지역명 입력"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleApplyFilter()}
-          />
-        </div>
+      {/* 위치 */}
+      <div className="space-y-2">
+        <Label htmlFor="location">위치</Label>
+        <Input
+          id="location"
+          placeholder="강남, 해운대 등 지역명 입력"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleApplyFilter()}
+        />
+      </div>
 
-        {/* 업종 (복수 선택) */}
-        <div className="space-y-2">
-          <Label>업종</Label>
-          <div className="grid grid-cols-2 gap-2">
-            {JOB_CATEGORY_OPTIONS.map((category) => (
-              <div key={category.value} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`category-${category.value}`}
-                  checked={categories.includes(category.value)}
-                  onCheckedChange={() => handleCategoryToggle(category.value)}
-                />
-                <Label
-                  htmlFor={`category-${category.value}`}
-                  className="text-sm font-normal cursor-pointer"
-                >
-                  {category.label}
-                </Label>
-              </div>
+      {/* 업종 (복수 선택) */}
+      <div className="space-y-2">
+        <Label>업종</Label>
+        <div className="grid grid-cols-2 gap-2">
+          {JOB_CATEGORY_OPTIONS.map((category) => (
+            <div key={category.value} className="flex items-center space-x-2">
+              <Checkbox
+                id={`category-${category.value}`}
+                checked={categories.includes(category.value)}
+                onCheckedChange={() => handleCategoryToggle(category.value)}
+              />
+              <Label
+                htmlFor={`category-${category.value}`}
+                className="text-sm font-normal cursor-pointer"
+              >
+                {category.label}
+              </Label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 성별 */}
+      <div className="space-y-2">
+        <Label>성별</Label>
+        <Select value={gender || undefined} onValueChange={(value) => setGender(value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="전체" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="male">남성</SelectItem>
+            <SelectItem value="female">여성</SelectItem>
+            <SelectItem value="any">무관</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* 고용형태 */}
+      <div className="space-y-2">
+        <Label>고용형태</Label>
+        <Select
+          value={employmentType || undefined}
+          onValueChange={(value) => setEmploymentType(value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="전체" />
+          </SelectTrigger>
+          <SelectContent>
+            {EMPLOYMENT_TYPE_OPTIONS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
             ))}
-          </div>
-        </div>
+          </SelectContent>
+        </Select>
+      </div>
 
-        {/* 성별 */}
-        <div className="space-y-2">
-          <Label>성별</Label>
-          <Select value={gender || undefined} onValueChange={(value) => setGender(value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="전체" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="male">남성</SelectItem>
-              <SelectItem value="female">여성</SelectItem>
-              <SelectItem value="any">무관</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      {/* 경력 */}
+      <div className="space-y-2">
+        <Label>경력</Label>
+        <Select
+          value={experienceLevel || undefined}
+          onValueChange={(value) => setExperienceLevel(value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="전체" />
+          </SelectTrigger>
+          <SelectContent>
+            {EXPERIENCE_LEVEL_OPTIONS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-        {/* 고용형태 */}
-        <div className="space-y-2">
-          <Label>고용형태</Label>
-          <Select
-            value={employmentType || undefined}
-            onValueChange={(value) => setEmploymentType(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="전체" />
-            </SelectTrigger>
-            <SelectContent>
-              {EMPLOYMENT_TYPE_OPTIONS.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+      {/* 적용 버튼 */}
+      <div className="flex gap-2">
+        {hasActiveFilter && (
+          <Button variant="outline" className="w-full" onClick={handleResetFilter}>
+            <RefreshCcw className="h-4 w-4 mr-2" />
+            초기화
+          </Button>
+        )}
 
-        {/* 경력 */}
-        <div className="space-y-2">
-          <Label>경력</Label>
-          <Select
-            value={experienceLevel || undefined}
-            onValueChange={(value) => setExperienceLevel(value)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="전체" />
-            </SelectTrigger>
-            <SelectContent>
-              {EXPERIENCE_LEVEL_OPTIONS.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* 적용 버튼 */}
         <Button
           className="w-full"
           onClick={() => {
@@ -233,8 +240,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
           검색
         </Button>
       </div>
-    ),
-    [search, location, categories, gender, employmentType, experienceLevel, handleApplyFilter]
+    </div>
   );
 
   return (
@@ -243,7 +249,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
       <div className="lg:hidden mb-4">
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full cursor-pointer">
               <Filter className="h-4 w-4 mr-2" />
               필터{" "}
               {hasActiveFilter &&
@@ -252,15 +258,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
           </SheetTrigger>
           <SheetContent side="bottom" className="h-[90vh] overflow-y-auto">
             <SheetHeader>
-              <div className="flex items-center justify-between">
-                <SheetTitle>필터</SheetTitle>
-                {hasActiveFilter && (
-                  <Button variant="ghost" size="sm" onClick={handleResetFilter}>
-                    <X className="h-4 w-4 mr-2" />
-                    초기화
-                  </Button>
-                )}
-              </div>
+              <SheetTitle>필터</SheetTitle>
             </SheetHeader>
             <div className="mt-6">{filterContent}</div>
           </SheetContent>
@@ -270,15 +268,7 @@ export function JobFilter({ currentFilter }: JobFilterProps) {
       {/* 데스크톱 필터 */}
       <Card className="hidden lg:block sticky top-4">
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>필터</CardTitle>
-            {hasActiveFilter && (
-              <Button variant="ghost" size="sm" onClick={handleResetFilter}>
-                <X className="h-4 w-4 mr-2" />
-                초기화
-              </Button>
-            )}
-          </div>
+          <CardTitle>필터</CardTitle>
         </CardHeader>
         <CardContent>{filterContent}</CardContent>
       </Card>

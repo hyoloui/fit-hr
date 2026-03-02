@@ -64,11 +64,12 @@ function PanelContent({
 export function JobMapPanel({ jobs, isOpen, onClose, isAuthenticated, userId }: JobMapPanelProps) {
   // SheetOverlay는 포털로 document.body에 렌더링되므로 lg:hidden이 적용되지 않음.
   // 데스크톱에서 Sheet를 열지 않도록 isDesktop 상태로 제어.
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(() =>
+    typeof window === "undefined" ? false : window.matchMedia("(min-width: 1024px)").matches
+  );
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
-    setIsDesktop(mq.matches);
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
