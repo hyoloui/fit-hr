@@ -93,6 +93,81 @@ export interface Education {
   period: string;
 }
 
+// 영입 제안 상태
+export type RecruitmentOfferStatus = "pending" | "accepted" | "rejected";
+
+// 영입 제안
+export interface RecruitmentOffer {
+  id: string;
+  center_id: string;
+  trainer_id: string;
+  job_posting_id: string;
+  message: string | null;
+  status: RecruitmentOfferStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+// 트레이너 리뷰
+export interface TrainerReview {
+  id: string;
+  center_id: string;
+  trainer_id: string;
+  rating: number;
+  content: string | null;
+  created_at: string;
+}
+
+// 트레이너 좋아요 (TODO)
+export interface TrainerLike {
+  id: string;
+  center_id: string;
+  trainer_id: string;
+  created_at: string;
+}
+
+// 인재풀 트레이너 목록 아이템
+export interface TalentPoolTrainer {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  resume: {
+    id: string;
+    title: string;
+    categories: string[];
+    region: string | null;
+    experience_level: string | null;
+    gender: string | null;
+  } | null;
+  avg_rating: number | null;
+  review_count: number;
+}
+
+// 인재풀 필터
+export interface TrainerFilter {
+  search?: string;
+  categories?: JobCategoryCode[];
+  experienceLevel?: ExperienceLevelCode;
+}
+
+// 받은 영입 제안 (조인 쿼리 결과)
+export interface ReceivedOffer {
+  id: string;
+  message: string | null;
+  status: RecruitmentOfferStatus;
+  created_at: string | null;
+  job_posting: {
+    id: string;
+    title: string;
+  } | null;
+  center: {
+    id: string;
+    name: string;
+    address: string | null;
+  } | null;
+}
+
 // 필터 타입
 export interface JobFilter {
   location?: string;

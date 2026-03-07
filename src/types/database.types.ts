@@ -324,6 +324,139 @@ export type Database = {
           },
         ]
       }
+      recruitment_offers: {
+        Row: {
+          id: string
+          center_id: string
+          trainer_id: string
+          job_posting_id: string
+          message: string | null
+          status: string
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          center_id: string
+          trainer_id: string
+          job_posting_id: string
+          message?: string | null
+          status?: string
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          center_id?: string
+          trainer_id?: string
+          job_posting_id?: string
+          message?: string | null
+          status?: string
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recruitment_offers_center_id_fkey"
+            columns: ["center_id"]
+            isOneToOne: false
+            referencedRelation: "centers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recruitment_offers_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recruitment_offers_job_posting_id_fkey"
+            columns: ["job_posting_id"]
+            isOneToOne: false
+            referencedRelation: "job_postings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trainer_reviews: {
+        Row: {
+          id: string
+          center_id: string
+          trainer_id: string
+          rating: number
+          content: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          center_id: string
+          trainer_id: string
+          rating: number
+          content?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          center_id?: string
+          trainer_id?: string
+          rating?: number
+          content?: string | null
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trainer_reviews_center_id_fkey"
+            columns: ["center_id"]
+            isOneToOne: false
+            referencedRelation: "centers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trainer_reviews_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trainer_likes: {
+        Row: {
+          id: string
+          center_id: string
+          trainer_id: string
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          center_id: string
+          trainer_id: string
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          center_id?: string
+          trainer_id?: string
+          created_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trainer_likes_center_id_fkey"
+            columns: ["center_id"]
+            isOneToOne: false
+            referencedRelation: "centers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trainer_likes_trainer_id_fkey"
+            columns: ["trainer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
