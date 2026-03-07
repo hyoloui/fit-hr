@@ -23,6 +23,8 @@ import {
   Send,
   UserCircle,
   Menu,
+  Users,
+  Inbox,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -61,6 +63,7 @@ export function Sidebar({ profile, hasCenter }: SidebarProps) {
     items: [
       { href: "/resumes", label: "내 이력서", icon: FileText },
       { href: "/applications", label: "지원 내역", icon: Send },
+      { href: "/offers", label: "받은 제안", icon: Inbox },
       { href: "/likes", label: "좋아요", icon: Heart },
     ],
   };
@@ -72,6 +75,7 @@ export function Sidebar({ profile, hasCenter }: SidebarProps) {
       ? [
           { href: "/center/profile", label: "센터 정보", icon: Building2 },
           { href: "/center/jobs", label: "공고 관리", icon: Briefcase },
+          { href: "/center/talent-pool", label: "인재풀", icon: Users },
         ]
       : [{ href: "/center/register", label: "센터 등록하기", icon: Building2 }],
   };
